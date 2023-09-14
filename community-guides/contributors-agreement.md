@@ -1,9 +1,9 @@
 # Contributors Agreement
 
-Mirror is MIT licensed.
+Mirror находится под MIT лицензией.
 
 {% embed url="https://github.com/vis2k/Mirror/blob/master/LICENSE" %}
 
-When contributing, you agree that we include your contribution under the same license.
+Внося свой вклад, вы также вносите его под той же лицензией.
 
-Thanks, _Mirror Team_
+Благодарим, _Mirror Team_
