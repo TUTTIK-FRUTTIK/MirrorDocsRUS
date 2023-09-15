@@ -5,7 +5,7 @@
 
 ## Development Blog <a href="#trivia" id="trivia"></a>
 
-* [A Brief History of Mirror](trivia/a-history-of-mirror.md)
+* [Краткая история Mirror](trivia/a-history-of-mirror.md)
 
 ## User Manual <a href="#manual" id="manual"></a>
 

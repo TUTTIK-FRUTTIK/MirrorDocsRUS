@@ -1,33 +1,33 @@
 ---
-description: Quick overview of why Mirror exists, and how we got here - by vis2k
+description: Краткая история о том, почему Mirror существует - by vis2k
 ---
 
-# A Brief History of Mirror
+# Краткая история Mirror
 
-Our community has grown a lot. Most of you weren't around when this all started, so here's a brief history of UNET/Mirror.
+Наше сообщество довольно сильно выросло. многих из вас не было рядом с нами во времена начала проекта, поэтому здесь описана краткая история UNET/Mirror.
 
-Hopefully an entertaining read if you are new to Mirror. Perhaps a trip down memory lane with some nostalgia screenshots for those who've been around all this time.
+Надеюсь для вас это будет занимательное чтиво, если вы начинающий в Mirror. А возможно это будет путешествие по тропинке воспоминаний с ностальгическими скриншотами для тех, кто всё время был с нами.
 
 {% hint style="info" %}
-We will keep updating this article as Mirror develops over time.
+Мы будем обновлять данную статью по мере развития Mirror с течением времени.
 {% endhint %}
 
 ## UNET
 
 ![](<../.gitbook/assets/image (91).png>)
 
-Back in summer 2015 Unity released a public beta of **UNET**. The idea of Unity worrying about networking so we could worry about our games sounded very tempting. UNET came with several interesting features:
+Возвращаясь в лето 2015 Unity выпустила публичную бету **UNET**. Идея в том, что Unity беспокоится о сетевом коде, чтобы мы могли создавать свои игры звучала довольно заманчиво. UNET поставлялся с некоторыми интересными функциями:
 
-* **Server & Client in one project**. Most of the code is shared. Some is marked as \[Server] or \[Client] only.
-  * This allows for a major gain productivity since terrain, models, assets and code are all shared between server & client.
-* **\[SyncVars]** for automated serialization of selected variables.&#x20;
-  * This was significant when coming from hand built Serialize/Deserialize functions. Simply adding a \[SyncVar] in front of Player.level was so much easier.
-* **\[Commands/Rpcs]** - wrapping a function with a \[Command] tag to automatically call it on the server was another huge gain productivity
-  * Compared to manually sending a message, deserializing all parameters and calling a function manually.&#x20;
+* **Сервер и Клиент в одном проекте**. Большая часть кода является общим. Только некоторое помечено как \[Server] или \[Client].
+  * Это позволяло значительно повысить производительность, так как клиент и сервер использовали один и тот же код.
+* **\[SyncVars]** для автоматической сериализации выбранных переменных.
+  * Это было важно если исходить из ручной сборки Serialize/Deserialize функций. Только добавь \[SyncVar] на игрока. Построение уровня станет гораздо проще.
+* **\[Commands/Rpc]** - Добавление аттрибута \[Command] к функции для автоматического исполнения её на сервере стало ещё одним огромным повышением производительности
+  * Конечно же, по сравнению с ручной отправкой сообщения, десериализацией всех параметров и вызовом функции вручную.
 
-## Hype
+## Хайп
 
-Back in 2015, there seemed to be almost monthly UNET talks and videos like [Democratizing Multiplayer Development](https://www.youtube.com/watch?v=gZbbYXzyXKk). Everyone was excited, and the UNET team was working hard.
+Ещё в 2015 году, казалось, о UNET проводились обсуждения и выпускались видеоролики на тему [Демократизации Многопользовательской Разработки](https://www.youtube.com/watch?v=gZbbYXzyXKk). Все были взволнованы, а команда UNET усердно работала.
 
 ![Sean Riley demonstrating UNET at Unite 2014](../.gitbook/assets/2021-04-02\_18-35-53@2x.png)
 
@@ -35,26 +35,26 @@ Back in 2015, there seemed to be almost monthly UNET talks and videos like [Demo
 
 ![Alexey Abramychev's talk about LLAPI](../.gitbook/assets/2021-04-02\_18-45-38@2x.png)
 
-Back then, it was mostly:
+Тогда, это были в основном:
 
-* **Alexey Abramychev**: the friendly russian guy who worked on the low level Transport (LLAPI)
-* **Sean Riley**: who worked on World of Warcraft, now developing the high level API (HLAPI/UNET)
-* **Erik Juhl:** the UNET team lead, who said _MMOs were his passion_
+* **Алексей Абрамычев**: дружелюбный русский парень, работавший над низкоуровневым транспортом (LLAPI)
+* **Sean Riley**: кто работал над World of Warcraft, сейчас разрабатывает высокоуровневый API (HLAPI/UNET)
+* **Erik Juhl:** тимлид UNET, кто сказал что _MMO были его страстью_
 
-The UNET team had a big plans on their **roadmap**:
+У команды UNET были большие планы судя по их **roadmap'у**:
 
-* Cloud services like Relay/Matchmaking
-* One-click game server hosting right from the Unity Editor
-* The _simulation server_ which will power MMO scale networking
-* UNET 'Phase 3' aka automated server instances. Mark an area, it'll run as an instance.
+* Облачные сервисы для Ретрансляции/Matchmaking
+* Размещение игрового сервера в один клик прямо из редактора Unity
+* _Сервер моделирования_ который будет обеспечивать работу сети масштаба MMO
+* UNET '3 фазы' также известные как автоматизированные серверные экземпляры. Отметьте область, она будет запущена как экземпляр.
 
-Most multiplayer games never see the light of day, because finishing all that code is extremely difficult. With UNET, for the first time it seemed actually doable. An order of magnitude gain productivity for sure.
+Большинство многопользовательских игр никогда не увидят свет, потому что доработать весь этот код чрезвычайно сложно. С UNET это впервые показалось действительно выполнимым. Наверняка производительность повысилась на порядок.
 
-## Getting Started
+## Приступая к работе
 
-UNET was still in beta in 2015. There wasn't much documentation, but there were just a couple of demos. One of them was a movement demo with a couple of balls moving over the network.&#x20;
+В 2015 году UNET всё ещё находился на стадии Бета-тестирования. Документации было не много, да и имелось всего пару демонстраций. Одна из них это была демонстрация передвижения парочки шаров по сети.
 
-I was already working on my MMO project before UNET. Moving balls sounded close enough to moving players, so I gave UNET a try.
+Я уже работал над своим ММО проектом до UNET. Движущиеся шары отсылали меня к мысли о передвижении игроков, поэтому я решил попробовать UNET.
 
 ![UNET's movement demo with some early MMO features](../.gitbook/assets/2015-09-30\_unet\_noicons.png)
 
@@ -92,7 +92,7 @@ Yesterday, MMO development was my hobby, a dream to work on my free time. Over n
 
 ## In UNET We Trust
 
-Around that time, **Paul** and I crossed paths when he used uMMORPG for his Cubica game.&#x20;
+Around that time, **Paul** and I crossed paths when he used uMMORPG for his Cubica game.
 
 There was just one problem: UNET. We've put all our trust into a networking black box and a couple of professional networking engineers.
 
@@ -113,7 +113,7 @@ It was closed _by design_. Twice.
 We've built our dreams on UNET, and in my case my livelihood. I needed UNET to pay the rent and eat. Yet the people we've put our full trust in had abandoned us.
 
 * **Sean Riley** was the driving force behind UNET. As it turns out, he left the team around the beta.
-* **Alexey** tried to fill the void as best as he could. For a while, he was on the forum on sundays and even replied to my email during his vacation. At some point, he wasn't with Unity anymore either though.&#x20;
+* **Alexey** tried to fill the void as best as he could. For a while, he was on the forum on sundays and even replied to my email during his vacation. At some point, he wasn't with Unity anymore either though.
 * **Erik Juhl** (the UNET team lead) went on to work for a web development company.
 
 What's worse is that while everyone secretly left the sinking ship, there was no word from Unity. Dead silence. It took a couple of years for us to learn that the UNET core team wasn't even working for Unity anymore.
@@ -137,7 +137,7 @@ So I made this forum post about "**HLAPI Pro - a drop in replacement for UNET**"
 As far as I remember, Paul actually worked on MLAPI with TwoTen at first. But he convinced me to **MIT** License HLAPI Pro, and so Mirror was born.
 
 {% hint style="info" %}
-**Fun fact**: over the years we never really figured out the elephant in the room. How is that Unity pulled off this complex UNET technology, but then couldn't fix it? The weaver is a true piece of alien technology, and it's still not obvious to us who made that thing. \
+**Fun fact**: over the years we never really figured out the elephant in the room. How is that Unity pulled off this complex UNET technology, but then couldn't fix it? The weaver is a true piece of alien technology, and it's still not obvious to us who made that thing.\
 \
 When digging through it, at one point we found code for **NetworkView**. That component was actually part of Unity's legacy Raknet networking. As far as we can tell, UNET was based on their legacy system.
 {% endhint %}
@@ -146,7 +146,7 @@ When digging through it, at one point we found code for **NetworkView**. That co
 
 During the next couple of years, we fixed several hundred UNET bugs and cleaned up the code.
 
-Still, nobody believed in UNET. Supposedly, the design didn't make sense, it would never scale and it would never work for any real game. The only people who believed in Mirror were those already using UNET for their projects, desperately needing bug fixes.&#x20;
+Still, nobody believed in UNET. Supposedly, the design didn't make sense, it would never scale and it would never work for any real game. The only people who believed in Mirror were those already using UNET for their projects, desperately needing bug fixes.
 
 ![Early Mirror stress test with hundreds of monsters](../.gitbook/assets/2017-08-13\_stresstest.png)
 
@@ -176,15 +176,13 @@ Here are some screenshots that we gathered over the years. Enjoy the nostalgia.
 
 ![Geno Online, jagatai's early MMO attempt with Mirror](../.gitbook/assets/2017-09-08\_jagatai\_stream.png)
 
-
-
 ![uMMORPG 500 CCU test. UNET handled \~70 CCU when we started.](../.gitbook/assets/2021-04-02\_17-38-22@2x.png)
 
 ![20,000 monsters in Mirror. UNET handled 12 monsters back then.](<../.gitbook/assets/2020-10-12\_20-45-17 - x branch 20k monsters 19 FPS.png>)
 
 ## Community
 
-It's been 6 years since the UNET beta. Mirror has grown to 100,000 downloads a year, a fantastic Discord community with 10,000 users, new team members like our famous networking legend MrGadget, Coburn, James, katori, Lymdum, uwee and many more.&#x20;
+It's been 6 years since the UNET beta. Mirror has grown to 100,000 downloads a year, a fantastic Discord community with 10,000 users, new team members like our famous networking legend MrGadget, Coburn, James, katori, Lymdum, uwee and many more.
 
 ![](../.gitbook/assets/2021-04-02\_17-52-33@2x.png)
 
@@ -210,18 +208,5 @@ We just need it for our games.
 **Legacy** networking must have been developed for years by people we don't even know.\
 \
 Mirror is standing on the **shoulders of giants**.\
-It's hard to estimate how many years, man hours, sweat, tears went into this technology.&#x20;
+It's hard to estimate how many years, man hours, sweat, tears went into this technology.
 {% endhint %}
-
-
-
-
-
-
-
-
-
-
-
-
-
