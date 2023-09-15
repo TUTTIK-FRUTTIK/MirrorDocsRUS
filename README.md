@@ -1,5 +1,5 @@
 ---
-description: Docs, Guides, FAQ, Templates, Examples, API, and more!
+description: Документация, Туториалы, FAQ, Шаблоны, Примеры, API, и многое другое!
 cover: .gitbook/assets/we6li1x[1].png
 coverY: 0
 ---
@@ -7,26 +7,26 @@ coverY: 0
 # Mirror Networking
 
 {% hint style="success" %}
-**Stop worrying about networking because we do.**\
-We needed a networking library that allows us to [**launch our games**](https://mirror-networking.com/showcase/) and **survive the next decade**.
+**Не беспокойтесь о нетворкинге, потому что мы этим занимаемся.**\
+Нам нужна была сетевая библиотека, для того чтобы [**запускать наши игры** ](https://mirror-networking.com/showcase/)**и прожить следующее десятилетие**.
 {% endhint %}
 
-[**Mirror**](https://assetstore.unity.com/packages/tools/network/mirror-129321) is a **high level** Networking library for Unity, optimized for **ease of use** & **probability of success**.
+[**Mirror**](https://assetstore.unity.com/packages/tools/network/mirror-129321) это библиотека **высокого уровня** для Unity, оптимизированная для **легкого использования** и **вероятности успеха**.
 
-* Compatible with over a dozen low level [**Transports**](manual/transports/).
-* Growing library of [**Script Templates**](manual/general/script-templates.md) to make learning and coding easier.
-* Remote Procedure calls and context control via [**Attributes**](manual/guides/attributes.md).
-* More than a dozen built in [**Components**](manual/components/).
-* Five flavors of [**Interest Management**](manual/interest-management/), and you can make your own custom version.
-* Support for [**Additive Scenes**](manual/examples/) with Physics Isolation (battle instances, levels, etc.)
-* Several complete [**Examples**](manual/examples/) included.
-* Constant improvements and enhancements [**every month**](manual/general/changelog/)**.**
-* Full time support available in our [**Discord**](https://discord.gg/2BvnM4R).
+* Совместима с десятками низкоуровневых [**Транспортов**](manual/transports/).
+* Расширяющаяся библиотека с [**Шаблонами скриптов**](manual/general/script-templates.md) для обучения и упрощения разработки.
+* Удаленный вызов процедур и контекстное управление [**Aттрибутами**](manual/guides/attributes.md).
+* Более десятка [**Компонентов**](manual/components/).
+* Пять вариантов [**Управления Интересами**](manual/interest-management/), и вы можете создать собственную версию.
+* Поддержка [**Дополнительных сцен**](manual/examples/) с физической изоляцией в каждой (боевые комнаты, уровни, и т.д.)
+* Несколько готовых [**Примеров**](manual/examples/).
+* Постоянные доработки и улучшения [**каждый месяц**](manual/general/changelog/)**.**
+* Поддержка в любое время на нашем сервере [**Discord**](https://discord.gg/2BvnM4R).
 
-## Unity Versions
+## Поддержка версий Unity
 
-We will follow Unity's support for **LTS releases**.  Any version beyond those may work, but you're on your own, especially with regard to preview / beta versions.
+Мы следуем поддержке **Unity LTS** версий. Любая помимо этих версий конечно будут работать, но мы не можем вам обещать стабильной работы на других версиях, особенно если это касается Beta версий.
 
-At the moment, we recommend using Unity 2020 or 2021 LTS releases.
+В данный момент, мы рекомендуем вам использовать Unity 2020 или 2021 LTS версии.
 
 ![Unity LTS Release Schedule](.gitbook/assets/Timeline.webp)
