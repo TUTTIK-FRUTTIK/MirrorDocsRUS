@@ -1,15 +1,15 @@
 # Change Log
 
 {% hint style="info" %}
-Mirror is published to the [Asset Store](https://assetstore.unity.com/packages/tools/network/mirror-129321) at the start of every month, unless some critical issue causes a delay.
+Обновления Mirror публикуются каждый месяц в [Asset Store](https://assetstore.unity.com/packages/tools/network/mirror-129321), если какая-нибудь серьёзная ошибка не вызывает задержку.
 {% endhint %}
 
 {% hint style="info" %}
-Mirror uses semantic versioning, and the versions shown here are those that were published to the Asset Store, and occasionally major version bumps happen mid-month between store submissions and are therefore not individually shown here.
+Зеркало использует семантическое управление версиями, и показанные здесь версии - это те, которые были опубликованы в хранилище ресурсов, и иногда между отправками в Asset Store в середине месяца происходят серьезные сбои в версиях, поэтому они не отображаются здесь по отдельности.
 {% endhint %}
 
 {% hint style="info" %}
-For further details on versions and their specific change logs, see github release page:\
+Для получения дополнительной информации о версиях и их конкретных журналах изменений смотрите страницу выпуска на github:\
 [https://github.com/MirrorNetworking/Mirror/releases](https://github.com/MirrorNetworking/Mirror/releases)
 {% endhint %}
 
