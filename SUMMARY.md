@@ -10,7 +10,7 @@
 ## User Manual <a href="#manual" id="manual"></a>
 
 * [Общее](manual/general/README.md)
-  * [Getting Started](manual/general/getting-started.md)
+  * [Приступая к работе](manual/general/getting-started.md)
   * [Script Templates](manual/general/script-templates.md)
   * [Change Log](manual/general/changelog/README.md)
     * [2022 Change Log](manual/general/changelog/2022-change-log.md)
