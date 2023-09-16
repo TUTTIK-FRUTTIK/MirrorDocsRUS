@@ -11,7 +11,7 @@
 
 * [Общее](manual/general/README.md)
   * [Приступая к работе](manual/general/getting-started.md)
-  * [Script Templates](manual/general/script-templates.md)
+  * [Шаблоны скриптов](manual/general/script-templates.md)
   * [Change Log](manual/general/changelog/README.md)
     * [2022 Change Log](manual/general/changelog/2022-change-log.md)
     * [2021 Change Log](manual/general/changelog/2021-change-log.md)

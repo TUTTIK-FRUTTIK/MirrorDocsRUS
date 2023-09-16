@@ -1,22 +1,22 @@
-# Script Templates
+# Шаблоны скриптов
 
 {% hint style="danger" %}
-As of August 2023, Unity Asset Store does not allow us to upload ScriptTemplates anymore. If you want to use them, please download Mirror from GitHub instead.
+С августа 2023 года Unity Asset Store больше не позволяет нам загружать шаблоны сценариев. Если вы хотите их использовать, пожалуйста, скачайте Mirror именно с GitHub.
 {% endhint %}
 
-We've added Script Templates to make it easier to create derived class scripts that inherit from our base classes.
+Мы добавили шаблоны скриптов, чтобы упростить создание скриптов производных классов, которые наследуются от наших базовых классов.
 
-* All possible overrides are already made for you and organized.
-* They're all fully commented as to what they all do.
-* Base method calls are all in place where needed so you can see what they already do.
-* Each has links at the top to their doc page(s).
+* Все возможные переопределения уже созданы для вас и упорядочены.
+* Все они полностью прокомментированы объясняя то, что они делают
+* Все вызовы базовых методов находятся там, где это необходимо, так что вы можете видеть, что они уже делают.
+* У каждого из них вверху есть ссылки на их страницы документов.
 
 {% hint style="warning" %}
-**Root Folder Required:** ScriptTemplates is a special folder to Unity and must remain in the Assets root...don't move it.
+**Требуется корневая папка:** шаблоны скриптов находятся в специальной папке Unity и должны оставаться в корневой папке Assets... Не перемещайте это.
 {% endhint %}
 
-The **Mirror** section will appear under the **Assets > Create menu**, as well as the context menu that comes up when you right-click on any folder in your project. You'll be prompted for the file name like any other asset creation.
+Раздел **Mirror** будет находиться в **Assets > Create menu**, а также в контекстном меню, которое появляется по клику правой кнопки мыши в любой папке вашего проекта. Вам будет предложено ввести имя файла, как и при создании любого другого ресурса.
 
-![Script Template menu in Unity](<../../.gitbook/assets/image (27) (2).png>)
+![Шаблоны скриптов в Unity](<../../.gitbook/assets/image (27) (2).png>)
 
-Hopefully these templates will be helpful to new users of Mirror to learn what methods are available in various classes, as well as just being more convenient for everyone.
+Надеемся, что эти шаблоны будут полезны новым пользователям Mirror, чтобы узнать, какие методы доступны в различных классах, а также просто станут более удобными для всех.
