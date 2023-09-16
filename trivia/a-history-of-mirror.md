@@ -58,121 +58,121 @@ description: Краткая история о том, почему Mirror сущ
 
 ![UNET's movement demo with some early MMO features](../.gitbook/assets/2015-09-30\_unet\_noicons.png)
 
-**Networked** NavMeshAgent movement, skills, equipment and an inventory were added easily thanks to SyncLists and all the \[SyncVar]/\[Rpc] convenience.
+**Сетевое** NavMeshAgent перемещение, умения, подбор предметов и инвентарь были легко добавлены благодаря SyncLists и остальными удобными \[SyncVar]/\[Rpc].
 
-UNET wasn't very stable during the beta, but the productivity gain was massive and it seemed like the obvious path into the future of multiplayer game development.
+UNET был не очень стабильным в бета версии, но прирост производительности был огромным и это было похоже на очевидный путь в будущее разработки многопользовательских игр.
 
 ## Meet Damon
 
-Around September I also started talking to Damon Slye, the guy who made [Red Baron](https://store.steampowered.com/app/263940/Red\_Baron\_Pack/) in 1990, published by Sierra.
+Примерно в сентябре я также начал разговаривать с Деймоном Слаем, парнем, который в 1990 году снял "Красного барона", изданный издательством Sierra.
 
 ![Red Baron](<../.gitbook/assets/image (1) (1) (2).png>)
 
-Damon and his new team Mad Otter Games actually made their own indie MMO, just like I planned to do. They didn't use Unity, but considered it for their next project. We've talked a lot about MMO tech, lessons learned and they even licensed me a couple of their models for my unnamed MMO project.
+Деймон и его новая команда "Mad Otter Games" фактически создали свою собственную инди-ММО, как я и планировал сделать. Они не использовали Unity, но рассматривали его для своего следующего проекта. Мы много говорили о технологиях ММО, извлеченных уроках, и они даже выдали мне лицензию на пару своих моделей для моего неназванного ММО-проекта.
 
-With the UNET team working tirelessly on networking and the MadOtter guys as living proof, it seemed like my indie MMO idea actually seemed almost doable for once.
+С командой UNET, неустанно работающей над созданием сетей, и ребятами из MadOtter в качестве живого доказательства, казалось, что моя идея инди-ММО на этот раз действительно казалась почти выполнимой.
 
-## What if...
+## Что если...
 
 ![The MMO Project in November 2015 with the licensed models.](../.gitbook/assets/2021-04-02\_13-00-01@2x.png)
 
-In 2015, there wasn't any type of MMO toolkit available as far as I could tell. From my reverse engineering days I remembered Perfect World Entertainment licensing their MMO engine for $100,000 - $300,000. Which needless to say was out of my budget.
+В 2015 году, насколько я мог судить, не было доступно ни одного MMO-инструментария. Со времен моего реверс-инжиниринга я помнил, как Perfect World Entertainment лицензировала их движок для MMO за $100,000 - $300,000. Что, само собой разумеется, выходило за рамки моего бюджета.
 
-Since I was working on my own MMO code anyway, I figured might as well put it on the Asset Store and see what happens. Maybe it sells for $50/month and I can treat myself to a pizza every week or so.
+Поскольку я все равно работал над своим собственным MMO проектом, я подумал что мог бы разместить его на Asset Store и посмотреть что случится. Может быть это будет приносить $50/в месяц и я смогу покупать себе пиццу каждую неделю.
 
-[uMMORPG](https://assetstore.unity.com/packages/templates/systems/ummorpg-remastered-159401) was released on the Asset Store at December 23rd, 2015. One day before christmas.
+[uMMORPG](https://assetstore.unity.com/packages/templates/systems/ummorpg-remastered-159401) был выпущен в Asset Store 23-го  декабря 2015 года. В день перед Рождеством.
 
 ![An early version of uMMORPG](<../.gitbook/assets/2017-01-11\_10-42-44 (1).png>)
 
-As it turns out, a lot of people had the same dream, but not enough money to license a AAA engine.
+Как оказалось, у многих людей была такая же мечта, но не хватало денег, чтобы лицензировать движок AAA.
 
-uMMORPG quickly became one of the top 10 assets on the store.
+uMMORPG быстро вышла в топ 10 товаров на Assets Store.
 
-Yesterday, MMO development was my hobby, a dream to work on my free time. Over night it became a full time job, thanks to the Unity Engine, UNET and a huge bet.
+Еще вчера разработка MMO была моим хобби, мечтой поработать в свободное время. За ночь это превратилось в работу на полный рабочий день, благодаря движку Unity, UNET и огромной ставке.
 
-## In UNET We Trust
+## В UNET, которому мы доверяли
 
-Around that time, **Paul** and I crossed paths when he used uMMORPG for his Cubica game.
+Примерно в то же время наши пути с **Полом** пересеклись, когда он использовал uMMORPG для своей игры Cubica.
 
-There was just one problem: UNET. We've put all our trust into a networking black box and a couple of professional networking engineers.
+Была только одна проблема: UNET. Мы полностью доверяли сетевому черному ящику и паре профессиональных сетевых инженеров.
 
-Yet, even after 30-50 bug reports and 1-2 years of begging every single person on the UNET team - nothing happened. Not a single bug was fixed. No improvements. No answers.
+Тем не менее, даже после 30-50 сообщений об ошибках и 1-2 лет упрашиваний каждого отдельного человека в команде UNET - ничего не произошло. Не было исправлено ни одной ошибки. Никаких улучшений. Никаких ответов.
 
-Every single day our users/customers came in with new UNET bugs. Bad reviews. Random crashes. We've built our dreams on a blackbox that abandoned us, and there was nothing we could do about it.
+Каждый божий день наши пользователи/заказчики сталкивались с новыми ошибками UNET. Плохие отзывы. Случайные сбои. Мы построили наши надежды на черном ящике, который бросил нас, и мы ничего не могли с этим поделать.
 
-Worst of all, UNET didn't scale. 30-70 CCU and a dozen monsters were all it could do.
+Хуже всего, что UNET не масштабировался. 30-70 CCU и дюжина монстров это всё что он мог выдержать.
 
 ![An early UNET community test with 57 connections and lots of bugs.](<../.gitbook/assets/57 (1).png>)
 
-At one point, I used reflection to fix the serialization bug in UNET. At the time, it was the highest rated networking bug on the Unity issue tracker. I've made detailed forum posts on why the bug happens and how to fix it. I reached out to Alexey, Erik, Larus, the Asset Store team, and QA.
+В какой-то момент я использовал рефлексию, чтобы исправить ошибку сериализации в UNET. В то время это была сетевая ошибка с самым высоким рейтингом в системе отслеживания проблем Unity. Я сделал подробные сообщения на форуме о том, почему возникает ошибка и как ее исправить. Я связался с Алексеем, Эриком, Ларусом, командой Asset Store и QA.
 
-It was closed _by design_. Twice.
+Это специально было закрыто. Дважды.
 
 !["By Design" - the UNET Bug that started Mirror](../.gitbook/assets/2021-04-02\_18-39-23@2x.png)
 
-We've built our dreams on UNET, and in my case my livelihood. I needed UNET to pay the rent and eat. Yet the people we've put our full trust in had abandoned us.
+Мы построили наши мечты на UNET, а я в своём случае на выживание. Мне нужен был UNET чтобы оплачивать квартиру и есть. И все же люди, которым мы полностью доверяли, покинули нас.
 
-* **Sean Riley** was the driving force behind UNET. As it turns out, he left the team around the beta.
-* **Alexey** tried to fill the void as best as he could. For a while, he was on the forum on sundays and even replied to my email during his vacation. At some point, he wasn't with Unity anymore either though.
-* **Erik Juhl** (the UNET team lead) went on to work for a web development company.
+* **Шон Райли** был движущей силой UNET. Как оказалось, он покинул команду во время бета-тестирования.
+* **Алексей** старался заполнить образовавшуюся пустоту как можно лучше. Какое-то время он был на форуме по воскресеньям и даже ответил на мое электронное письмо во время своего отпуска. Однако в какой-то момент он тоже покинул Unity.
+* **Эрик Юл** (руководитель команды UNET) перешел на работу в компанию по веб-разработке.
 
-What's worse is that while everyone secretly left the sinking ship, there was no word from Unity. Dead silence. It took a couple of years for us to learn that the UNET core team wasn't even working for Unity anymore.
+Хуже всего то, что, хотя все тайно покинули тонущий корабль, от Unity не было ни слова. Мертвая тишина. Нам потребовалось пару лет, чтобы узнать, что основная команда UNET больше даже не работает в Unity.
 
-At one point we even wrote an open letter to Joachim Ante. Desperate times.
+В какой-то момент мы даже написали открытое письмо **Йоахиму Анте**. Отчаянные времена.
 
 ## HLAPI Pro
 
-In a surprising turn of events, someone at Unity **open sourced HLAPI** - the high level part of UNET.
+Внезапно в один момент кто-то из Unity выложил **HLAPI** с открытым исходным кодом - высокоуровневую часть UNET.
 
-**LLAPI** - the low level transport - always remained closed source.
+**LLAPI** - низкоуровневый транспорт - всегда оставался с закрытым исходным кодом.
 
-For HLAPI, one had to compile two csharp DLLs, manually overwrite them in their Unity installation and then pray that it was compatible with that particular Unity version.
+Для HLAPI нужно было скомпилировать две библиотеки DLL csharp, вручную перезаписать их при установке Unity, а затем молиться, чтобы они были совместимы с этой конкретной версией Unity.
 
-The code was uncommented, over engineered, full of bugs and full of magic.
+Код был раскомментирован, чрезмерно переработан, полон ошибок и полон волшебства.
 
-But we had the source. Finally, a light at the end of the tunnel.
+Но у нас был источник. Наконец-то забрезжил свет в конце туннеля.
 
-So I made this forum post about "**HLAPI Pro - a drop in replacement for UNET**". Fully compatible, just with a couple of bug fixes that I previously had to use reflection for. The idea was to offer people a 100% risk free alternative. Use HLAPI Pro to fix your bugs. Go back to the original DLLs any time.
+Итак, я сделал этот пост на форуме о "**HLAPI Pro - отличная замена UNET**". Полностью совместим, только с парой исправлений ошибок, для которых мне ранее приходилось использовать reflection. Идея состояла в том, чтобы предложить людям 100% безрисковую альтернативу. Используйте HLAPI Pro, чтобы исправить свои ошибки. Возвращайтесь к исходным библиотекам DLL в любое время.
 
-As far as I remember, Paul actually worked on MLAPI with TwoTen at first. But he convinced me to **MIT** License HLAPI Pro, and so Mirror was born.
+Насколько я помню, сначала Пол действительно работал над MLAPI с TwoTen. Но он убедил меня лицензировать HLAPI Pro в **MIT**, и так появилось Mirror.
 
 {% hint style="info" %}
-**Fun fact**: over the years we never really figured out the elephant in the room. How is that Unity pulled off this complex UNET technology, but then couldn't fix it? The weaver is a true piece of alien technology, and it's still not obvious to us who made that thing.\
+**Забавный факт:** за все эти годы мы так и не разобрались, что за слон в комнате. Как получилось, что Unity внедрила эту сложную технологию UNET, но потом не смогла ее починить? Weaver - это настоящий образец инопланетной технологии, и для нас до сих пор не очевидно, кто создал эту штуку.\
 \
-When digging through it, at one point we found code for **NetworkView**. That component was actually part of Unity's legacy Raknet networking. As far as we can tell, UNET was based on their legacy system.
+Копаясь в нем, в какой-то момент мы нашли код для **NetworkView**. Этот компонент на самом деле был частью унаследованной Unity сети Raknet. Насколько мы можем судить, UNET был основан на их устаревшей системе.
 {% endhint %}
 
-## Meet Mirror
+## Встречайте Mirror
 
-During the next couple of years, we fixed several hundred UNET bugs and cleaned up the code.
+В течение следующих двух лет мы исправили несколько сотен ошибок UNET и сделали код чище.
 
-Still, nobody believed in UNET. Supposedly, the design didn't make sense, it would never scale and it would never work for any real game. The only people who believed in Mirror were those already using UNET for their projects, desperately needing bug fixes.
+И все же никто не верил в UNET. Предположительно, его архитектура не имела смысла, он никогда не масштабировался и никогда не сработал бы ни для одной реальной игры. Единственными людьми, которые поверили в Mirror, были те, кто уже использовал UNET для своих проектов, отчаянно нуждаясь в исправлении ошибок.
 
 ![Early Mirror stress test with hundreds of monsters](../.gitbook/assets/2017-08-13\_stresstest.png)
 
-At one point, we asked Unity for a donation seeing how we carried their whole UNET community for free. They told us UNET wouldn't have a future and it makes no sense to invest into that technology anymore.
+В какой-то момент мы попросили Unity сделать пожертвование, увидев, как мы бесплатно перевезли все их сообщество UNET. Они сказали нам, что у UNET не будет будущего и больше нет смысла инвестировать в эту технологию.
 
-Our networking heroes had abandoned us, and told us our work was pointless.
+Наши сетевые герои бросили нас и сказали, что наша работа бессмысленна.
 
-## Breaking Chains
+## Разрывая цепи
 
-Step by step, we broke all the chains that still tied us into UNET.
+Шаг за шагом мы разорвали все цепи, которые все еще связывали нас с UNET.
 
-* Someone open sourced the **Weaver** after a while, so we could fix it too.
-* We replaced the **LLAPI** black box with Telepathy. We've got heavy criticism for using TCP. But at least, the black box was finally open and we could fix bugs for once. Over the years, we've added many other transports like KCP.
-* Paul figured out how to use **HLAPI** as source drop in, without DLL replacements.
-* **Websockets** were previously closed in LLAPI, now finally open too.
-* The UNET **Community** mostly converted to Mirror too.
+* Через некоторое время кто-то открыл исходный код **Weaver**, так что мы тоже смогли это исправить.
+* Мы заменили "черный ящик" **LLAPI** на Telepathy. Нас сильно критиковали за использование TCP. Но, по крайней мере, "черный ящик" наконец-то был открыт, и мы смогли в кои-то веки исправить ошибки. За прошедшие годы мы добавили много других транспортных средств, таких как KCP.
+* Пол выяснил, как использовать **HLAPI** в качестве исходного кода без замены DLL.
+* **Websockets** ранее были закрыты в LLAPI, теперь они наконец-то открыты.
+* **Сообщество** UNET тоже перешло на Mirror.
 
-Until today, most of our work on Mirror was about breaking the chains and fixing all the bugs.
+До сегодняшнего дня большая часть нашей работы над Mirror заключалась в том, чтобы разорвать цепи и исправить все баги.
 
-Here are some screenshots that we gathered over the years. Enjoy the nostalgia.
+Вот несколько скриншотов, которые мы собрали за эти годы. Наслаждайтесь ностальгией.
 
 ![UNET Weaver Project / DLL](../.gitbook/assets/2017-08-05\_patreon\_header.png)
 
-![Mirror's first example](../.gitbook/assets/2018-09-25\_movedemo.png)
+![Первый пример от Mirror](../.gitbook/assets/2018-09-25\_movedemo.png)
 
-![HLAPI's first community test](<../.gitbook/assets/Screenshot at Jul 28 13-09-17.png>)
+![Первый тест сообщества HLAPI](<../.gitbook/assets/Screenshot at Jul 28 13-09-17.png>)
 
 ![Geno Online, jagatai's early MMO attempt with Mirror](../.gitbook/assets/2017-09-08\_jagatai\_stream.png)
 
@@ -180,33 +180,33 @@ Here are some screenshots that we gathered over the years. Enjoy the nostalgia.
 
 ![20,000 monsters in Mirror. UNET handled 12 monsters back then.](<../.gitbook/assets/2020-10-12\_20-45-17 - x branch 20k monsters 19 FPS.png>)
 
-## Community
+## Сообщество
 
-It's been 6 years since the UNET beta. Mirror has grown to 100,000 downloads a year, a fantastic Discord community with 10,000 users, new team members like our famous networking legend MrGadget, Coburn, James, katori, Lymdum, uwee and many more.
+Прошло 6 лет с момента бета-тестирования UNET. Mirror вырос до 100 000 загрузок в год, фантастическое сообщество Discord с 10 000 пользователями, новые члены команды, такие как наша знаменитая сетевая легенда MrGadget, Coburn, James, katori, Lymdum, uwee и многие другие.
 
 ![](../.gitbook/assets/2021-04-02\_17-52-33@2x.png)
 
-Several [popular games](https://mirror-networking.com/showcase/) made with Mirror, and of course lots of [memes](https://www.youtube.com/watch?v=jNTFFYhNhiI).
+Несколько [популярных игр](https://mirror-networking.com/showcase/) созданных с Mirror, и, конечно же, множество [мемов](https://www.youtube.com/watch?v=jNTFFYhNhiI).
 
-![Population: ONE - made with Mirror](<../.gitbook/assets/image (73).png>)
+![Population: ONE - создано с Mirror](<../.gitbook/assets/image (73).png>)
 
-## What's Next
+## Что дальше?
 
-We've spent all this time breaking the chains and fixing the bugs. Hundreds of them.
+Мы потратили все это время на то, чтобы разорвать цепи и исправить баги. Сотни из них.
 
-But we also learned a lot about networking since then.
+Но с тех пор мы также многое узнали о нетворкинге.
 
-In the future, our [roadmap](https://trello.com/b/fgAE7Tud) is not so much about fixes anymore, but about core networking techniques.
+В будущем, наш [roadmap](https://trello.com/b/fgAE7Tud) будет больше касаться не сколько багов, сколько новых сетевых технологий.
 
-While stable, Mirror still has a long way to go and the original mission has never chagned.
+Несмотря на стабильность, Mirror еще предстоит пройти долгий путь, и первоначальная миссия никогда не менялась.
 
-We just need it for our games.
+Нам это просто нужно для наших игр.
 
 {% hint style="success" %}
-**Mirror** requried 10,000+ man hours on top of UNET.\
-**UNET** was developed over several years, likely on top of Unity's **legacy** networking.\
-**Legacy** networking must have been developed for years by people we don't even know.\
+**Mirror** запросил 10,000+ в дополнение к UNET.\
+**UNET** был разработан за несколько лет, в дополнение к Юнитеховскому **старому** сетевому коду.\
+**Устаревшие** **сети**, должно быть, разрабатывались годами людьми, которых мы даже не знаем.\
 \
-Mirror is standing on the **shoulders of giants**.\
-It's hard to estimate how many years, man hours, sweat, tears went into this technology.
+Mirror стоит на **плечах гигантов**.\
+Трудно подсчитать, сколько лет, человеко-часов, пота, слез ушло на создание этой технологии.
 {% endhint %}
