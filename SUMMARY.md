@@ -9,7 +9,7 @@
 
 ## User Manual <a href="#manual" id="manual"></a>
 
-* [General](manual/general/README.md)
+* [Общее](manual/general/README.md)
   * [Getting Started](manual/general/getting-started.md)
   * [Script Templates](manual/general/script-templates.md)
   * [Change Log](manual/general/changelog/README.md)

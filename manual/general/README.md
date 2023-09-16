@@ -1,57 +1,57 @@
-# General
+# Общее
 
-Mirror is a system for building multiplayer capabilities for Unity games. It is built on top of the lower level transport real-time communication layer, and handles many of the common tasks that are required for multiplayer games. While the transport layer supports any kind of network topology, Mirror is a server authoritative system; although it allows one of the participants to be a client and the server at the same time, so no dedicated server process is required. Working in conjunction with the internet services, this allows multiplayer games to be played over the internet with little work from developers.
+Mirror - это система для построения многопользовательских возможностей Unity игр. Он построен поверх транспортного уровня связи в реальном времени более низкого уровня и выполняет многие из распространенных задач, необходимых для многопользовательских игр. В то время как транспортный уровень поддерживает любой тип сетевой топологии, Mirror является авторитетной системой сервера; хотя это позволяет одному из участников быть клиентом и сервером одновременно, поэтому вы не обязательно должны использовать выделенный сервер, хоть и имеется такая возможность. Работая в сочетании с интернет-сервисами, это позволяет играть в многопользовательские игры через Интернет без особых усилий со стороны разработчиков.
 
-Mirror is focused on ease of use and iterative development and provides useful functionality for multiplayer games, such as:
+Mirror ориентирован на простоту использования и итеративную разработку, а также предоставляет полезные функции для многопользовательских игр, таких как:
 
-* Message handlers
-* General purpose high performance serialization
-* Distributed object management
-* State synchronization
-* Network classes: Server, Client, Connection, etc
+* Обработчики сообщений
+* Высокопроизводительная сериализация общего назначения
+* Управление распределенными объектами
+* Синхронизация состояний
+* Сетевые классы: Server, Client, Connection, и т.д.
 
-Mirror is built from a series of layers that add functionality:
+Зеркало построено из серии слоев, которые добавляют функциональность:
 
 ![](<../../.gitbook/assets/image (125).png>)
 
-## Server and Host <a href="#server-and-host" id="server-and-host"></a>
+## Сервер и Хост <a href="#server-and-host" id="server-and-host"></a>
 
-Mirror multiplayer games include:
+Многопользовательские игры на Mirror включают в себя:
 
-* **Server**\
-  &#x20;A server is an instance of the game which all other players connect to when they want to play together. A server often manages various aspects of the game, such as keeping score, and transmit that data back to the client.
-* **Clients**\
-  &#x20;Clients are instances of the game that usually connect from different computers to the server. Clients can connect over a local network, or online.
+* **Сервер**\
+  Сервер - это экземпляр игры, к которому подключаются все остальные игроки, когда они хотят играть вместе. Сервер часто управляет различными аспектами игры, к примеру ведёт счет и передает эти данные обратно клиенту.
+* **Клиенты**\
+  Клиенты - это экземпляры игры, которые обычно подключаются к серверу с разных компьютеров. Клиенты могут подключаться по локальной сети или онлайн.
 
-A client is an instance of the game that connects to the server, so that the person playing it can play the game with other people, who connect on their own clients.
+Клиент - это экземпляр игры, который подключается к серверу, так что человек, играющий в него, может играть в игру с другими людьми, которые подключаются к своим собственным клиентам.
 
-The server might be either a “dedicated server”, or a “host server”.
+Сервер может быть либо “выделенным сервером”, либо “хост-сервером”..
 
-* **Dedicated server**\
-  &#x20;This is an instance of the game that only runs to act as a server.
-* **Host server**\
-  &#x20;When there is no dedicated server, one of the clients also plays the role of the server. This client is the “host server”. The host server creates a single instance of the game (called the host), which acts as both server and client.
+* **Выделенный сервер**\
+  Это экземпляр игры, который запускается только в качестве сервера.
+* **Хост-Сервер**\
+  Когда выделенного сервера нет, один из клиентов также играет роль сервера. Этот клиент является “хост-сервером”. Хост-сервер создает единственный экземпляр игры (называемый хостом), который действует одновременно как сервер и клиент.
 
-The diagram below represents three players in a multiplayer game. In this game, one client is also acting as host, which means the client itself is the “local client”. The local client connects to the host server, and both run on the same computer. The other two players are remote clients - that is, they are on different computers, connected to the host server.
+На диаграмме ниже представлены три игрока в многопользовательской игре. В этой игре один клиент также выступает в качестве хоста, что означает, что сам клиент является “локальным клиентом”. Локальный клиент подключается к хост-серверу, и оба они запускаются на одном компьютере. Два других игрока являются удаленными клиентами - то есть они находятся на разных компьютерах, подключенных к главному серверу.
 
 ![](<../../.gitbook/assets/image (5).png>)
 
-The host is a single instance of your game, acting as both server and client at the same time. The host uses a special kind of internal client for local client communication, while other clients are remote clients. The local client communicates with the server through direct function calls and message queues, because it is in the same process. It actually shares the Scene with the server. Remote clients communicate with the server over a regular network connection. When you use Mirror’s, this is all handled automatically for you.
+Хост - это отдельный экземпляр вашей игры, выступающий одновременно и в качестве сервера, и в качестве клиента. Хост использует специальный вид внутреннего клиента для связи с локальным клиентом, в то время как другие клиенты являются удаленными клиентами. Локальный клиент взаимодействует с сервером посредством прямых вызовов функций и очередей сообщений, поскольку он находится в одном и том же процессе. Он фактически разделяет сцену с сервером. Удаленные клиенты взаимодействуют с сервером по обычному сетевому соединению. Когда вы используете Mirror, все это обрабатывается автоматически за вас.
 
-One of the aims of the multiplayer system is for the code for local clients and remote clients to be the same, so that you only have to think about one type of client most of the time when developing your game. In most cases, Mirror handles this difference automatically, so you should rarely need to think about the difference between your code running on a local client or a remote client.
+Одна из целей многопользовательской системы состоит в том, чтобы код для локальных и удаленных клиентов был одинаковым, так что при разработке вашей игры большую часть времени вам нужно думать только об одном типе клиента. В большинстве случаев Mirror обрабатывает эту разницу автоматически, поэтому вам редко приходится задумываться о разнице между вашим кодом, запущенным на локальном клиенте или удаленном клиенте.
 
-## Instantiate and Spawn <a href="#instantiate-and-spawn" id="instantiate-and-spawn"></a>
+## Instantiate и Spawn <a href="#instantiate-and-spawn" id="instantiate-and-spawn"></a>
 
-When you make a single player game In Unity, you usually use the `GameObject.Instantiate` method to create new game objects at runtime. However, with a multiplayer system, the server itself must “spawn” game objects in order for them to be active within the networked game. When the server spawns game objects, it triggers the creation of game objects on connected clients. The spawning system manages the lifecycle of the game object, and synchronizes the state of the game object based on how you set the game object up.
+Когда вы создаете однопользовательскую игру на Unity, вы используете `GameObject.Instantiate` для создания объектов в реальном времени. Однако в многопользовательской системе сам сервер должен “спавнить” игровые объекты, чтобы они были активны в сетевой игре. Когда сервер спавнит игровые объекты, он запускает создание игровых объектов на подключенных клиентах. Система спавна управляет жизненным циклом игрового объекта и синхронизирует состояние игрового объекта в зависимости от того, как вы настроили игровой объект.
 
-For more details about networked instantiating and spawning, see documentation on Spawning [GameObjects](../guides/gameobjects/).
+Для получения более подробной информации о сетевом создании экземпляров и спавне, прочитайте документацию о спавне [GameObjects](../guides/gameobjects/).
 
-## Players and Local Players <a href="#players-and-local-players" id="players-and-local-players"></a>
+## Игроки и Локальные игроки <a href="#players-and-local-players" id="players-and-local-players"></a>
 
-Mirror handles player game objects differently to non-player game objects. When a new player joins the game (when a new client connects to the server), that player’s game object becomes a “local player” game object on the client of that player, and Mirror associates the player’s connection with the player’s game object. Mirror associates one player game object for each person playing the game, and routes networking commands to that individual game object. A player cannot invoke a command on another player’s game object, only their own.
+Mirror обрабатывает игровые объекты иначе, чем НЕ-игровые объекты. Когда новый игрок присоединяется к игре (когда новый клиент подключается к серверу), объект этого игрока становится игровым объектом как “локальный игрок” на его клиенте, и Mirror связывает соединение игрока с игровым объектом этого самого игрока. Mirror связывает один игровой объект игрока с каждым человеком, играющим в игру, и направляет сетевые команды к этому отдельному игровому объекту. Игрок не может вызвать команду для игрового объекта другого игрока, только для своего собственного.
 
-For more details, see documentation on Player [GameObjects](../guides/gameobjects/).
+Для получения более подробной информации смотрите документацию по Игровым [GameObjects](../guides/gameobjects/).
 
-## Authority
+## Authority (Власть)
 
-Servers and clients can both manage a game object’s behavior. The concept of “authority” refers to how and where a game object is managed. Mirror is based around “server authority” as the default state, where the Server has authority over all game objects. Player game objects are a special case and treated as having “local authority”. You may want to build your game using a different system of authority - for more details, see [Network Authority](../guides/authority.md).
+Как сервер, так и клиенты могут управлять поведением игрового объекта. Понятие “Authority” относится к тому, как и где осуществляется управление игровым объектом. Mirror основано на “полномочиях сервера” в качестве состояния по умолчанию, когда Сервер имеет полномочия над всеми игровыми объектами. Игровые объекты игрока являются особым случаем и рассматриваются как имеющие “местные полномочия”. Возможно, вы захотите создать свою игру, используя другую систему полномочий - более подробную информацию смотрите в разделе [Network Authority](../guides/authority.md).
