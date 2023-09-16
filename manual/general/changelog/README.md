@@ -180,3 +180,5 @@
 * Changed: Compiler symbols have been culled to those covering the last 12 months and will continue to be culled to a rolling 12-month time period.
 * Changed: Latency Simulation Transport configuration has been revamped.
 * Breaking Change: Older obsoleted properties and methods have been removed.
+
+Я не буду это переводить.
