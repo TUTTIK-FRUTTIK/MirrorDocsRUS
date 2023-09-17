@@ -1,26 +1,26 @@
 # Timestamp Batching
 
-Let's learn how Mirror sends around messages.
+Давайте узнаем, как Mirror отправляет сообщения.
 
 ## Batching
 
-Every message that you send will be batched until the end of the frame in order to minimize bandwidth and transport calls. For example, if you send a lot of 10 byte messages then we can usually fit \~120 of them into one **MTU** sized batch of around 1200 bytes.
+Каждое отправляемое вами сообщение будет обрабатываться пакетно до конца кадра, чтобы минимизировать пропускную способность и транспортные вызовы. К примеру, если вы отправляете много сообщений по 10 байтов, то мы могли бы вместо этого отправить одно размером в \~120 байт.
 
-For the Transport, it's pretty convenient to send around messages in 1200 byte chunks _(see_ [_MTU_](https://en.wikipedia.org/wiki/Maximum\_transmission\_unit)_)_. Messages larger than **MTU** are sent as a single batch. To be exact, the Transport decides the batch siz that Mirror aims for via `Transport.GetBatchThreshold()`.
+Что касается транспорта, то довольно удобно отправлять сообщения порциями по 1200 байт _(смотреть_ [_MTU_](https://en.wikipedia.org/wiki/Maximum\_transmission\_unit)_)_. Сообщения, размер которых превышает **MTU**, отправляются одним пакетом. Если быть точным, транспорт определяет размер партии, к которой стремится Mirror, с помощью `Transport.GetBatchThreshold()`.
 
-Mirror batching is bidirectional. Which means that both the client and the server batch their messages and flush them out at the end of the frame.
+Mirror batching является двунаправленным. Это означает, что и клиент, и сервер пакуют свои сообщения и отправляют их в конце кадра.
 
 {% hint style="success" %}
-In short, batching significantly reduces bandwidth and improves performance.
+Короче говоря, пакетная обработка значительно сокращает пропускную способность и повышает производительность.
 {% endhint %}
 
-## Timestamps
+## Timestamps (метки времени)
 
-For some networking components, it's useful to know exactly when a message was _sent by the remote_.
+Для некоторых сетевых компонентов полезно точно знать, когда сообщение было отправлено удаленным устройством.
 
-For example, `NetworkTransform` receives the server's positions and then interpolates between them. For a smooth interpolation, we need to exactly reconstruct what happened on the server. For that, we need to know _when_ an object has been at a certain position on the server.
+К примеру, `NetworkTransform` получает позицию на сервере и затем выполняет интерполяцию между ними. Для плавной интерполяции нам нужно точно воссоздать то, что произошло на сервере. Для этого нам нужно знать, когда объект находился в определенном положении на сервере.
 
-The obvious solution is to simply send both `timestamp` and `position` every time:
+Очевидное решение - просто отправлять оба `timestamp` и `position` всё время:
 
 ```csharp
 [Rpc]
@@ -30,24 +30,24 @@ public void RpcPositionUpdate(float timestamp, Vector3 position)
 }
 ```
 
-In fact, that's what an early version of our new `NetworkTransform` component did.
+На самом деле, именно так выглядит ранняя версия нашего нового `NetworkTransform` компонента.
 
-For the above code, we pay a significant bandwidth cost because for every position message, we also need to include a 4 byte `float` (or even better, an 8 byte `double` for higher precision). When synchronizing large worlds, the bandwidth would add up quickly.
+В приведенном выше коде мы тратим большую часть пропускной способности, потому что для каждого сообщения с позицией нам также нужно добавлять 4-ех байтное значение `float` (или даже лучше, 8 байтов `double` для лучшей точности). При синхронизации больших миров пропускная способность быстро увеличивалась бы.
 
-`NetworkTransform` is only one of many components. Several others might need timestamps too, which would increase bandwidth even further.
+`NetworkTransform` это только один из многих компонентов. Несколько остальным тоже нужны такие TimeStamps, что еще больше увеличило бы пропускную способность.
 
-To make life easier, Mirror includes _an 8 byte_ `double` _precision_ `timestamp` in every Batch. Instead of including it in every message, we include it once per \~1200 byte batch which is barely noticeable when it comes to bandwidth.
+Чтобы сделать жизнь легче, Mirror включает _8 байт_ `double` _для точности и_ `timestamp` в каждой обработке (Batch). Вместо добавления этого в каждое сообщение, мы включаем это раз в \~1200 байтовую обработку, что едва сказывается на пропускной способности.
 
-For any message handler in Mirror, you can get the timestamp from the batch it arrived with via `NetworkConnection.remoteTimeStamp`.
+Для любого обработчика сообщений в Mirror, вы можете взять timestamp из обработки прибывшее из `NetworkConnection.remoteTimeStamp`.
 
-* On the **client**, all object data arrives in messages/batches from the server. So at any given time, you can find out when an object's `Rpc`/`OnDeserialize`/`OnMessage` handler was sent by the server via  `NetworkClient.connection.remoteTimeStamp`.
-  * Note that on the client, we don't use an object's `connectionToServer` because only the player owned objects have connections to the server. Instead we use the client's `NetworkClient.connection` to server, which is always guaranteed to be there.
-* On the **server**, only player owned objects get messages from player connections. So at any given time, you can find otu when object's `Cmd`/`OnDeserialize`/`OnMessage` handler was sent by the client via `connectionToClient.remoteTimeStamp`.
+* на **клиенте**, все данные объектов поступают с сервера в виде сообщений/обработок. Таким образом, в любой момент времени, вы можете взять данные из `Rpc`/`OnDeserialize`/`OnMessage` обработчика, который был отправлен сервером через `NetworkClient.connection.remoteTimeStamp`.
+  * Обратите внимание, что на клиенте мы не используем `connectionToServer` потому что только объекты, принадлежащие игроку, имеют подключение к серверу. Вместо этого мы используем на клиенте `NetworkClient.connection` к серверу, который всегда будет гарантированно там находиться.
+* На **сервере**, только игрок владеющий объектом получает сообщения от подключенных игроков. Таким образом, в любой момент времени вы можете найти данные, находящиеся в `Cmd`/`OnDeserialize`/`OnMessage` перехватчике, отправленные клиентом посредством `connectionToClient.remoteTimeStamp`.
 
 {% hint style="info" %}
-**Timestamp Batching** is Mirror's unique approach to general purpose world synchronization. \
+**Timestamp Batching** это уникальный подход для синхронизации мира в Mirror.\
 \
-For example, Quake's Delta Snapshots are ideal for FPS games where the whole world fits into one world state message, while not being ideal for larger MMO sized worlds with lots of entities. Or perhaps you are working on a multiplayer text adventure with barely any world state, but still lots of network messages.\
+Например, Delta Snapshots в Quake идеально подходят для игр в жанре FPS, где весь мир помещается в одно сообщение о состоянии мира, но не идеальны для более крупных MMO-миров с большим количеством объектов. Или, возможно, вы работаете над многопользовательским текстовым приключением, в котором практически нет состояния мира, но все равно много сетевых сообщений.\
 \
-**Timestamp Batching** fits well into Mirror's architecture. It should help you to reduce bandwidth no matter what type of project you work on.
+**Timestamp Batching** хорошо вписывается в архитектуру Mirror. Это должно помочь вам сократить пропускную способность независимо от того, над каким типом проекта вы работаете.
 {% endhint %}
