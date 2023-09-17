@@ -1,6 +1,6 @@
-# Integrations
+# Интеграция
 
-Here we will maintain a list of assets known to be compatible with Mirror. If you know of others, please have the publisher contact us directly in our [Discord](https://discord.gg/2BvnM4R).
+Здесь мы будем вести список ресурсов, которые, как известно, совместимы с Mirror. Если вы знаете остальные, пожалуйста, попросите издателя связаться с нами напрямую через [Discord](https://discord.gg/2BvnM4R).
 
 ### [Dissonance Voice Chat](https://assetstore.unity.com/packages/tools/audio/dissonance-voice-chat-70078) <a href="#dissonance-voice-chat" id="dissonance-voice-chat"></a>
 
