@@ -17,7 +17,7 @@
     * [2021 Change Log](manual/general/changelog/2021-change-log.md)
     * [2020 Change Log](manual/general/changelog/2020-change-log.md)
     * [2019 Change Log](manual/general/changelog/2019-change-log.md)
-  * [Deprecations](manual/general/deprecations.md)
+  * [Удалено](manual/general/deprecations.md)
   * [Migration Guide](manual/general/migration-guide.md)
   * [Integrations](manual/general/integrations.md)
   * [Timestamp Batching](manual/general/timestamp-batching.md)
