@@ -1,26 +1,27 @@
 ---
-description: 'One of the most frequently asked questions: how many CCU can Mirror handle?'
+description: >-
+  Один из наиболее часто задаваемых вопросов: сколько CCU может обрабатывать
+  Mirror?
 ---
 
 # CCU
 
-A similar question came up on the [Unity forums](https://forum.unity.com/threads/stress-test-using-unity-as-server.1126640/#post-7245842) a while ago, so I'll copy my answer here in case it's useful to anyone else.
+Некоторое время назад аналогичный вопрос возник на форумах [форумах Unity](https://forum.unity.com/threads/stress-test-using-unity-as-server.1126640/#post-7245842), поэтому я скопирую свой ответ сюда на случай, если он будет полезен кому-то еще.
 
 ![Our laggy 480 CCU test from 2019](../../.gitbook/assets/2021-06-17\_12-24-46@2x.png)
 
-One of the MMOs [made with Mirror](https://github.com/vis2k/Mirror#made-with-mirror) had quite a lot of CCU when it launched, I think it was Inferna.\
-They split the map into separate server instances, with around 200 CCU limit per map.\
-I would have to look it up again, but I believe they achieved around 1000 CCU per world this way at times.\
+В одной из MMO, созданных [с помощью Mirror](https://github.com/vis2k/Mirror#made-with-mirror) было довольно много CCU, кажется это была Inferna.\
+Они разделили карту на отдельные экземпляры сервера с ограничением примерно в 200 CCU на карту.\
+Мне пришлось бы поискать это еще раз, но я полагаю, что таким образом они время от времени достигали около 1000 CCU.\
 \
-There's also a [very old video](https://www.youtube.com/watch?v=mDCNff1S9ZU\&t=58s) of us trying 480 CCU worst case, all in one place like your video. It's laggy as hell, but the server survived just fine.\
+Также есть [очень старое видео](https://www.youtube.com/watch?v=mDCNff1S9ZU\&t=58s) где мы пробуем 480 CCU в плохих условиях, все в одном месте в данном видео, это чертовски лагало, но сервер выжил отлично.\
 \
-Both Inferna and the 480 CCU video use old Mirror & Unity versions. We've had years of improvements since then, both for Mirror, Unity and server hardware.\
+И Inferna, и видео с 480 CCU используют старые версии Mirror и Unity. С тех пор у нас были годы улучшений, как для Mirror, Unity, так и для серверного оборудования.\
 \
-We still have plenty of optimizations to squeeze out of Mirror, with another CCU test planned afterwards around the end of this year.\
+Нам еще предстоит многое оптимизировать в Mirror, и примерно в конце этого года планируется провести еще один тест на одновременное количество CCU.\
 \
-Keep in mind that your game's complexity is also a huge factor. A 3D physics movement MMO like WoW will be way harder to scale than a 2D click-to-move MMO. For an Indie developer, 2D is really worth considering. It's way cheaper, way easier to make and scales way better due to less complex physics/meshes etc.\
+Имейте в виду, что сложность вашей игры также является важным фактором. Трехмерную MMO с физическим движением, подобную WoW, будет намного сложнее масштабировать, чем 2D MMO с возможностью перемещения по щелчку мыши. Для инди-разработчика 2D действительно стоит рассмотреть 2D. Это намного дешевле, намного проще в создании и намного лучше масштабируется благодаря менее сложной физике / сеткам и т.д.\
 \
-&#x20;At the end of the day, there's definitely a limit to what we can achieve in MonoBehaviour world.\
-&#x20;For 1500 physics movement players like in WoW, you would definitely need DOTS or a server that does not run in Unity.\
+В конце концов, определенно есть предел тому, чего мы можем достичь с MonoBehaviour. Для 1500 игроков с физическим передвижением, как в WoW, вам определенно понадобятся DOTS или сервер, который не работает в Unity.\
 \
-&#x20;Imho Unity & MonoBehaviour is still a good option. Better to **release** even a 500 CCU MMO with 250 CCU per instance, than **never release** a 1500 CCU MMO.
+Имхо, Unity & MonoBehaviour по-прежнему является хорошим вариантом. Лучше выпустить MMO даже на 500 CCU с 250 CCU на экземпляр, чем **никогда не выпускать** MMO на 1500 CCU.
