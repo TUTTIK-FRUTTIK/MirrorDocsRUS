@@ -28,7 +28,7 @@
   * [Качество подключения](manual/general/connection-quality.md)
   * [Компенсация задержки](manual/general/lag-compensation.md)
   * [History Bounds](manual/general/history-bounds.md)
-  * [Tests](manual/general/tests.md)
+  * [Тесты](manual/general/tests.md)
 * [FAQ](manual/faq/README.md)
   * [Execution Order](manual/faq/execution-order.md)
 * [Transports](manual/transports/README.md)
