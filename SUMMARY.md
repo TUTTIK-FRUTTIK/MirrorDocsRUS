@@ -30,7 +30,7 @@
   * [History Bounds](manual/general/history-bounds.md)
   * [Тесты](manual/general/tests.md)
 * [FAQ](manual/faq/README.md)
-  * [Execution Order](manual/faq/execution-order.md)
+  * [Порядок исполнения](manual/faq/execution-order.md)
 * [Transports](manual/transports/README.md)
   * [KCP Transport](manual/transports/kcp-transport.md)
   * [Telepathy Transport](manual/transports/telepathy-transport.md)

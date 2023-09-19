@@ -1,8 +1,8 @@
 ---
-description: Graphs courtesy from @ray in Discord.
+description: Графики, любезно предоставленные от @ray из Дискорда.
 ---
 
-# Execution Order
+# Порядок исполнения
 
 ![](<../../.gitbook/assets/image (8).png>)
 
