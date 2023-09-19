@@ -1,16 +1,16 @@
 # FAQ
 
-## How to Send/Sync custom data types?
+## Как отправлять/Синхронизировать данные пользовательских типо?
 
-Mirror can automatically create Serialization functions for many custom data types when your scripts are compiled.
+Mirror может автоматически создавать функцию Сериализации при компилировании вашего кода.
 
-For example, mirror will automatically create a functions for `MyCustomStruct` so that it can be sent without any extra work.
+Например, Mirror автоматически создает функцию для `MyCustomStruct` так что её можно отправить без какой-либо дополнительной работы.
 
 ```csharp
 [ClientRpc]
 public void RpcDoSomething(MyCustomStruct data)
 {
-    // do stuff here
+    // делайте что-нибудь здесь
 }
 
 struct MyCustomStruct
@@ -20,122 +20,122 @@ struct MyCustomStruct
 }
 ```
 
-For More details
+Для получения более подробной информации
 
-* [Data Types](https://mirror-networking.gitbook.io/docs/guides/data-types)
-* [Serialization](https://mirror-networking.gitbook.io/docs/guides/serialization)
+* [Типы данных](https://mirror-networking.gitbook.io/docs/guides/data-types)
+* [Сериализация](https://mirror-networking.gitbook.io/docs/guides/serialization)
 
-## How do I connect to another Mirror instance?
+## Как мне подключиться к другому экземпляру игры Mirror?
 
-### To another instance on the same device
+### К другому экземпляру  игры на одном устройстве
 
-Ensure you're connecting to "localhost". Localhost basically means "local host" which is your local machine.
+Убедитесь, что вы подключаетесь к "localhost". Localhost в основном означает "локальный хост", который является вашей локальной машиной.
 
-Make sure the Network Address field on NetworkManager is set to "localhost", or if using the NetworkManagerHUD that the text box is "localhost". Make sure you don't include the quotes.
+Убедитесь что поле Network Address внутри NetworkManager поставлено на "localhost", или если вы используете NetworkManagerHUD в тексте написано "localhost". Убедитесь, что вы не включаете кавычки.
 
-Please note that this won't work on mobile devices, as neither iOS or Android support running two instances of the same application side-by-side. This is more suited for desktop testing and development use.
+Пожалуйста, обратите внимание, что это не будет работать на мобильных устройствах, поскольку ни iOS, ни Android не поддерживают одновременный запуск двух экземпляров одного и того же приложения. Это больше подходит для тестирования и разработки на компьютере.
 
-### **To another instance on the same network (LAN)**
+### **К другому экземпляру игру в локальной сети (LAN)**
 
-Make sure the Network Address field on NetworkManager is set to the LAN IP of the host, or if using the NetworkManagerHUD that the text box is set to the LAN IP of the host.
+Убедитесь что поле Network Address внутри NetworkManager заполнено LAN IP адрес вашего хост устройства, или если вы используете NetworkManagerHUD смотрите чтобы в тексте был вписан LAN IP адрес вашего хост устройства.
 
-A correct setting, for example, is "192.168.8.100", "10.0.0.100", "172.16.42.69"\
-An incorrect setting, for example, is "localhost" or "203.200.110.100"&#x20;
+Правильной настройкой является, к примеру, "192.168.8.100", "10.0.0.100", "172.16.42.69"\
+А НЕправильной настройкой будет, к примеру, "localhost" или "203.200.110.100"
 
-_In some cases you may need additional steps, check below_
+_В некоторых случаях вам могут потребоваться дополнительные действия, смотрите ниже_
 
-To check your LAN IP on Windows you can open PowerShell/Command Prompt and use the `ipconfig` command, then under your current adapter (ethernet/wifi/etc) look for the _IPv4 Address_ entry like so:
+Чтобы проверить ваш LAN IP адрес на Windows, вы можете открыть PowerShell/Command Prompt и использовать команду `ipconfig`, затем под вашим текущим адаптером (ethernet/wifi/etc) посмотрите строку _IPv4 Address_ на наличие:
 
 `IPv4 Address. . . . . . . . . . . : 192.168.x.x`
 
-On Mac OS, you can use Network Settings in the Settings application, while on Linux you can either use `ifconfig`, `ip addr` or a GUI like _NetworkManager_ or _wicd_ to get your LAN IP depending if you are running a desktop environment or going commando at the command line.
+На Mac OS, вы можете использовать Network Settings в приложении Settings, в то время как на Linux вы можете использовать `ifconfig`, `ip addr` или что то с GUI по типу _NetworkManager_ или _wicd_ чтобы посмотреть ваш LAN IP адрес, конечно, в зависимости от того, используете ли вы среду рабочего стола или выполняете команду в командной строке.
 
-### To another instance (Internet/WAN)
+### К другому экземпляру игры (Internet/WAN)
 
-Set the networkAddress field to be the IP address of the host (google 'whats my IP')
+Установите в поле NetworkAddress значение IP-адреса хоста (гуглите 'какой у меня IP')
 
 {% hint style="warning" %}
-This section does not cover Relays, Dedicated VPSes or Headless Features.
+Этот раздел не охватывает Ретрансляторы, Выделенные сервера или какие либо ещё фичи.
 {% endhint %}
 
-For this to work, you will need to do **some** of the following, most of these depend on your set up and router:
+Чтобы это сработало, вам нужно будет выполнить некоторые из следующих действий, большинство из которых зависят от вашей настройки и маршрутизатора:
 
-* **Port forwarding**:
-  * Ensure your ISP allows you to host servers on your own connection, some ISPs do not allow this and will filter incoming connections. **If in doubt, check with your ISP.** _Knowledge is power._
-  * Ensure your ISP allows you to change settings on your router. Some can be very strict and reset settings that you changed randomly.
-  * Either forward your game port (default is 7777) for your PC's local IP, 192.168.1.20 for example. Ensure that you specify the correct protocol, incoming UDP connections won't work if you have it only set to accept incoming TCP connections and vice versa. If your router supports it, you can use the "BOTH" setting to bypass this headache; **OR**
-  * Pull a quick (but less safe) trick add that local IP to the routers' DMZ for desperate measures.
+* **Переадресация портов**:
+  * Убедитесь, что ваш интернет-провайдер позволяет вам размещать серверы в вашем собственном подключении, некоторые интернет-провайдеры этого не разрешают и будут фильтровать входящие подключения. **Если вы сомневаетесь, обратитесь к своему интернет-провайдеру.** _Сила в знании._
+  * Убедитесь, что ваш интернет-провайдер позволяет вам изменять настройки вашего маршрутизатора. Некоторые могут быть очень строгими и сбрасывать настройки, которые вы изменили случайным образом.
+  * Либо перенаправьте свой игровой порт (по умолчанию 7777) на локальный IP вашего ПК, 192.168.1.20 к примеру. Убедитесь, что вы указали правильный протокол, входящие UDP-соединения не будут работать, если у вас он настроен только на прием входящих TCP-соединений и наоборот. Если ваш маршрутизатор поддерживает это, вы можете использовать параметр "BOTH", чтобы обойти эту головную боль; **ИЛИ**
+  * Воспользуйтесь быстрым (но менее безопасным) трюком: добавьте этот локальный IP-адрес в DMZ маршрутизаторов в качестве отчаянной меры.
 
 {% hint style="danger" %}
-DMZ can be a very useful tool but **be warned:** _with great power comes great responsibility!_ \
-The computer that has the IP address you specify will be exposed on the internet without the router firewall filtering bad inbound traffic. That means if you're running any private web server or application, you may have intrusions from others located elsewhere on the internet.\
+DMZ может быть очень полезным инструментом, но **будьте внимательны:** _с большой силой приходит большая ответственность!_\
+Компьютер с указанным вами IP-адресом будет доступен в Интернете без использования брандмауэра маршрутизатора, фильтрующего нежелательный входящий трафик. Это означает, что если вы используете какой-либо частный веб-сервер или приложение, вы можете столкнуться с вторжениями со стороны других пользователей, расположенных в другом месте Интернета.\
 \
-**DO NOT USE** this DMZ option if you are running an unpatched operating system (for example, a old version of Microsoft Windows) or you risk your computer security being compromised. Ensure your security is enabled and your anti-virus/anti-malware software is fully updated before playing with DMZ settings.
+**НЕ ИСПОЛЬЗУЙТЕ** эту DMZ опцию если вы используете необновленную операционную систему (к примеру, старую версию Microsoft Windows) или вы рискуете подвергнуть риску безопасность вашего компьютера. Убедитесь, что ваша система безопасности включена и ваше антивирусное программное обеспечение полностью обновлено, прежде чем играть с настройками DMZ.
 {% endhint %}
 
-* **PC Firewalls**:
-  * You can turn it off for a quick test to see if your firewall is being annoying. **Make sure you turn it back on later.**
-  * Manually allow the editor and any builds you create in your Firewall settings.
-* Try from a build rather than the Unity Editor as sometimes Unity Editor can be janky.
-* Some anti-virus/mobile devices may have additional blocking layers:
-  * If you can, try turning them off for a quick test. **Ensure you turn it back on later.**
-* In rare cases ISPs or companies/schools block ports and connections, this is harder to adjust yourself.
+* **ПК брандмауэр**:
+  * Вы можете отключить его для быстрого тестирования, чтобы узнать, не портит ли вам что ваш брандмауэр. **Обязательно включите его позже.**
+  * Вручную разрешите редактор и любые сборки, которые вы создаете, в настройках брандмауэра.
+* Попробуйте использовать сборку, а не редактор Unity, так как иногда редактор Unity может быть неудобным.
+* Некоторые антивирусы/мобильные устройства могут иметь дополнительные уровни блокировки:
+  * Если вы можете, попробуйте отключить их для быстрого тестирования. **Убедитесь, что вы снова включите их позже.**
+* В редких случаях интернет-провайдеры или компании / школы блокируют порты и подключения, это сложнее настроить самостоятельно.
 
-If you need more help it is best to google for guide for your setup and router. An sure-fire alternative to the above is to use a Dedicated Server/VPS or use a Relay.
+Если вам нужна дополнительная помощь, лучше всего поискать в Google руководство по настройке вашего маршрутизатора. Надежной альтернативой вышеописанному является использование выделенного сервера / VPS или ретранслятора.
 
-## Host Migration
+## Миграция хоста
 
-Host migration alternatives and work-around.
+Альтернативы миграции хостов и обходные пути.
 
-Host migration as of writing is not built into Mirror, and it is best to avoid Host Migration completely if you can. Below are some tips as to why, and how you can add a host migration-like alternative.
+Миграция хоста на момент написания статьи не встроена в Mirror, и лучше всего полностью избегать миграции хоста, если это возможно. Ниже приведены несколько советов о том, почему и как вы можете добавить альтернативу, подобную миграции хоста.
 
-* Dedicated hosts should rarely ever be closed, if you are doing games that need to stay open such as MMO's.
-* Short arena maps, take players back to the games list/matchmaker, so they can just join another, nice and simple.
+* Выделенные хостинги редко должны закрываться, если вы занимаетесь играми, которые должны оставаться открытыми, такими как MMO.
+* Короткие карты арены возвращают игроков к списку игр / матчмейкеру, чтобы они могли просто присоединиться к другой, красиво и просто.
 
-The work around is to basically fake the host migration, store info of a backup host on players game, upon disconnection, reconnect everyone in the game to that new host, then restore positions and variable data back to how it was before the original host disappeared.
+Обходной путь заключается в том, чтобы, по сути, подделать миграцию хоста, сохранить информацию о резервном хосте в игре игроков, после отключения повторно подключить всех участников игры к этому новому хосту, затем восстановить позиции и переменные данные обратно к тому, что было до исчезновения исходного хоста.
 
-* Test players connections when they join, find one with unblocked ports, and decent ping/latency.
-* Send this players data (IP and Port) on all connected players games.
-* Save various player info, either locally or on that backup host, such as player positions, health etc
-* Upon disconnection from server, call a function to connect to the backup hoster. For example, `StartClient( BackupIP - BackupPort )`
-* As the scenes will most likely reset, along with players re-spawning, you now need to set player position back to your stored one that was saved either via checkpoints, or in the disconnect detection callback.
-* Cover all this up with a UI, saying please wait (optional, should happen in the blink of an eye).
+* Протестируйте подключения игроков, когда они присоединятся, найдите один с разблокированными портами и приличным пингом / задержкой.
+* Отправьте эти данные игроков (IP и порт) во все игры подключенных игроков.
+* Сохраняйте различную информацию об игроке либо локально, либо на этом резервном хостинге, такую как позиции игроков, состояние здоровья и т.д.
+* После отключения от сервера вызовите функцию для подключения к резервному хостеру. К примеру, `StartClient( BackupIP - BackupPort )`
+* Поскольку сцены, скорее всего, будут сброшены вместе с повторным появлением игроков, теперь вам нужно вернуть позицию игрока к сохраненной вами, которая была сохранена либо через контрольные точки, либо в обратном вызове обнаружения отключения.
+* Закройте все это пользовательским интерфейсом, сказав, пожалуйста, подождите (необязательно, это должно произойти в мгновение ока).
 
-Depending on what your game is like, it'll either be easy or difficult to add the work-around. An example of these are:
+В зависимости от того, на что похожа ваша игра, добавить обходной путь будет либо легко, либо сложно. Примером этого являются:
 
-* (easier) A game only needing player position data such as "Fall Guys".
-* (difficult) Forge of Empires, a game where created objects are placed, soldiers, vehicles, various other crafts and upgrades, all with their own levels/stats.
+* (легче) Игра, в которой требуются только данные о положении игрока, такая как "Fall Guys".
+* (трудно) Forge of Empires - игра, в которой размещаются созданные объекты, солдаты, транспортные средства, различные другие ремесла и апгрейды, все со своими собственными уровнями / статистикой.
 
-## Master / List Servers and Simple Matchmaker
+## Master / Список серверов и Simple Matchmaker
 
-A database of world-wide registered host data.
+База данных зарегистрированных хостингов по всему миру.
 
-All the hosts, dedicated or player hosts, get added into a list database, players get the list and can choose who to join. Using a list server means players do not have to manually enter IP addresses and Ports, it is all done behind the scenes, and works for localhost, LAN, and WAN connection types. You can show as much, or as little data as you like to the players, such as host name, type (deathmatch), player count (45 / 50), ping, enemy difficulty, map, region etc
+Все хосты, выделенные или игровые, добавляются в базу данных списков, игроки получают список и могут выбирать, к кому присоединиться. Использование списка серверов означает, что игрокам не нужно вручную вводить IP-адреса и порты, все это делается за кулисами и работает для типов подключений localhost, LAN и WAN. Вы можете показывать игрокам столько данных, сколько вам нужно, например, имя хоста, тип (смертельный матч), количество игроков (45/50), пинг, сложность противника, карта, регион и т.д.
 
-* Node ListServer: Free, but you host the files yourself on an unblocked PC, like a VPS. Has a wide variety of customisable features, best option if you want self hosted dedicated games.
-* Light Reflective Mirror: This is a list server and a relay, it is free, but you host and manage the files yourself. Relays offer an unblocked route of traffic, but at the cost of extra latency/increased ping. This relay will test for a direct connection first, then fallback to routed traffic if that fails. Both the list server and relayed traffic is optional, you can use one part, and not the other. This is the best option for player hosted games, where router port blocks are common.
-* Epic and Steam, these are hosted for you.\
-  Check Discords Addons and Transports sections for more information, and for other non-listed ways of matchmaking and list servers.&#x20;
+* Node ListServer: Бесплатно, но вы сами размещаете файлы на разблокированном ПК, например на VPS. Обладает широким спектром настраиваемых функций, лучший вариант, если вы хотите самостоятельно размещать выделенные игры.
+* Light Reflective Mirror: Это список серверов и ретранслятор, он бесплатный, но вы размещаете файлы и управляете ими самостоятельно. Ретрансляторы предлагают разблокированный маршрут трафика, но за счет дополнительной задержки/повышенного пинга. Этот ретранслятор сначала проверит наличие прямого соединения, а затем вернется к маршрутизируемому трафику, если это не удастся. Как список серверов, так и ретранслируемый трафик необязательны, вы можете использовать одну часть, а не другую. Это лучший вариант для игр, размещаемых игроками, где часто встречаются блокировки портов маршрутизатора.
+* Epic и Steam, они захостят для вас.\
+  Проверьте разделы "Дополнения Discord" и "Транспорты" для получения дополнительной информации, а также для других не перечисленных в списке способов подбора партнеров и составления списка серверов.
 
 ### Simple Matchmaker
 
-* You can make matchmakers out of these list servers, simply hide the list to players, have them auto join a game with space. You could also filter out various requirements the player has set, for example, "USA" Region only, or "Lava Island" map.
+* Вы можете создать матчмейкер из этого списка серверов, просто скройте список для игроков, попросите их автоматически присоединиться к игре с помощью одной кнопки. Вы также можете отфильтровать различные требования, установленные игроком, например, только регион "США" или карту "Лавовый остров"..
 
-## How to get the player count?
+## Как узнать количество игроков?
 
-There are a few ways to do this, each with their own unique benefit.
+Есть несколько способов сделать это, каждый со своими уникальными преимуществами.
 
 **NetworkServer.connections.Count**
 
-* Socket connections, includes people without spawned prefabs, non authenticated, or that may have bugged out during spawn, but have connected temporarily (Android users minimising game). Only host / server can check this.
+* Подключения к сокетам, включая пользователей без заспавненных Prefab'ов, не прошедших проверку подлинности или которые, возможно, отключились во время запуска, но подключились временно (пользователи Android сворачивают игру). Только хост / сервер может проверить это.
 
 **NetworkManager.singleton.numPlayers**
 
-* Number of active spawned player objects on the server (only the host / server can check this)
+* Количество активных созданных объектов игрока на сервере (это может проверить только хост / сервер)
 
 **Find by GameObject Tag**
 
-* Works client-side, doesn't require network code, and a good way to distinguish between player states, by applying gameobject tags for certain situations, for example, 'not ready/Default', 'Dead', 'Spectator'.
+* Работает на стороне клиента, не требует сетевого кода и является хорошим способом различать состояния игроков, применяя теги gameobject для определенных ситуаций, например, "не готов / по умолчанию", "Мертв", "Наблюдатель".
 
 ```csharp
 public GameObject[] playersArray;
