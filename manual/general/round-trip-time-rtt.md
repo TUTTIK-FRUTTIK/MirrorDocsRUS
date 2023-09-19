@@ -1,57 +1,53 @@
 ---
-description: Quick Overview on Mirror's RTT, and how to improve it in your game.
+description: Краткий обзор RTT от Mirror и того, как улучшить его в вашей игре.
 ---
 
 # Round Trip Time (RTT)
 
 ###
 
-### Understanding RTT
+### Понимание RTT
 
 {% hint style="info" %}
-**Round Trip Time (rtt)** is the time it takes for a message to go to the other end and back.\
-RTT always depends on two factors:
+**Round Trip Time (rtt)** это время, необходимое для того, чтобы сообщение дошло до другого конца и обратно. RTT всегда зависит от двух факторов:
 
-1. **Latency:** Network Message take some time to travel over the internet.
-2. **Update Interval:** Messages need to be processed and sent back to the other end. If your server's update rate is slow, RTT will be large.
+1. **Задержка:** Сетевое сообщение проходит через Интернет определенное время.
+2. **Интервал обновления:** Сообщения должны быть обработаны и отправлены обратно на другой конец. Если скорость обновления вашего сервера низкая, RTT будет большим.
 {% endhint %}
 
-Mirror calculates round trip time on the client, and on the server:
+Mirror вычисляет RTT как на клиенте, так и на сервере:
 
-* Clients can find it in `NetworkTime.rtt`
-* Servers can find it in each `NetworkServer.connection.rtt` (different for each connection)
+* Клиенты могут использовать `NetworkTime.rtt`
+* Сервер может использовать `NetworkServer.connection.rtt` (разные для каждого соединения)
 
-If you want to display **rtt** in your game, you can use our `NetworkPingDisplay` component.
+Если вы хотите отображать **RTT** в вашей игре, вы можете использовать компонент `NetworkPingDisplay`.
 
+### RTT на локальной машине
 
-
-### Local Machine RTT
-
-If you run our Tanks demo with a server and a client on the same computer, you'll see an average rtt of around 8 ms:
+Если вы запустите нашу демонстрационную версию Tanks с сервером и клиентом на одном компьютере, вы увидите среднее время ожидания около 8 мс:
 
 <figure><img src="../../.gitbook/assets/2023-07-18 - rtt 8ms.png" alt=""><figcaption><p>60 Hz update rate gives 8 ms RTT</p></figcaption></figure>
 
-This may seem strange at first: while 8 ms isn't much, it's still not as low as you would expect on your local computer. Clearly packets won't need 8 ms to travel through your memory.
+Поначалу это может показаться странным: хотя 8 мс - это немного, однако всё же не так мало, как можно было бы ожидать от вашего локального компьютера. Очевидно, что пакетам не потребуется 8 мс, чтобы пройти через вашу память.
 
-The reason for this is simple: by default, Mirror's NetworkManager.sendInterval is set to 60 Hz.
+Причина этого проста: по умолчанию, Mirror NetworkManager.sendInterval поставлен на 60 Hz.
 
-This means that network updates happen every 16 milliseconds (1 second / 60).
+Это означает, что сетевые обновления происходят каждые 16 миллисекунд (1 секунда / 60).
 
-RTT messages may arrive during an update, or while waiting 16 ms for the next update.
+Сообщения RTT могут поступать во время обновления или во время ожидания следующего обновления в течение 16 мс.
 
-On average, this means that there are 8 milliseconds of wait time for each RTT message.
+В среднем это означает, что время ожидания каждого сообщения RTT составляет 8 миллисекунд.
 
-Which is why the above picture shows an RTT of about 8 ms on your local machine.
+Вот почему на приведенном выше рисунке показано время ожидания около 8 мс на вашем локальном компьютере.
 
-### Optimizing RTT
+### Оптимизация RTT
 
-A send interval of 60 Hz is a reasonable tradeoff between bandwidth (the more often you send, the larger your bandwidth costs) and RTT. If you want to trade more bandwidth for lower RTT:
+Интервал отправки 60 Гц - это разумный компромисс между пропускной способностью (чем чаще вы отправляете, тем больше ваши затраты на пропускную способность) и RTT. Если вы хотите обменять большую пропускную способность на более низкую RTT:
 
-* Increase sendInterval to 120 Hz or more
-* Make sure that VSYNC is disabled (if your screen is running at 60 Hz, Vsync will cap your update rate to 60 Hz)
-* Make sure your game runs fast enough (if your CPU is too slow to achieve 120 Hz, then your send rate obviously can't be 120 Hz)
+* Измените sendInterval на 120 Гц или больше в NetworkManager
+* Убедитесь что VSYNC выключено (если конечно ваш монитор работает на 60 Гц, Vsync ограничивает обновление кадров на 60 Гц)
+* Убедитесь, что ваша игра работает достаточно быстро (если ваш процессор работает слишком медленно, чтобы достичь 120 Гц, то ваша частота отправки, очевидно, не сможет составлять 120 Гц)
 
-With an extreme send rate and frame rate, we can easily get the Tanks demo's RTT down to 1-2ms on our local machine. Of course, this isn't recommended in a production game:
+Благодаря высокой скорости отправки и частоте кадров мы можем легко снизить RTT демо-версии Tanks до 1-2 мс на нашем локальном компьютере. Конечно, это не рекомендуется в готовой игре:
 
 <figure><img src="../../.gitbook/assets/2023-07-18 - rtt 2ms.png" alt=""><figcaption></figcaption></figure>
-
