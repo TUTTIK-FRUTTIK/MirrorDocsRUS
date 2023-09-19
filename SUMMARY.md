@@ -21,7 +21,7 @@
   * [Migration Guide](manual/general/migration-guide.md)
   * [Интеграция](manual/general/integrations.md)
   * [Timestamp Batching](manual/general/timestamp-batching.md)
-  * [TCP and UDP](manual/general/tcp-and-udp.md)
+  * [TCP и UDP](manual/general/tcp-and-udp.md)
   * [CCU](manual/general/ccu.md)
   * [SyncDirection](manual/general/syncdirection.md)
   * [Round Trip Time (RTT)](manual/general/round-trip-time-rtt.md)
