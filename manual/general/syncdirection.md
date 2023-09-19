@@ -2,33 +2,33 @@
 
 ![](<../../.gitbook/assets/2022-10-18 - SyncDirection.png>)
 
-We have recently added the new **SyncDirection** feature, so here is a quick overview.
+Недавно мы добавили новую функцию **SyncDirection**, поэтому вот краткий обзор.
 
-#### Why SyncDirection
+#### Почему SyncDirection
 
-Usually, data is synced from server to client in OnSerialize.
+Обычно данные синхронизируются с сервера на клиент в OnSerialize.
 
-However, some components like NetworkTransform need to be able to sync from client to server, in case of client authority movement.
+Однако некоторые компоненты, такие как NetworkTransform, должны иметь возможность синхронизации с клиента на сервер в случае изменения полномочий клиента.
 
-Previously, we had to use \[Command]s in order to sync client authoritative NetworkTransform data to the server, since OnSerialize would only go from server to client. This has several downsides:
+Ранее нам приходилось использовать \[Command] для синхронизации клиентских авторитетных данных NetworkTransform с сервером, поскольку OnSerialize передавался только от сервера к клиенту. У этого есть несколько недостатков:
 
-* It's a lot of extra code to have both OnSerialize and manual remote calls
-* It's extra Bandwidth: every Command includes a function hash, etc.
-* Intervals need to be implemented manually, since syncInterval is only for OnSerialize.
+* Требуется много дополнительного кода для выполнения как OnSerialize, так и ручных удаленных вызовов
+* Это дополнительная пропускная способность: **каждая** команда включает в себя хэш функции и т.д.
+* Интервалы должны быть реализованы вручную, так как SyncInterval предназначен только для OnSerialize.
 
-As you can see, it would be great if there was an option for OnSerialize to go from client to server as well.&#x20;
+Как вы можете видеть, было бы здорово, если бы для OnSerialize также существовала возможность перехода с клиента на сервер.
 
 {% hint style="info" %}
-Note that ClientToServer is a bit of a simplification. Technically it goes from the owner client, to the server, where it's then broadcast to all the other observer clients which aren't owners.&#x20;
+Обратите внимание, что ClientToServer - это некоторое упрощение. Технически он передается от клиента-владельца на сервер, где затем транслируется всем другим клиентам-наблюдателям, которые не являются владельцами.
 
-_In case of client authoritative NetworkTransform, it means your local movement is sent to the server, which then broadcasts it to the other players so they see you move as well._
+_В случае клиент-авторитарного NetworkTransform это означает, что ваше локальное перемещение отправляется на сервер, который затем транслирует его другим игрокам, чтобы они тоже видели ваше перемещение._
 {% endhint %}
 
-Long story short, we have fully implemented SyncDirection for client authority components.
+Короче говоря, мы внедрили SyncDirection для компонентов клиентских полномочий.
 
-To summarize:
+Подводя итог:
 
-* **ServerToClient** is the default. **OnSerialize** (and all SyncVars, SyncLists) are sent from server to client every syncInterval. **OnDeserialize** is called on the client.
-* **ClientToServer** is for client authoritative components. **OnSerialize** is called on the owner client every **syncInterval**. It's then send to the server, where **OnDeserialize** is called. Afterwards the server broadcasts to all other clients except the owner. **OnDeserialize** is then called on those other clients.
+* **ServerToClient** стоит по умолчанию. **OnSerialize** (и все SyncVars, SyncLists) отправляются с сервера к клиенту каждый syncInterval. **OnDeserialize** вызывается на клиенте.
+* **ClientToServer** это клиент-авторитарные компоненты. **OnSerialize** вызывается на клиенте владельце каждый **syncInterval**. Затем данные отправляются на сервер, где вызывается **OnDeserialize**. После этого сервер осуществляет рассылку этих данных всем остальным клиентам, кроме владельца. **OnDeserialize** вызывается на всех остальных клиентах.
 
-Note that ClientToServer data could still be verified in OnDeserialize on the server. That's why it's technically not 'client authority', hence the name SyncDirection. For example, while the owner client may sync NetworkTransform data to the server, you could still validate every move in the server's OnDeserialize before applying & broadcasting it.
+Обратите внимание, что данные ClientToServer все еще могут быть проверены в OnDeserialize на сервере. Вот почему технически это не "полномочия клиента", отсюда и название SyncDirection. Например, в то время как клиент-владелец может синхронизировать данные NetworkTransform с сервером, вы все равно можете проверять каждое движение в OnDeserialize сервера перед его применением и трансляцией.
