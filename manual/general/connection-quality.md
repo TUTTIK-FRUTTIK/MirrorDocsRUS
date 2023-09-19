@@ -1,48 +1,46 @@
-# Connection Quality
+# Качество подключения
 
-Mirror does a lot of work to smooth out poor network connections.
+Mirror много работает над устранением плохих сетевых подключений.
 
-However, there's only so much we can do on.
+Однако, мы можем сделать не так уж и много.
 
 {% hint style="warning" %}
-For poor connections, it's best practice to display a '**Poor Connection**' warning.
+При плохом соединении рекомендуется выводить предупреждение о "**плохом соединении**".
 {% endhint %}
 
-Mirror's ConnectionQuality consists of three parts to make this very easy for your game.
+ConnectionQuality в Mirror состоит из трёх частей, чтобы сделать всё довольно простым для вашей игры.
 
 ### **ConnectionQuality.cs**
 
-Standalone connection quality enum & heuristics, which can be used outside of Unity if needed.
+Автономные connection quality enum и эвристика качества подключения, которые при необходимости можно использовать за пределами Unity.
 
-Mirror provides the following connection quality levels:
+Mirror обеспечивает следующие уровни качества соединения
 
 ```csharp
 public enum ConnectionQuality : byte
 {
-    EXCELLENT,  // ideal experience for high level competitors
-    GOOD,       // very playable for everyone but high level competitors
-    FAIR,       // very noticeable latency, not very enjoyable anymore
-    POOR,       // unplayable
-    ESTIMATING, // still estimating
+    EXCELLENT,  // идеальный опыт для клиентов с отличным соединением
+    GOOD,       // очень играбельно для всех, кроме ребят с лучшим соединением
+    FAIR,       // очень заметная задержка, уже не очень приятно
+    POOR,       // неиграбельно
+    ESTIMATING, // ещё проверяется
 }
 ```
 
-Currently it offers two heuristics:&#x20;
+В настоящее время мы предлагаем две эвристики:
 
-* **Simple** (based on Ping & Jitter)&#x20;
-* **Pragmatic** (based on Snapshot Interpolation).
+* **Simple** (основано на пинге и дрожании)
+* **Pragmatic** (основано на Snapshot Interpolation).
 
 ### NetworkPingDisplay
 
-This component can be added to the NetworkManager to display a Ping & Connection Quality indicator on the bottom right of the screen. Feel free to modify this to your needs, or create your own.
+Этот компонент можно добавить в NetworkManager для отображения индикатора Ping и качества соединения в правом нижнем углу экрана. Не стесняйтесь изменять это в соответствии с вашими потребностями или создавать свои собственные.
 
 <figure><img src="../../.gitbook/assets/2023-06-25 - connection quality, gui, callback.png" alt=""><figcaption></figcaption></figure>
 
 ### **NetworkManager Callbacks**
 
-*   **CalculateConnectionQuality()** can be overwritten to inject your own heuristic. By default, it uses the **Simple** heuristic from above. This is called every **connectionQualityInterval** seconds, which can also be configured in the NetworkManager.
-
-
+*   **CalculateConnectionQuality()** может быть перезаписано, чтобы ввести вашу собственную эвристику. По умолчанию, оно использует **Simple** эвристику. Это вызывается каждые **connectionQualityInterval** в секундах, которое сконфигурировано в the NetworkManager.
 
     ```csharp
     protected virtual void CalculateConnectionQuality()
@@ -53,9 +51,7 @@ This component can be added to the NetworkManager to display a Ping & Connection
         );
     }
     ```
-*   **OnConnectionQualityChanged**() can be used to show warnings to the user. By default, this emits a log message - useful for debugging user logs, etc.
-
-
+*   **OnConnectionQualityChanged**() может быть использовано для показа предупреждения клиенту. По умолчанию, оно отправляет сообщение в логи - юзабельно для дебага и т.д.
 
     ```csharp
     protected virtual void OnConnectionQualityChanged(ConnectionQuality previous, ConnectionQuality current)
