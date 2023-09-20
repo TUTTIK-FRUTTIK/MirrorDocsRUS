@@ -1,64 +1,64 @@
 # WebSockets Transport
 
-Transport that uses the websocket protocol. This allows this transport to be used in WebGL builds of unity.
+Транспорт, использующий протокол websocket. Это позволяет использовать этот транспорт в WebGL-сборках unity.
 
 ![Simple Web Transport Inspector](<../../../.gitbook/assets/image (1) (1) (1).png>)
 
 ## Logging <a href="#logging" id="logging"></a>
 
-Log levels can be set using the dropdown on the transport or or setting `Mirror.SimpleWeb.Log.level`.
+Log levels можно выставлять в выпадающем списке в транспорте или настроить `Mirror.SimpleWeb.Log.level`.
 
-The transport applies the dropdown value in its `Awake` and `OnValidate` methods.
+Транспорт принимает выпадающее значение в  методах `Awake` и `OnValidate`.
 
 #### Log methods <a href="#log-methods" id="log-methods"></a>
 
-Log methods in this transport use the [ConditionalAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.conditionalattribute?view=netstandard-2.0) so they are removed depending on the preprocessor defines.
+Log methods в транспорте [ConditionalAttribute](https://docs.microsoft.com/en-us/dotnet/api/system.diagnostics.conditionalattribute?view=netstandard-2.0) удаляются в зависимости от того, что определяет препроцессор.
 
-These preprocessor defines effect the logging
+Эти определения препроцессора влияют на ведение журнала
 
-* `DEBUG` allows warn/error logs
-* `SIMPLEWEB_LOG_ENABLED` allows all logs
+* `DEBUG` оставляет warn/error логи
+* `SIMPLEWEB_LOG_ENABLED` оставляет все логи
 
-Without `SIMPLEWEB_LOG_ENABLED` info or verbose logging will never happen even if log level allows it.
+Без `SIMPLEWEB_LOG_ENABLED` информации или подробное ведение журнала никогда не произойдет, даже если уровень журнала это позволяет.
 
-See the [Unity docs](https://docs.unity3d.com/Manual/PlatformDependentCompilation.html) on how set custom defines.
+Смотрите [Unity docs](https://docs.unity3d.com/Manual/PlatformDependentCompilation.html) о том как поставить собственные определения.
 
-## Setting Up SSL
+## Установка SSL
 
 {% hint style="info" %}
-NOTE: WebGL performs a lot better with a Reverse Proxy, and that's generally easier to set up and maintain than using cert.json and PFX files.
+ПРИМЕЧАНИЕ: WebGL работает намного лучше с обратным прокси-сервером, и это, как правило, проще в настройке и обслуживании, чем использование файлов cert.json и PFX.
 
 \
-Go to the [Reverse Proxy](reverse-proxy.md) page for instructions.
+Посмотрите инструкции на странице [Reverse Proxy](reverse-proxy.md).
 {% endhint %}
 
-If you host your webgl build on a https domain you will need to use wss which will require a ssl cert.
+Если вы размещаете свою сборку webgl в домене https, вам нужно будет использовать wss, для чего потребуется сертификат ssl.
 
 ### Pre-Setup
 
-* You need a domain name
-  * With DNS record pointing at cloud server
-* Set up cloud server: [How to set up google cloud server](https://mirror-networking.com/docs/Articles/Guides/DevServer/gcloud/index.html)
+* Вам нужно доменное имя
+  * С записью DNS, указывающей на облачный сервер
+* Настройка облачного сервера: [Как настроить облачный сервер google](https://mirror-networking.com/docs/Articles/Guides/DevServer/gcloud/index.html)
 
-> note: You may need to open port 80 for certbot
+> примечание: Возможно, вам потребуется открыть порт 80 для certbot
 
-### Get Cert
+### Получить сертификат
 
-Follows guides here:
+Следуйте инструкциям здесь:
 
 [https://letsencrypt.org/getting-started/](https://letsencrypt.org/getting-started/) [https://certbot.eff.org/instructions](https://certbot.eff.org/instructions)
 
-Find the instructions for your server version, below is link for `Ubuntu 18.04 LTS (bionic)`
+Найдите инструкции для вашей версии сервера, ниже приведена ссылка для `Ubuntu 18.04 LTS (bionic)`
 
 [https://certbot.eff.org/lets-encrypt/ubuntubionic-other](https://certbot.eff.org/lets-encrypt/ubuntubionic-other)
 
-For instruction 7
+Для инструкции 7
 
 ```
 sudo certbot certonly --standalone
 ```
 
-After filling in details you will get a result like this
+После заполнения деталей вы получите результат, подобный этому
 
 ```
 IMPORTANT NOTES:
@@ -76,19 +76,19 @@ IMPORTANT NOTES:
    Donating to EFF:                    https://eff.org/donate-le
 ```
 
-`simpleweb.example.com` should be your domain
+`simpleweb.example.com` должно быть вашим доменом
 
-### Create cert.pfx
+### Создайте cert.pfx
 
-To create a pfx file that SimpleWebTransport can use run this command in the `/etc/letsencrypt/live/simpleweb.example.com/` folder
+Чтобы создать файл pfx, который может использовать SimpleWebTransport, запустите эту команду в папке `/etc/letsencrypt/live/simpleweb.example.com/`
 
 ```
 openssl pkcs12 -export -out cert.pfx -inkey privkey.pem -in cert.pem -certfile chain.pem
 ```
 
-You will be asked for a password, you can set a password or leave it blank.
+Вам будет предложено ввести пароль, вы можете установить пароль или оставить его пустым.
 
-You might need to be super user in order to do this:
+Возможно, вам потребуются права суперпользователя, чтобы сделать это:
 
 ```
 su
@@ -96,45 +96,45 @@ su
 cd /etc/letsencrypt/live/simpleweb.example.com/
 ```
 
-Note: Currently the mono version shipped with unity is unable to load pfx files generated by OpenSSL version 3. You will have to add the `-legacy` command line argument to the openssl command above to generate a compatible pfx file.
+Примечание: В настоящее время версия mono, поставляемая с unity, не может загружать файлы pfx, сгенерированные OpenSSL версии 3. Вам нужно будет добавить `-legacy` аргумент командной строки для приведенной выше команды openssl для создания совместимого файла pfx.
 
-### Using cert.pfx
+### Используйте cert.pfx
 
-You can either copy the cert.pfx file to your server folder or create a symbolic link
+Вы можете либо скопировать файл cert.pfx в папку вашего сервера, либо создать символическую ссылку
 
-Move
+Перемещение
 
 ```
 mv /etc/letsencrypt/live/simpleweb.example.com/cert.pfx ~/path/to/server/cert.pfx
 ```
 
-Symbolic link
+Символическая ссылка
 
 ```
 ln -s /etc/letsencrypt/live/simpleweb.example.com/cert.pfx ~/path/to/server/cert.pfx
 ```
 
-#### create cert.json file
+#### создайте файл cert.json
 
-Create a `cert.json` that SimpleWebTransport can read
+Создайте `cert.json` который SimpleWebTransport сможет читать
 
-Run this command in the `~/path/to/server/` folder
+Выполните команду в папке `~/path/to/server/`
 
-If you left the password blank at cert creation:
+Если вы оставили пароль пустым при создании сертификата:
 
 ```
 echo '{ "path":"./cert.pfx", "password": "" }' > cert.json
 ```
 
-If you set up a password "yourPassword" at cert creation:
+Если вы установили пароль "yourPassword" при создании сертификата:
 
 ```
 echo '{ "path":"./cert.pfx", "password": "yourPassword" }' > cert.json
 ```
 
-#### Run your server
+#### Запустите ваш сервер
 
-After the `cert.json` and `cert.pfx` are in the server folder like this
+После `cert.json` и `cert.pfx` серверная папка будет выглядеть так:
 
 ```
 ServerFolder
@@ -143,38 +143,38 @@ ServerFolder
 |- cert.pfx
 ```
 
-Then make the server file executable
+Затем сделайте серверный файл исполняемым
 
 ```
 chmod +x demo_server.x86_64
 ```
 
-To run in the active terminal use
+Для запуска в активном терминале используйте
 
 ```
 ./demo_server.x86_64
 ```
 
-To run in background use
+Для запуска в фоновом режиме используйте
 
 ```
 nohup ./demo_server.x86_64 &
 ```
 
-> `nohup` means: the executable will keep running after you close your ssh session the `&` sign means: that your server will run in background
+> `nohup` подразумевает: Для запуска в фоновом режиме используйте исполняемый файл, который продолжит работать после того, как вы закроете сеанс ssh. Знак `&` означает, что ваш сервер будет работать в фоновом режиме
 
-> you may need to use `sudo` to run if you created a symbolic link
+> возможно вам понадобится использовать `sudo` чтобы запустить вашу символическую ссылку
 
-#### Connect to your game
+#### Подключитесь к вашей игре
 
-Test everything is working by connection using the editor or a build
+Проверьте, все ли работает при подключении с помощью редактора или сборки
 
-set your domain (eg `simpleweb.example.com`) in the hostname field and then start a client
+установите свой домен (`simpleweb.example.com`) в поле имени хоста, а затем запустите клиент
 
 ### Debugging
 
-To check if your pfx file is working outside of unity you can use `pfxTestServer.js`.
+Чтобы проверить, работает ли ваш pfx-файл за пределами unity, вы можете использовать `pfxTestServer.js`.
 
-To use this install `nodejs` then set the pfx path and run it with `node pfxTestServer.js`
+Чтобы использовать это, установите `nodejs` затем установите путь к pfx и запустите его с помощью `node pfxTestServer.js`
 
-You should then be able to visit `https://simpleweb.example.com:8000` and have the server response (change port and domain to fit your needs)
+После этого вы сможете посетить `https://simpleweb.example.com:8000` и получите ответ сервера (измените порт и домен в соответствии с вашими потребностями)
