@@ -4,45 +4,45 @@ description: https://github.com/SoftwareGuy/Ignorance
 
 # Ignorance
 
-## What is Ignorance? <a href="#what-is-ignorance" id="what-is-ignorance"></a>
+## Что такое Ignorance? <a href="#what-is-ignorance" id="what-is-ignorance"></a>
 
-Ignorance is a reliable UDP transport layer that utilizes the native ENET C Networking library via a [custom fork of ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp) providing an reliable and unreliable sequenced UDP transport for both 64Bit desktop operating systems (Windows, Mac OS and Linux) and Mobile OSes (Apple iOS and Android). It also supports up to 255 channels and 4096 clients connected at one time.
+Ignorance это надежный UDP транспортный уровень, использующий собственную сеть ENET C Networking library как [custom fork of ENet-CSharp](https://github.com/SoftwareGuy/ENet-CSharp) обеспечивающий надежный и ненадежный последовательный UDP-транспорт для 64-разрядных настольных операционных систем (Windows, Mac OS and Linux) and Mobile OSes (Apple iOS and Android). Он поддерживает 255 каналов и 4096 клиентов подключенных в одно время.
 
-ENET is a solid reliable UDP C++ network library that is mature and stable. Unity's LLAPI needs a replacement. Ignorance was designed with that goal in mind - fill the gap and provide a solid, performant RUDP transport for Mirror.
+ENET - это надежная сетевая библиотека UDP C++, которая является зрелой и стабильной. LLAPI Unity нуждался в замене. Ignorance был разработан с учетом этой цели - заполнить пробелы и обеспечить надежную и производительную передачу UDP для Mirror.
 
-## Why Ignorance over the Unity LLAPI? <a href="#why-ignorance-over-the-unity-llapi" id="why-ignorance-over-the-unity-llapi"></a>
+## Почему Ignorance вместо Unity LLAPI? <a href="#why-ignorance-over-the-unity-llapi" id="why-ignorance-over-the-unity-llapi"></a>
 
-Unity's old LLAPI was horridly inefficient, and lots of testing has shown that you will get reduced performance using Unity LLAPI in your project. This is due to the design of the old networking code - Unity Tech made "by design" decisions and poor bug fixes that were seen to other developers as band-aids over a gaping wound. They did not care about performance or bug fixes.
+Старый LLAPI Unity был ужасно неэффективен, и множество тестов показали, что вы получите снижение производительности, используя Unity LLAPI в своем проекте. Это связано с архитектурой старого сетевого кода - технология Unity принимала решения "по архитектуре" и допускала некачественные исправления ошибок, которые другие разработчики воспринимали как пластырь на зияющую рану. Они не заботились о производительности или исправлениях ошибок.
 
-Unity LLAPI was also closed source, meaning the Mirror developers could not take a knife to it and make it better. This is where the concept of Ignorance took shape.
+Unity LLAPI также был с закрытым исходным кодом, что означало, что разработчики Mirror не могли взяться за дело и сделать его лучше.
 
-## Who develops Ignorance? <a href="#who-develops-ignorance" id="who-develops-ignorance"></a>
+## Кто разработчики Ignorance? <a href="#who-develops-ignorance" id="who-develops-ignorance"></a>
 
-[Coburn](http://github.com/softwareguy) is the lead developer of the transport. Oiran Studio actively uses this transport for networked game projects. It is currently also being utilized by some game projects, where you can find on the Mirror Discord server.
+[Coburn](http://github.com/softwareguy) является ведущим разработчиком транспорта. Oiran Studio активно использует этот транспорт для сетевых игровых проектов. В настоящее время он также используется некоторыми игровыми проектами, которые вы можете найти на сервере Discord по Mirror.
 
-## Why would I want to use reliable UDP over TCP? <a href="#why-would-i-want-to-use-reliable-udp-over-tcp" id="why-would-i-want-to-use-reliable-udp-over-tcp"></a>
+## Почему я должен использовать надежный UDP вместо TCP? <a href="#why-would-i-want-to-use-reliable-udp-over-tcp" id="why-would-i-want-to-use-reliable-udp-over-tcp"></a>
 
-* if you have realtime communications that you need speed over reliability (VoIP...)
-* if you need channels
-* if you need custom channel send types
-* if you need a data hose for your game (a first person shooter, racing game, etc)
+* если у вас есть связь в режиме реального времени, вам нужна скорость, а не надежность (VoIP...)
+* если вам нужны каналы
+* если вам нужны пользовательские типы отправки по каналам
+* если вам нужен канал передачи данных для вашей игры (a first person shooter, racing game, etc)
 
-## Why wouldn't I want to use reliable UDP over TCP? <a href="#why-wouldnt-i-want-to-use-reliable-udp-over-tcp" id="why-wouldnt-i-want-to-use-reliable-udp-over-tcp"></a>
+## Почему я не должен использовать UDP вместо TCP? <a href="#why-wouldnt-i-want-to-use-reliable-udp-over-tcp" id="why-wouldnt-i-want-to-use-reliable-udp-over-tcp"></a>
 
-* if you have **mission critical** things (as in, data **NEEDS** to go from A and B, no exceptions)
-* if you need fully reliable network protocol
-* if you're paranoid
-* if you're making a Minecraft-like game and need to keep everyone in sync
+* если у вас есть **критически важные** вещи (если вам **НУЖНО** чтобы данные отправлялись точно из точки А в точку Б, без исключений)
+* если вам нужен полностью надежный сетевой протокол
+* если у вас паранойя
+* если вы создаете игру, похожую на Minecraft, и вам нужно, чтобы все были синхронизированы
 
-## I want to know more about reliable UDP... <a href="#i-want-to-know-more-about-reliable-udp" id="i-want-to-know-more-about-reliable-udp"></a>
+## Я хочу узнать больше о надежном UDP... <a href="#i-want-to-know-more-about-reliable-udp" id="i-want-to-know-more-about-reliable-udp"></a>
 
-A little explanation is required. UDP is best described as a "shattershot" data transmission protocol, which means you just spray and pray that packets at a destination and hope for the best. The remote destination may or may not receive those packets, nor are they going to be in order. For example, if you have a packet stream that is:
+Требуется небольшое объяснение. UDP лучше всего описать как протокол передачи данных "shattershot", который означает, что вы просто распыляете пакеты и молитесь, чтобы они достигли места назначения, и надеетесь на лучшее. Удаленный адресат может получать, а может и не получать эти пакеты, и они не будут в порядке. Например, если у вас есть поток пакетов, который выглядит как:
 
 ```
 1 2 3 4 5 6 7
 ```
 
-...then it may end up like any of the following on the other end due to packets arriving out of order. A dot in the following example means that packet went missing.
+...тогда это может прийти в не лучшем виде из-за того, что пакеты поступают не по порядку. Точка в следующем примере означает, что пакет пропал без вести.
 
 ```
 7 6 1 3 2 4 5
@@ -51,30 +51,28 @@ A little explanation is required. UDP is best described as a "shattershot" data 
 1 2 3 5 4 6 7
 ```
 
-For example, say you lost a packet and that contained a player's health update. Everyone else might know they took 69 damage, but that client will still have the old value of say, 72 health. Without reliable UDP, you can become out of sync very quickly. When you're out of sync, the game is over - everything will start operating very strangely.
+Например, предположим, что вы потеряли пакет, содержащий обновление о состоянии здоровья игрока. Все остальные могут знать, что они получили 69 единиц урона, но у этого клиента все равно будет прежнее значение, скажем, 72 единицы здоровья. Без надежного UDP вы можете очень быстро выйти из синхронизации. Когда вы потеряете синхронизацию, игра закончится - все начнет работать очень странно.
 
-## Sequencing and Reliable Delivery <a href="#sequencing-and-reliable-delivery" id="sequencing-and-reliable-delivery"></a>
+## Последовательность и надежная доставка
 
-### Sequencing <a href="#sequencing" id="sequencing"></a>
+### Последовательность <a href="#sequencing" id="sequencing"></a>
 
-**Sequencing** basically tags packets so they know what number they are when being dispatched. So if you send packets `100, 101, 102` to the remote destination, the other end will reconstruct the packet in that order rather than in a different order (like `101, 100, 102`). If a packet is missing, it'll be skipped but the network library will take note that it's missing and compensate.
+**Надежный** режим просто сообщает СЕТИ отправить это сообщение, ожидая, пока пульт подтвердит прием пакета, прежде чем заявить, что он был "потерян". ENET по-прежнему будет классифицировать указанные пакеты как потерянные, если не получит ответа от удаленного устройства, но будет повторно передавать их, чтобы компенсировать соединения с потерями или ситуации с высокой задержкой. Надежный режим пытается эмулировать некоторую повторную отправку TCP, если она не подтверждена вовремя, но поскольку UDP не обладает всеми служебными данными, которые есть у протокола TCP, это добавляет некоторую служебную информацию о пакетах.
 
-**Reliable** mode just tells ENET to send this while waiting for the remote to acknowledge packet reception, before claiming it was 'lost'. ENET will still classify said packets as lost if it doesn't hear back from the remote, but it will retransmit them to compensate for lossy connections or high latency situations. Reliable mode tries to emulate some of TCP's resending if not acknowledged in time, but as UDP does not have all the overhead TCP protocol has, it adds some packet overhead.
+По умолчанию Ignorance поставляется с двумя каналами как в надежном, так и в ненадежном режиме. Существуют и другие режимы канала, которые разработчики могут протестировать, поскольку разные из них могут подходить для разных нагрузок, но обычному человеку не нужно беспокоиться об этом. Ignorance приходит с разумными настройками по умолчанию из коробки.
 
-Ignorance comes with two channels in both Reliable and Unreliable mode by default. There are other channel modes that developers can test as different ones might suit different loads, but the average person does not need to worry about this. Ignorance comes with sane defaults out of the box.
+## Поддерживает ли Ignorance Websockets? <a href="#does-ignorance-support-websockets" id="does-ignorance-support-websockets"></a>
 
-## Does Ignorance support Websockets? <a href="#does-ignorance-support-websockets" id="does-ignorance-support-websockets"></a>
+Нет, не поддерживает. Mirror поставляется со встроенной поддержкой websockets.
 
-No, it does not. Mirror comes with built-in websockets support.
+## Где я могу найти Ignorance? <a href="#where-can-i-get-ignorance" id="where-can-i-get-ignorance"></a>
 
-## Where can I get Ignorance? <a href="#where-can-i-get-ignorance" id="where-can-i-get-ignorance"></a>
+[Возьмите Ignorance со странички релизов в репозитории на Github](https://github.com/SoftwareGuy/Ignorance). Просто импортируйте UnityPackage из загруженного вами выпуска.
 
-[Grab the latest build from the releases page on the Ignorance repository](https://github.com/SoftwareGuy/Ignorance). Simply import the Unity Package from the release you downloaded.
+## Где я могу поддержку Ignorance? <a href="#where-can-i-get-support" id="where-can-i-get-support"></a>
 
-## Where can I get support? <a href="#where-can-i-get-support" id="where-can-i-get-support"></a>
+Вы можете обратиться в службу поддержки, открыв заявку на [Ignorance repository issue tracker](https://github.com/SoftwareGuy/Ignorance/issues) или в канале #ignorance в Mirror Discord сервере.
 
-You can get support by opening a issue ticket on the [Ignorance repository issue tracker](https://github.com/SoftwareGuy/Ignorance/issues) or the #ignorance channel in the Mirror Discord server.
+## Я до сих пор не понимаю, что это за транспорт, у меня голова идет кругом, помогите! <a href="#i-still-dont-understand-what-this-transport-is-my-head-is-spinning-help" id="i-still-dont-understand-what-this-transport-is-my-head-is-spinning-help"></a>
 
-## I still don't understand what this transport is, my head is spinning, help! <a href="#i-still-dont-understand-what-this-transport-is-my-head-is-spinning-help" id="i-still-dont-understand-what-this-transport-is-my-head-is-spinning-help"></a>
-
-Come by the Discord and we'll do our best to explain it in plain English.
+Заходите в Discord, и мы сделаем все возможное, чтобы объяснить это простым английским языком.
