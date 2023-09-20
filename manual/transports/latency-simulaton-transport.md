@@ -1,17 +1,17 @@
 # Latency Simulaton Transport
 
-Mirror's Latency Simulation transport allows you to test your project under non-ideal network conditions.
+Latency Simulation транспорт от Mirror позволяет вам протестировать ваш проект в неидеальных сетевых условиях.
 
-Add it to NetworkManager, **wrap** it around your regular Transport, drag it into NetworkManager.transport.
+Добавьте это в NetworkManager, **оберните** это вокруг вашего обычного транспорта, переместите в поле NetworkManager.transport (смотрите фото).
 
-It can simulate:
+Он может имитировать:
 
-* Latency in milliseconds
-* Packet loss in %
-* Packet scramble / reorder
+* Задержку в миллисекундах
+* Потерю пакетов в %
+* Гонку пакетов / изменение порядка
 
 {% hint style="info" %}
-Reliable messages are ordered and guaranteed delivery by definition. Packet loss / scramble over reliable manifests itself via latency.&#x20;
+Надежные сообщения упорядочены и гарантированно доставляются по определению. Потеря пакетов / смена местами по надежной сети проявляются в задержке.
 {% endhint %}
 
 ![](../../.gitbook/assets/2021-03-14\_21-32-23@2x.png)
