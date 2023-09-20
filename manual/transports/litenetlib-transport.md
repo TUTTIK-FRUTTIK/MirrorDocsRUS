@@ -4,50 +4,50 @@ description: https://github.com/MirrorNetworking/LiteNetLibTransport/
 
 # LiteNetLib Transport
 
-**LiteNetLib based transport for Mirror.**
+**LiteNetLib транспорт для Mirror.**
 
-## Usage <a href="#usage" id="usage"></a>
+## Использование <a href="#usage" id="usage"></a>
 
-1. Download the unity package from [Releases ](https://github.com/MirrorNetworking/LiteNetLibTransport/releases)and import it to your project (it does not contain Mirror)
-2. Put `LiteNetLibTransport` component on gameobject with NetworkManager and assign it there
+1. Скачайте unity package из [Releases ](https://github.com/MirrorNetworking/LiteNetLibTransport/releases)и импортируйте это в свой проект (Он не содержит Mirror, Mirror у вас уже должен быть)
+2. Поставьте компонент `LiteNetLibTransport` на gameobject с компонентом NetworkManager и поставьте его заодно в поле транспорта в NetworkManager
 
 ## Features <a href="#features" id="features"></a>
 
 * UDP
-* Built-in Network Discovery and UPnP
-* Fully managed code
-* Small CPU and RAM usage
-* Small packet size overhead ( 1 byte for unreliable, 3 bytes for reliable packets )
-* Different send mechanics
+* Встроенный Network Discovery и UPnP
+* Полностью управляемый код
+* Не сильно нагружает CPU и RAM
+* Маленький размер пакетов ( 1 байт для ненадежных пакетов, 3 байта для надежных )
+* Различная механика отправки
 * Reliable with order
 * Reliable without order
-* Ordered but unreliable with duplication prevention
-* Simple UDP packets without order and reliability
-* Automatic small packets merging
-* Automatic fragmentation of reliable packets
-* Automatic MTU detection
-* NTP time requests
-* Packet loss and latency simulation
-* IPv6 support (dual mode)
-* Connection statisitcs (need DEBUG or STATS\_ENABLED flag)
-* Multicasting (for discovering hosts in local network)
+* Упорядоченный, но ненадежный с предотвращением дублирования
+* Простые UDP-пакеты без порядка и надежности
+* Автоматическое объединение небольших пакетов
+* Автоматическая фрагментация надежных пакетов
+* Автоматическое обнаружение MTU
+* Запросы времени NTP
+* Симулирование потери пакетов и задержки
+* Поддержка IPv6 (двойной режим)
+* Статистика подключений (нужен DEBUG или STATS\_ENABLED флаги)
+* Multicasting (для обнаружения хостов в локальной сети)
 
 ## IL2CPP Warning! <a href="#il2cpp-warning" id="il2cpp-warning"></a>
 
-With IL2CPP, IPv6 is only supported on Unity 2018.3.6f1 and later because of this:\
-&#x20;[Unity ChangeLog](https://unity3d.com/unity/whats-new/2018.3.6)
+С IL2CPP, IPv6 поддерживается только в версии Unity 2018.3.6f1 и более поздних потому что:\
+[Unity ChangeLog](https://unity3d.com/unity/whats-new/2018.3.6)
 
-> IL2CPP: Added protocol support for IPv6 on Windows. (1099133)
+> IL2CPP: Добавлена поддержка протокола IPv6 в Windows. (1099133)
 >
-> IL2CPP: Correctly indicate that IPv6 is not supported on non-IPv6 platforms. (1108823)
+> IL2CPP: Корректная индикация о том, что IPv6 на неподдерживаемых-IPv6 платформах. (1108823)
 
-Also, socket Reuse Address option isn't available in IL2CPP.
+Кроме того, опция повторного использования адреса сокета недоступна в IL2CPP.
 
-## Credits <a href="#credits" id="credits"></a>
+## Титры <a href="#credits" id="credits"></a>
 
-RevenantX - for [LiteNetLib](https://github.com/RevenantX/LiteNetLib/releases)\
-&#x20;vis2k & Paul - for [Mirror](https://assetstore.unity.com/packages/tools/network/mirror-129321)\
-&#x20;Coburn - for [Ignorance](https://github.com/SoftwareGuy/Ignorance) which i've used as an example\
-&#x20;Dankrushen - for helping me find one small mistake which i couldn't find for two days\
-&#x20;Lucas Ontivero - for [Open.Nat](https://github.com/lontivero/Open.NAT/releases), used for UPnP\
-&#x20;shiena - for NetworkDiscoveryHUD
+RevenantX - за [LiteNetLib](https://github.com/RevenantX/LiteNetLib/releases)\
+vis2k & Paul - за [Mirror](https://assetstore.unity.com/packages/tools/network/mirror-129321)\
+Coburn -за [Ignorance](https://github.com/SoftwareGuy/Ignorance) который я использовал в качестве примера\
+Dankrushen - за то, что помог мне найти одну маленькую ошибку, которую я не мог найти в течение двух дней\
+Lucas Ontivero - за [Open.Nat](https://github.com/lontivero/Open.NAT/releases), использованный для UPnP\
+shiena - за NetworkDiscoveryHUD
