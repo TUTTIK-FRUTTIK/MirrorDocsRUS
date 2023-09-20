@@ -4,30 +4,30 @@ description: https://github.com/vis2k/Telepathy
 
 # Telepathy Transport
 
-Simple, message based, MMO Scale TCP networking in C#. And no magic.
+Простой, основанный на сообщениях, MMO-масштабируемый TCP на C#. И никакой магии.
 
-* Telepathy was designed with the [KISS Principle](https://en.wikipedia.org/wiki/KISS\_principle) in mind.
-* Telepathy is fast and extremely reliable, designed for [MMO](https://assetstore.unity.com/packages/templates/systems/ummorpg-51212) scale Networking.
-* Telepathy uses framing, so anything sent will be received the same way.
-* Telepathy is raw C# and can be used in Unity3D too.
-* Telepathy is available on [GitHub](https://github.com/vis2k/Telepathy)
+* Telepathy в уме был спроектирован с [KISS Principle](https://en.wikipedia.org/wiki/KISS\_principle).
+* Telepathy быстрый и очень стабильный, спроектирован для [MMO](https://assetstore.unity.com/packages/templates/systems/ummorpg-51212) масштабируемой сети.
+* Telepathy использует фрейминг, поэтому все отправленное будет получено таким же образом.
+* Telepathy написан на C# и также может быть использован в Unity3D.
+* Telepathy доступен на [GitHub](https://github.com/vis2k/Telepathy)
 
-## What makes Telepathy special? <a href="#what-makes-telepathy-special" id="what-makes-telepathy-special"></a>
+## Что делает Telepathy особенным? <a href="#what-makes-telepathy-special" id="what-makes-telepathy-special"></a>
 
-Telepathy was originally designed for [uMMORPG](https://assetstore.unity.com/packages/templates/systems/ummorpg-51212) after 3 years in UDP hell.
+Telepathy был спроектирован для [uMMORPG](https://assetstore.unity.com/packages/templates/systems/ummorpg-51212) после 3 лет в аду UDP.
 
-We needed a library that is:
+Нам нужна была библиотека, которая была бы:
 
-* Stable & Bug free: Telepathy uses only 400 lines of code. There is no magic.
-* High performance: Telepathy can handle thousands of connections and packages.
-* Concurrent: Telepathy uses one thread per connection. It can make heavy use of multi core processors.
-* Simple: Telepathy takes care of everything. All you need to do is call Connect/GetNextMessage/Disconnect.
-* Message based: if we send 10 and then 2 bytes, then the other end receives 10 and then 2 bytes, never 12 at once.
+* Стабильной и с отсутствием ошибок: Telepathy использовало только 400 строчек кода. Никакой магии.
+* С высокой производительностью: Telepathy может обрабатывать тысячи подключений и пакетов.
+* Конкурентноспособной: Telepathy использует один поток для каждого соединения. Он может интенсивно использовать многоядерные процессоры.
+* Простой: Telepathy сам заботится обо всём. Всё что нужно, так это вызвать Connect/GetNextMessage/Disconnect.
+* Основанная на сообщениях: если мы отправляем 10, а затем 2 байта, то другой конец получает 10, а затем 2 байта, но никогда не 12 сразу.
 
-MMORPGs are insanely difficult to make and we created Telepathy so that we would never have to worry about low level Networking again.
+MMORPG безумно сложно создать, и мы создали Telepathy, чтобы нам больше никогда не пришлось беспокоиться о низкоуровневых сетях.
 
-## What about... <a href="#what-about" id="what-about"></a>
+## Что насчет... <a href="#what-about" id="what-about"></a>
 
-* Async Sockets: didn't perform better in our benchmarks.
-* ConcurrentQueue: .NET 3.5 compatibility is important for Unity. Wasn't faster than our SafeQueue anyway.
-* UDP vs. TCP: Minecraft and World of Warcraft are two of the biggest multiplayer games of all time and they both use TCP networking. There is a reason for that.
+* Асинхронные сокеты: не показали лучших результатов в наших тестах.
+* ConcurrentQueue: совместимость с .NET 3.5 важна для Unity. В любом случае это было не быстрее нашего SafeQueue.
+* UDP vs. TCP: Minecraft и World of Warcraft - две крупнейшие многопользовательские игры всех времен, и обе они используют сеть TCP. На это есть причины.
