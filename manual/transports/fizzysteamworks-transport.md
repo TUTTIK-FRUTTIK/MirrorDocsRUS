@@ -4,22 +4,22 @@ description: https://github.com/Chykary/FizzySteamworks/
 
 # FizzySteamworks Transport
 
-FizzySteamworks is a Steam P2P transport for Mirror, it utilizes Steam's P2P service to directly connect or relay your connection to another player. FizzySteamworks is based on the [Steamworks.Net](https://github.com/rlabrecque/Steamworks.NET) wrapper.
+FizzySteamworks это Steam P2P транспорт для Mirror, он использует Steam's P2P сервис для прямого подключения или ретрансляции вашего соединения с другими игроками. FizzySteamworks основан на [Steamworks.Net](https://github.com/rlabrecque/Steamworks.NET).
 
-You can get the release [**Here**](https://github.com/Chykary/FizzySteamworks/releases) with the latest version of Steamworks.Net included or you can clone the repo [**Here**](https://github.com/Chykary/FizzySteamworks).
+Вы можете найти его релиз [**здесь**](https://github.com/Chykary/FizzySteamworks/releases) вместе с последней версией Steamworks.Net включительно или вы можете скачать с репозитория [**отсюда**](https://github.com/Chykary/FizzySteamworks).
 
 ## Features <a href="#features" id="features"></a>
 
-* Multiple Customizable Channels : You can customize the channels in the transport, whether you want just 1 or 5 channels that are unreliable or reliable (best to leave channel 0 as reliable).
-* Steam Nat Punching & Relay : The transport will use Steam to do Nat Punching to your destination, and if that doesn't work, steam's relay Server will be used to ensure you can always connect (latency may vary).
-* No Code Changes Needed : If you Already use Mirror, you just need to slap this transport in (maybe add your steam App ID in your build), and everything should work the same like any other Mirror Transport. "It Just Works" -Todd Howard
+* Несколько настраиваемых каналов: Вы можете настроить каналы в транспортном средстве, независимо от того, хотите ли вы использовать только 1 или 5 ненадежных каналов (лучше оставить нулевой канал надежным)..
+* Steam Nat Punching & Relay : Транспорт будет использовать Steam для передачи данных по Nat в пункт назначения, и если это не сработает, будет использоваться ретрансляционный сервер steam, чтобы вы всегда могли подключаться (задержка может быть разной).
+* Никаких изменений кода не требуется : Если вы уже используете Mirror, вам просто нужно подключить этот транспорт (возможно, добавить свой идентификатор приложения steam в свою сборку), и все должно работать так же, как и любой другой транспорт Mirror. "Это просто работает" - Todd Howard
 
 ![](<../../.gitbook/assets/image (70).png>)
 
-## Credits <a href="#credits" id="credits"></a>
+## Титры <a href="#credits" id="credits"></a>
 
-* [Fizz Cube](https://github.com/FizzCube) : Original author for this Transport.
-* [Chykary](https://github.com/Chykary/FizzySteamworks) : The current maintainer for this Transport.
-* [rlabrecque](https://github.com/rlabrecque) : Creator of Steamworks.Net.
-* [vis2k](https://github.com/vis2k) : Creator of Mirror.
+* [Fizz Cube](https://github.com/FizzCube) : Автор данного транспорта.
+* [Chykary](https://github.com/Chykary/FizzySteamworks) : Текущий Мейнтейнер этого транспорта.
+* [rlabrecque](https://github.com/rlabrecque) : Создатель Steamworks.Net.
+* [vis2k](https://github.com/vis2k) : Создатель Mirror.
 * Valve : Steam
