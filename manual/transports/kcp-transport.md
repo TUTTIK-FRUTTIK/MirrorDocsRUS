@@ -4,35 +4,35 @@ description: https://github.com/vis2k/kcp2k
 
 # KCP Transport
 
-**KCP transport for Mirror.**
+**KCP транспорт для Mirror.**
 
-kcp2k is the new default Transport for Mirror.
+kcp2k это новый стандартный транспорт для Mirror.
 
 ![The KCP Transport component in the Inspector window](<../../.gitbook/assets/image (92).png>)
 
-### About this transport <a href="#about-this-transport" id="about-this-transport"></a>
+### О данном транспорте <a href="#about-this-transport" id="about-this-transport"></a>
 
-Why KCP: [https://github.com/skywind3000/kcp/blob/master/README.en.md](https://github.com/skywind3000/kcp/blob/master/README.en.md)
+Почему KCP: [https://github.com/skywind3000/kcp/blob/master/README.en.md](https://github.com/skywind3000/kcp/blob/master/README.en.md)
 
 * 100% C#.
-* Works on all platforms except WebGL.
-* Heavy test coverage (83.5%).
-* Extremely fast.
-* Extremely simple.
-* Nearly allocation free\*.
+* Работает на всех платформах кроме WebGL.
+* Обширный тестовый охват (83.5%).
+* Чрезвычайно быстрый.
+* Чрезвычайно простой.
+* Почти без выделения ресурсов\*.
 
-"KCP is a fast and reliable protocol that can achieve the transmission effect of a reduction of the average latency by 30% to 40% and reduction of the maximum delay by a factor of three, at the cost of 10% to 20% more bandwidth wasted than TCP. It is implemented by using the pure algorithm, and is not responsible for the sending and receiving of the underlying protocol (such as UDP), requiring the users to define their own transmission mode for the underlying data packet, and provide it to KCP in the way of callback. Even the clock needs to be passed in from the outside, without any internal system calls."
+"KCP - это быстрый и надежный протокол, который позволяет достичь эффекта передачи, заключающегося в сокращении средней задержки на 30-40% и максимальной задержки в три раза, за счет потери пропускной способности на 10-20% больше, чем TCP. Он реализован с использованием чистого алгоритма и не несет ответственности за отправку и получение базового протокола (такого как UDP), требуя от пользователей определить свой собственный режим передачи для базового пакета данных и предоставить его KCP в виде обратного вызова. Даже часы должны передаваться извне, без каких-либо внутренних системных вызовов."
 
-We are very excited about KCP and highly recommend trying it in your project. => Previously we had pure C# transports that were slow => And native C transports that were fast, but hard to maintain.
+Мы очень рады KCP и настоятельно рекомендуем попробовать его в вашем проекте. => Ранее у нас были чистые транспорты C#, которые были медленными => И собственные транспорты C, которые были быстрыми, но сложными в обслуживании.
 
-KCP brings us the best of both worlds: it's as fast as our native C transports, while still being easy to maintain because it's 100% pure C#!
+KCP предлагает нам лучшее из обоих миров: он так же быстр, как и наш родной C-транспорт, и при этом прост в обслуживании, потому что на 100% состоит из чистого C#!
 
-### Usage <a href="#usage" id="usage"></a>
+### Использование <a href="#usage" id="usage"></a>
 
-Add the KCP Transport component to your NetworkManager.
+Добавьте компонент KCP Transport на ваш NetworkManager.
 
-Unblock UDP (not TCP), Port 7777 (the default, unless you change it).
+Разблокируйте UDP (не TCP), порт 7777 (это значение по умолчанию, если вы его не измените).
 
-### Credits <a href="#credits" id="credits"></a>
+### Титры <a href="#credits" id="credits"></a>
 
-skywind3000 for original kcp.c ([https://github.com/skywind3000/kcp](https://github.com/skywind3000/kcp)) kcp-csharp for first C# port ([https://github.com/limpo1989/kcp-csharp](https://github.com/limpo1989/kcp-csharp)) paul/lymdum/uwee for connection handling.
+skywind3000 за kcp.c ([https://github.com/skywind3000/kcp](https://github.com/skywind3000/kcp)) kcp-csharp для первого C# порта ([https://github.com/limpo1989/kcp-csharp](https://github.com/limpo1989/kcp-csharp)) paul/lymdum/uwee за обработку соединений.
