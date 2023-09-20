@@ -1,35 +1,35 @@
-# Components
+# Компоненты
 
-These core components are included in Mirror:
+Это основные компоненты включенные в Mirror:
 
 * [Network Animator](network-animator.md)\
-  The Network Animator component allows you to synchronize animation states for networked objects. It synchronizes state and parameters from an Animator Controller.
+  Компонент Network Animator позволяет синхронизировать состояния анимации для сетевых объектов. Он синхронизирует состояние и параметры контроллера Animator.
 * [Network Authenticator](network-authenticators/)\
-  Network Authenticators facilitate integration of user accounts and credentials into your application.
+  Network Authenticator облегчает интеграцию учетных записей пользователей и учетных данных в ваше приложение.
 * [Network Discovery](network-discovery.md)\
-  Network Discovery uses a UDP broadcast on the LAN enabling clients to find the running server and connect to it.
+  Network Discovery использует широковещательную передачу UDP по локальной сети, позволяя клиентам находить работающий сервер и подключаться к нему.
 * [Network Identity](network-identity.md)\
-  The Network Identity component is at the heart of the Mirror networking high-level API. It controls a game object’s unique identity on the network, and it uses that identity to make the networking system aware of the game object. It offers two different options for configuration and they are mutually exclusive, which means either one of the options or none can be checked.
+  Компонент Network Identity лежит в основе высокоуровневого API сети Mirror. Он управляет уникальным идентификатором игрового объекта в сети и использует этот идентификатор для информирования сетевой системы об игровом объекте.
 * [Network Manager](network-manager.md)\
-  The Network Manager is a component for managing the networking aspects of a multiplayer game.
+  Network Manager - это компонент для управления сетевыми аспектами многопользовательской игры.
 * [Network Manager HUD](network-manager-hud.md)\
-  The Network Manager HUD is a quick-start tool to help you start building your multiplayer game straight away, without first having to build a user interface for game creation/connection/joining. It allows you to jump straight into your gameplay programming, and means you can build your own version of these controls later in your development schedule.
+  Network Manager HUD - это инструмент для быстрого запуска, который поможет вам сразу приступить к созданию вашей многопользовательской игры, не создавая предварительно пользовательский интерфейс для создания игры / подключения / присоединения. Это позволяет вам сразу перейти к программированию игрового процесса и означает, что вы сможете создать свою собственную версию этих элементов управления позже в рамках вашего графика разработки.
 *   [Network Ping Display](network-ping-display.md)
 
-    Network Ping Display shows the Ping time for clients using OnGUI
+    Network Ping Display показывает время пинга для клиентов, используя OnGUI
 *   [Network Rigidbody](network-rigidbody.md)
 
-    The Network Rigidbody synchronizes velocity and other properties of a rigidbody across the network.
+    Network Rigidbody синхронизирует скорость и другие свойства твердого тела по всей сети.
 *   [Network Lerp Rigidbody](network-lerp-rigidbody.md)
 
-    The Network Lerp Rigidbody component synchronizes position and velocity of a rigidbody across the network.&#x20;
+    Network Lerp Rigidbody синхронизирует скорость и другие свойства твердого тела по всей сети.
 * [Network Room Manager](network-room-manager.md)\
-  The Network Room Manager is an extension component of Network Manager that provides a basic functional room.
+  Network Room Manager - это дополнительный компонент Network Manager, который предоставляет базовую функциональную комнату.
 * [Network Room Player](network-room-player.md)\
-  The Network Room Player is a component that's required on Player prefabs used in the Room Scene with the Network Room Manager above.
+  The Network Room Player это компонент, необходимый для prefab'ов игрока, используемых в сцене комнаты с описанным выше Network Room Manager.
 * [Network Start Position](network-start-position.md)\
-  Network Start Position is used by the Network Manager when creating player objects. The position and rotation of the Network Start Position are used to place the newly created player object.
+  Network Start Position используется Network Manager'ом при создании объектов проигрывателя. Положение и поворот начальной позиции сети используются для размещения вновь созданного объекта player.
 * [Network Statistics](network-statistics.md)\
-  Shows Network messages and bytes sent & received per second via OnGUI.
+  Показывает сетевые сообщения и байты, отправляемые и принимаемые в секунду через OnGUI.
 * [Network Transform](network-transform/)\
-  The Network Transform component synchronizes the movement and rotation of game objects across the network. Note that the network Transform component only synchronizes spawned networked game objects.
+  Компонент Network Transform синхронизирует перемещение и вращение игровых объектов по сети. Обратите внимание, что компонент Network Transform синхронизирует только заспавненные сетевые игровые объекты.

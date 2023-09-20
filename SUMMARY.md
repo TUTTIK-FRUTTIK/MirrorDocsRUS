@@ -42,7 +42,7 @@
   * [LiteNetLib Transport](manual/transports/litenetlib-transport.md)
   * [FizzySteamworks Transport](manual/transports/fizzysteamworks-transport.md)
   * [FizzyFacepunch Transport](manual/transports/fizzyfacepunch-transport.md)
-* [Components](manual/components/README.md)
+* [Компоненты](manual/components/README.md)
   * [Network Animator](manual/components/network-animator.md)
   * [Network Authenticators](manual/components/network-authenticators/README.md)
     * [Basic Authenticator](manual/components/network-authenticators/basic-authenticator.md)
