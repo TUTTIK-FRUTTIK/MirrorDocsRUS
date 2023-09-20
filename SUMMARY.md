@@ -31,7 +31,7 @@
   * [Тесты](manual/general/tests.md)
 * [FAQ](manual/faq/README.md)
   * [Порядок исполнения](manual/faq/execution-order.md)
-* [Transports](manual/transports/README.md)
+* [Транспорты](manual/transports/README.md)
   * [KCP Transport](manual/transports/kcp-transport.md)
   * [Telepathy Transport](manual/transports/telepathy-transport.md)
   * [WebSockets Transport](manual/transports/websockets-transport/README.md)
