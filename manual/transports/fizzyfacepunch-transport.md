@@ -4,21 +4,21 @@ description: https://github.com/Chykary/FizzyFacepunch/
 
 # FizzyFacepunch Transport
 
-FizzyFacepunch is a Steam P2P transport for Mirror, it utilizes Steam's P2P service to directly connect or relay your connection to another player. FizzyFacepunch is based on the [Facepunch.Steamworks](https://github.com/Facepunch/Facepunch.Steamworks) wrapper.
+FizzyFacepunch это Steam P2P транспорт для Mirror, он использует Steam's P2P сервис для прямого подключения или ретрансляции вашего соединения с другими игроками. FizzyFacepunch основан на [Facepunch.Steamworks](https://github.com/Facepunch/Facepunch.Steamworks).
 
-You can get the release [**Here**](https://github.com/Chykary/FizzyFacepunch/releases) or you can clone the repo [**Here**](https://github.com/Chykary/FizzyFacepunch).
+Вы можете скачать его [**Здесь**](https://github.com/Chykary/FizzyFacepunch/releases) или вы можете установить его из репозитория [**отсюда**](https://github.com/Chykary/FizzyFacepunch).
 
 ## Features <a href="#features" id="features"></a>
 
-* Multiple Customizable Channels : You can customize the channels in the transport, whether you want just 1 or 5 channels that are unreliable or reliable (best to leave channel 0 as reliable).
-* Steam Nat Punching & Relay : The transport will use Steam to do Nat Punching to your destination, and if that doesn't work, steam's relay Server will be used to ensure you can always connect (latency may vary).
-* No Code Changes Needed : If you Already use Mirror, you just need to slap this transport in (maybe add your steam App ID in your build), and everything should work the same like any other Mirror Transport. "It Just Works" -Todd Howard
+* Несколько настраиваемых каналов: Вы можете настроить каналы в транспортном средстве, независимо от того, хотите ли вы использовать только 1 или 5 ненадежных каналов (лучше оставить нулевой канал надежным)..
+* Steam Nat Punching & Relay : Транспорт будет использовать Steam для передачи данных по Nat в пункт назначения, и если это не сработает, будет использоваться ретрансляционный сервер steam, чтобы вы всегда могли подключаться (задержка может быть разной).
+* Никаких изменений кода не требуется : Если вы уже используете Mirror, вам просто нужно подключить этот транспорт (возможно, добавить свой идентификатор приложения steam в свою сборку), и все должно работать так же, как и любой другой транспорт Mirror. "Это просто работает" - Todd Howard
 
 ![](<../../.gitbook/assets/image (117).png>)
 
 ## Credits <a href="#credits" id="credits"></a>
 
-* [Chykary](https://github.com/Chykary/FizzyFacepunch) : The author of this Transport.
-* [Facepunch](https://github.com/Facepunch) : Creator of Facepunch.Steamworks.
-* [vis2k](https://github.com/vis2k) : Creator of Mirror.
+* [Chykary](https://github.com/Chykary/FizzyFacepunch) : Автор данного транспорта.
+* [Facepunch](https://github.com/Facepunch) : Создатель Facepunch.Steamworks.
+* [vis2k](https://github.com/vis2k) : Создатель Mirror.
 * Valve : Steam
