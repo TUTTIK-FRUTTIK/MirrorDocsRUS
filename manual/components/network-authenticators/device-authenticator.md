@@ -1,17 +1,17 @@
 # Device Authenticator
 
-Device Authenticator uses the `SystemInfo.deviceUniqueIdentifier` to identify the client.
+Device Authenticator использует `SystemInfo.deviceUniqueIdentifier` чтобы идентифицировать клиента.
 
-For platforms that don't support `deviceUniqueIdentifier` a GUID is generated and stored in `PlayerPrefs`.
+Для платформ, которые не поддерживают `deviceUniqueIdentifier` сгенерируется идентификатор GUID и сохранится в `PlayerPrefs`.
 
 {% hint style="warning" %}
-NOTE: deviceUniqueIdentifier can be spoofed, so there's no guarantee of security.
+ПРИМЕЧАНИЕ: deviceUniqueIdentifier может быть подделан, поэтому нет никакой гарантии безопасности.
 {% endhint %}
 
-* Drag the Device Authenticator script to the inspector of the object in your scene that has Network Manager
-* The Device Authenticator component will automatically be assigned to the Authenticator field in Network Manager
+* Переместите скрипт Device Authenticator в инспектор к объекту в вашей сцене имеющий компонент Network Manager
+* Компонент Device Authenticator будет автоматически присвоен к полю Authenticator в Network Manager
 
-When you're done, it should look like this:
+Когда вы закончите, это должно выглядеть примерно так:
 
 <div align="left">
 
@@ -26,5 +26,5 @@ When you're done, it should look like this:
 </div>
 
 {% hint style="info" %}
-You don't need to assign anything to the event lists unless you want to subscribe to the events in your own code for your own purposes. Mirror has internal listeners for both events.
+Вам не нужно ничего назначать в Event Listeners, если только вы не хотите подписаться на события в своем собственном коде для своих собственных целей. У Mirror есть внутренние прослушиватели для обоих событий.
 {% endhint %}
