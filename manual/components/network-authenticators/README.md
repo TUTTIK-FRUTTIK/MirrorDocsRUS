@@ -1,50 +1,50 @@
 # Network Authenticators
 
-When you have a multiplayer game, often you need to store information about your player for later games, keep game stats or communicate with your friends. For all these use cases, you often need a way to uniquely identify a user. Being able to tell users apart is called authentication. There are several methods available, some examples include:
+Когда у вас многопользовательская игра, часто вам нужно сохранить информацию о вашем игроке для последующих игр, вести игровую статистику или общаться со своими друзьями. Для всех этих вариантов использования часто требуется способ уникальной идентификации пользователя. Способность различать пользователей называется аутентификацией. Существует несколько доступных методов, некоторые примеры включают:
 
-* Ask the user for username and password
-* Use a third party OAuth2 or OpenID identity provider, such as Facebook, Twitter, Google
-* Use a third party service such as PlayFab, GameLift or Steam
-* Use the device id, very popular method in mobile
-* Use Google Play in Android
-* Use Game Center in IOS
-* Use a web service in your website
+* Запрос у игрока имени и пароля
+* Использование OAuth2 или OpenID identity provider, по типу Facebook, Twitter, Google
+* Использование сервисов по типу PlayFab, GameLift или Steam
+* Использование device id, очень популярный метод в мобильных устройствах
+* Использование Google Play в Android
+* Использование Game Center в IOS
+* Использование веб сервиса на вашем веб сайте
 
-## Encryption Notice <a href="#encryption-notice" id="encryption-notice"></a>
+## Шифрование <a href="#encryption-notice" id="encryption-notice"></a>
 
-Few of the available transports support encryption, so if you want to do authentication through Mirror, we highly recommend you use a transport that does, e.g. [SimpleWebSocket ](https://mirror-networking.gitbook.io/docs/transports/websockets-transport)Transport, or carry out your exchange of sensitive data using UnityWebRequest with a service over HTTPS.  This can be done inside an Authenticator, or before calling `StartClient`.
+Немногие из доступных транспортов поддерживают шифрование, поэтому, если вы хотите выполнить аутентификацию через Mirror, мы настоятельно рекомендуем вам использовать транспорт, который поддерживает это, к примеру [SimpleWebSocket](https://mirror-networking.gitbook.io/docs/transports/websockets-transport), или осуществлять обмен конфиденциальными данными с помощью UnityWebRequest с сервисом вместо HTTPS. Это можно сделать внутри аутенфикатора, или перед вызовом `StartClient`.
 
-## Offline / Online Scenes
+## Offline / Online сцены
 
-Authentication takes place in the Offline scene, and messages are exchanged with the game server in a pre-connect phase, so client stays in the Offline scene until authentication completes.
+Аутентификация происходит в оффлайн сцене, и обмен сообщениями с игровым сервером осуществляется на этапе предварительного подключения, поэтому клиент остается в оффлайн сцене до завершения аутентификации.
 
-## Persisting Data
+## Сохранение данных
 
-`NetworkConnection` has an **`authenticationData`** property of type `Object` that can be set to pretty much anything you need, such as account id's, tokens, character selection, etc., including a struct of data, on the server and/or client during the authentication process.  That data is available everywhere else in Mirror where you have the client's `NetworkConnection`...just cast it back to whatever type you put into it.
+`NetworkConnection` имеет **`authenticationData`** со свойствами типа `Object`, это может быть установлено практически на все, что вам нужно, например, идентификаторы учетной записи, токены, выбор персонажа и т.д., включая структуру данных на сервере и/или клиенте во время процесса аутентификации. Эти данные доступны везде в Mirror, где у вас есть данные клиента `NetworkConnection`...  Просто приведите его обратно к тому типу, который вы в него ввели.
 
-## Built-in Authenticators <a href="#basic-authenticator" id="basic-authenticator"></a>
+## Встроенные аутенфикаторы <a href="#basic-authenticator" id="basic-authenticator"></a>
 
 * [Basic Authenticator](basic-authenticator.md)\
-  Mirror includes a Basic Authenticator in the Mirror / Authenticators folder which just uses a simple username and password.
+  Зеркало включает в себя базовый аутентификатор в папке Mirror / Authenticators, который просто использует простое имя пользователя и пароль.
 *   [Device Authenticator](device-authenticator.md)
 
-    Uses `SystemInfo.deviceUniqueIdentifier` on supported platforms, and GUID in PlayerPrefs as a fallback for platforms that don't.
+    Использует `SystemInfo.deviceUniqueIdentifier` на поддерживаемых платформах, и GUID в PlayerPrefs в качестве запасного варианта для платформ, которые это не поддерживают.
 
-## Custom Authenticators <a href="#custom-authenticators" id="custom-authenticators"></a>
+## Кастомные аутенфикаторы <a href="#custom-authenticators" id="custom-authenticators"></a>
 
-Authenticators are derived from an `Authenticator` abstract class that allows you to implement any authentication scheme you need.
+Классы аутенфикаторов являются производными от базового абстрактного класса `Authenticator`, поэтому вы можете написать свой наследованный скрипт от данного класса.
 
-From the Assets menu, click Create > Mirror > Network Authenticator to make your own custom Authenticator from our [Script Templates](../../general/script-templates.md), and just fill in the messages and validation code to suit your needs. When a client is successfully authenticated, call `ServerAccept(conn)` on the server and `ClientAccept()` on the client. Mirror is listening for these events to proceed with the connection sequence. Subscribe to `OnServerAuthenticated` and `OnClientAuthenticated` events if you wish to perform additional steps after authentication.
+Из Assets menu, кликните Create > Mirror > Network Authenticator чтобы создать свой собственный скрипт Аутенфикатора по [шаблонам скриптов](../../general/script-templates.md), и просто заполните сообщения и код подтверждения в соответствии с вашими потребностями. Когда клиент успешно проходит аутентификацию, вызывайте `ServerAccept(conn)` на сервере и `ClientAccept()` на клиенте. Mirror прослушивает эти события, чтобы продолжить последовательность подключения. Подпишитесь на события `OnServerAuthenticated` и `OnClientAuthenticated` если вы хотите выполнить дополнительные действия после аутентификации.
 
-## Message Registration <a href="#message-registration" id="message-registration"></a>
+## Регистрация сообщений <a href="#message-registration" id="message-registration"></a>
 
-By default all messages registered to `NetworkServer` and `NetworkClient` require authentication unless explicitly indicated otherwise. To register messages to bypass authentication, you need to specify `false` for a bool parameter to the `RegisterMessage` method:
+По умолчанию все сообщения, зарегистрированные на `NetworkServer` и `NetworkClient` требуется проверка подлинности, если явно не указано иное. Чтобы зарегистрировать сообщения для обхода аутентификации, вам необходимо указать `false` для параметра bool в методе `RegisterMessage`:
 
 ```csharp
 NetworkServer.RegisterHandler(OnAuthRequestMessage, false);
 ```
 
-Certain internal messages already have been set to bypass authentication:
+Некоторые внутренние сообщения уже настроены на обход аутентификации:
 
 * Server
   * `NetworkPingMessage`
@@ -54,13 +54,13 @@ Certain internal messages already have been set to bypass authentication:
 
 ## Tips
 
-* Register handlers for messages in `OnStartServer` and `OnStartClient`. They're called from StartServer/StartHost, and StartClient, respectively.
-* Send a message to the client if authentication fails, especially if there's some issue they can resolve.
-* Call the `Disconnect()` method of the `NetworkConnection` on the server and client when authentication fails. If you want to give the user a few tries to get their credentials right, you certainly can, but Mirror will not do the disconnect for you.
-  * Remember to put a small delay on the Disconnect call on the server if you send a failure message so that it has a chance to be delivered before the connection is dropped. At a minimum, yield one frame.
+* Зарегистрируйте обработчики сообщений в `OnStartServer` и `OnStartClient`. Они вызываются из startServer/StartHost и StartClient.
+* Отправьте сообщение клиенту, если аутентификация завершится неудачно, особенно если есть какая-то проблема, которую они могут решить.
+* Вызывайте метод `Disconnect()` для `NetworkConnection` на сервере и клиенте когда аутенфикация прошла не успешно. Если вы хотите дать пользователю несколько попыток правильно ввести свои учетные данные, вы, конечно, можете это сделать, Mirror не выполнит отключение за вас.
+  * Не забудьте установить небольшую задержку при вызове разъединения на сервере, если вы отправляете сообщение об ошибке, чтобы у него был шанс быть доставленным до того, как соединение будет разорвано. Как минимум, подождите один кадр.
 
-Now that you have the foundation of a custom Authenticator component, the rest is up to you. You can exchange any number of custom messages between the server and client as necessary to complete your authentication process before approving the client.
+Теперь, когда у вас есть основа пользовательского компонента аутентификации, остальное зависит от вас. Вы можете обмениваться любым количеством пользовательских сообщений между сервером и клиентом по мере необходимости, чтобы завершить процесс аутентификации перед утверждением клиента.
 
-Authentication can also be extended to character selection and customization, just by crafting additional messages and exchanging them with the client before completing the authentication process. This means this process takes place before the client player actually enters the game or changes to the Online scene.
+Аутентификация также может быть распространена на выбор персонажа и его настройку, просто путем создания дополнительных сообщений и обмена ими с клиентом перед завершением процесса аутентификации. Это означает, что этот процесс происходит до того, как клиент-игрок фактически войдет в игру или переключится на онлайн-сцену.
 
-If you write a good authenticator, consider sharing it with other users or donating it to the Mirror project.
+Если вы пишете хороший аутентификатор, подумайте о том, чтобы поделиться им с другими пользователями или пожертвовать его проекту Mirror.
