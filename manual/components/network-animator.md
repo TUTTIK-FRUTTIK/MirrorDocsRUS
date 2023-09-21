@@ -1,25 +1,25 @@
 # Network Animator
 
-The Network Animator component allows you to synchronize animation states for networked objects. It synchronizes state and parameters from an Animator Controller.
+Компонент Network Animator позволяет синхронизировать состояния анимации для сетевых объектов. Он синхронизирует состояние и параметры контроллера Animator.
 
-Note that if you create a Network Animator component on an empty game object, Mirror also creates a Network Identity component and an Animator component on that game object.
+Обратите внимание, что если вы создаете компонент Network Animator для пустого игрового объекта, Mirror также создает компонент Network Identity и компонент Animator для этого игрового объекта.
 
 * **Client Authority**\
-  &#x20;Enable this to have changes to animation parameters sent from client to server.
+  Включите это, чтобы изменения параметров анимации отправлялись с клиента на сервер.
 * **Animator**\
-  &#x20;Use this field to define the Animator component you want the Network Animator to synchronize with.
+  Используйте это поле, чтобы определить компонент Animator, с которым вы хотите синхронизировать Network Animator.
 
-Normally, changes are sent to all observers of the object this component is on. Setting **Sync Mode** to Owner Only makes the changes private between the server and the client owner of the object.
+Обычно изменения отправляются всем наблюдателям объекта, на котором находится этот компонент. Установка **SyncMode** на значение "Owner" делает изменения конфиденциальными только между сервером и клиентом-владельцем объекта.
 
 ![](<../../.gitbook/assets/image (11).png>)
 
-You can use the **Sync Interval** to specify how often it syncs (in seconds).
+Вы можете использовать **Sync Interval**, чтобы указать, как часто он будет синхронизироваться (в секундах)..
 
-## Details <a href="#details" id="details"></a>
+## Детали <a href="#details" id="details"></a>
 
-The Network Animator ensures the synchronization of game object animation across the network, meaning that all players see the animation happen at the same. There are two kinds of authority for networked animation (see documentation on [Network Authority](../guides/authority.md)):
+Network Animator обеспечивает синхронизацию анимации игровых объектов по сети, что означает, что все игроки видят анимацию одновременно. Существует два вида полномочий для сетевой анимации (Смотрите документацию по [Network Authority](../guides/authority.md)):
 
-> **NOTE:** Animator Triggers are not synced directly. Call `NetworkAnimator.SetTrigger` instead. A game object with authority can use the SetTrigger function to fire an animation trigger on other clients.
+> **ПРИМЕЧАНИЕ:** Триггеры аниматора не синхронизируются самостоятельно. Вызывайте `NetworkAnimator.SetTrigger` вместо этого. Игровой объект с полномочиями может использовать функцию SetTrigger для запуска триггера анимации на других клиентах.
 
-* If the game object has authority on the client, you should animate it locally on the client that owns the game object. That client sends the animation state information to the server, which broadcasts it to all the other clients. For example, this may be suitable for player characters with client authority.
-* If the game object has authority on the server, then you should animate it on the server. The server then sends state information to all clients. This is common for animated game objects that are not related to a specific client, such as scene objects and non-player characters, or server-authoritative clients.
+* Если игровой объект имеет права доступа к клиенту, вы должны анимировать его локально на клиенте, которому принадлежит игровой объект. Этот клиент отправляет информацию о состоянии анимации на сервер, который транслирует ее всем остальным клиентам. Например, это может подойти для игровых персонажей с полномочиями клиента.
+* Если игровой объект имеет права доступа на сервере, то вы должны анимировать его на сервере. Затем сервер отправляет информацию о состоянии всем клиентам. Это характерно для анимированных игровых объектов, которые не связаны с конкретным клиентом, таких как объекты сцены и неигровые персонажи, или клиенты, зависящие от сервера.
