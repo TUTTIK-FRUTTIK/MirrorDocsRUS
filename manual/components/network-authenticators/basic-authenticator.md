@@ -1,11 +1,11 @@
 # Basic Authenticator
 
-Mirror includes a Basic Authenticator in the Mirror / Authenticators folder which just uses a simple username and password.
+Mirror включает в себя Basic Authenticator в папке Mirror / Authenticators который просто использует простое имя пользователя и пароль.
 
-* Drag the Basic Authenticator script to the inspector of the object in your scene that has Network Manager
-* The Basic Authenticator component will automatically be assigned to the Authenticator field in Network Manager
+* Переместите скрипт Basic Authenticator в инспектор к объекту в вашей сцене имеющий компонент Network Manager
+* Компонент Basic Authenticator будет автоматически присвоен к полю Authenticator в Network Manager
 
-When you're done, it should look like this:
+Когда вы закончите, это должно выглядеть примерно так:
 
 <div align="left">
 
@@ -19,9 +19,9 @@ When you're done, it should look like this:
 
 </div>
 
-* Server Credentials can be set at design time or runtime
-* Client Credentials would be set at runtime, e.g. from UI input fields, **before** calling `NetworkManager.singleton.StartClient();`
+* Учетные данные сервера могут быть установлены во время разработки или во время выполнения программы
+* Учетные данные клиента будут установлены во время выполнения, например, из полей ввода пользовательского интерфейса **до** вызова `NetworkManager.singleton.StartClient();`
 
 {% hint style="info" %}
-You don't need to assign anything to the event lists unless you want to subscribe to the events in your own code for your own purposes. Mirror has internal listeners for both events.
+Вам не нужно ничего назначать в Event Listeners, если только вы не хотите подписаться на события в своем собственном коде для своих собственных целей. У Mirror есть внутренние прослушиватели для обоих событий.
 {% endhint %}
