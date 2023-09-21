@@ -1,133 +1,133 @@
 # Network Behaviour
 
 {% hint style="info" %}
-See also [NetworkBehaviour](https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html) in the API Reference.
+Смотрите также [NetworkBehaviour](https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html) в API Reference.
 {% endhint %}
 
-Network Behaviour scripts work with game objects that have a Network Identity component. These scripts can perform high-level API functions such as Commands, ClientRpc's, and SyncVars.
+Network Behaviour скрипт работает с игровыми объектами имеющими компонент Network Identity. Скрипты унаследованные от Network Behaviour могут выполнять высокоуровневые функции API, такие как Command, ClientRpc, и SyncVars.
 
 {% hint style="danger" %}
-Do not put objects in `DontDestroyOnLoad` (DDOL) in Awake.\
-You can do that in Start instead.
+Не выкладывайте объекты в `DontDestroyOnLoad` (DDOL) в Awake().\
+Вместо этого вы можете это сделать в методе Start().
 {% endhint %}
 
-With the server-authoritative system of Mirror, the server must use the `NetworkServer.Spawn` function to spawn game objects with Network Identity components. Spawning them this way assigns them a `netId` and creates them on clients connected to the server.
+При использовании сервер-авторитарной системы Mirror, сервер должен использовать `NetworkServer.Spawn` чтобы спавнить объекты имеющие компонент Network Identity. При создании их таким образом им присваивается `NetId` и они заодно создаются на клиентах, подключенных к серверу.
 
-**Note:** This is not a component that you can add to a game object directly. Instead, you must create a script which inherits from `NetworkBehaviour` (instead of the default `MonoBehaviour`), then you can add your script as a component to a game object.
+**Примечание:** Это не компонент, который вы можете добавить непосредственно к игровому объекту. Вместо этого вы должны создать скрипт, который наследуется от `NetworkBehaviour` (вместо `MonoBehaviour`, который стоит по умолчанию), затем вы можете добавить свой скрипт в качестве компонента к игровому объекту.
 
-## Properties <a href="#properties" id="properties"></a>
+## Свойства <a href="#properties" id="properties"></a>
 
 * **isServer**\
-  Returns true in server context if this game object has been spawned.
+  Возвращает значение true в контексте сервера, если этот игровой объект был заспавнен.
 * **isClient**\
-  Returns true in client context if this game object has been spawned by the server.
+  Возвращает значение true в контексте клиента, если этот игровой объект был заспавнен сервером.
 * **isLocalPlayer**\
-  Returns true on the client if this game object represents the player created for this client.
-* **isOwned** (formerly `hasAuthority`)\
-  Returns true on the client if this client has [authority](../guides/authority.md) over this game object. It is meaningless in server context.
+  Возвращает значение true для клиента, если этот игровой объект является игроком, созданным для этого клиента.
+* **isOwned** (ранее `hasAuthority`)\
+  Возвращает значение true для клиента, если у этого клиента есть [власть](../guides/authority.md) над этим игровым объектом. Это бессмысленно в контексте сервера, так как у сервера есть власть над всеми объектами.
 * **netId**\
-  The unique network ID of this game object. The server assigns this at run time. It is unique for all game objects on the network.
+  Уникальный сетевой идентификатор этого игрового объекта. Сервер назначает это во время выполнения. Он уникален для всех игровых объектов в сети.
 * **netIdentity**\
-  Returns the Network Identity of this object
+  Возвращает Network Identity этого объекта
 * **connectionToServer**\
-  The Network Connection associated with the Network Identity component attached to this game object. This is only valid for the **local player object** on the client, and is null for other player objects that may exist on the client.
+  Сетевое подключение, связанное с компонентом сетевой идентификации, прикрепленным к этому игровому объекту. Это значение действительно только для **локального объекта игрока** на клиенте и равно null для других объектов player, которые могут существовать на клиенте.
 * **connectionToClient**\
-  The Network Connection associated with the Network Identity component attached to this game object. This is valid for game objects on the server that have been assigned to a specific client, e.g. player objects, pets, henchmen, or other objects a single client "owns".
+  Сетевое подключение, связанное с компонентом сетевой идентификации, прикрепленным к этому игровому объекту. Это действительно для игровых объектов на сервере, которые были назначены конкретному клиенту, например, объекты игроков, домашние животные, приспешники или другие объекты, которыми "владеет" один клиент.
 
-Network Behaviour scripts have the following features:
+Скрипты Network Behaviour обладают следующими функциями:
 
-* Synchronized variables
-* Network callbacks
-* Server and client functions
-* Sending commands
-* Client RPC calls
-* Networked events
+* Синхронизирование переменных
+* Сетевые обратные вызовы
+* Серверные и клиентские функции
+* Отправка команд \[Command]
+* Вызовы Client RPC
+* Сетевые события
 
 ![](<../../.gitbook/assets/image (6) (1).png>)
 
-## Network Callbacks <a href="#network-callbacks" id="network-callbacks"></a>
+## Сетевые обратные вызовы <a href="#network-callbacks" id="network-callbacks"></a>
 
-There are built-in callback functions which are invoked on Network Behaviour scripts for various network events. These are virtual functions on the base class, so you can override them in your own code like this:
+Встроенные сетевые функции запускаемые в скриптах Network Behaviour для различных сетевых событий. Это виртуальные функции базового класса, поэтому вы можете переопределить их в своем собственном коде следующим образом:
 
 ```csharp
 public class SpaceShip : NetworkBehaviour
 {
     public override void OnStartServer()
     {
-        // disable client stuff
+        // делайте что нибудь на стороне сервера
     }
 
     public override void OnStartClient()
     {
-        // register client events, enable effects
+        // регистрируйте клиентские события, включайте эффекты
     }
 }
 ```
 
-The built-in callbacks are:
+Встроенными обратными вызовами являются:
 
-* **OnStartServer** called on server when a game object spawns on the server, or when the server is started for game objects in the Scene
-* **OnStopServer** called on server when a game object is destroyed on the server, or when the server is stopped for game objects in the Scene
-* **OnStartClient** called on clients when the game object spawns on the client, or when the client connects to a server for game objects in the Scene
-* **OnStopClient** called on clients when the server destroys the game object
-* **OnStartLocalPlayer** called on clients after `OnStartClient` for the player game object on the local client
-* **OnStopLocalPlayer** called on clients before `OnStopClient` for the player game object on the local client
-* **OnStartAuthority** called on owner client when assigned authority by the server. `isOwned` will be true for such objects in client context.
-* **OnStopAuthority** called on owner client when authority is removed by the server.
+* **OnStartServer** вызывается на сервере, когда игровой объект появляется на сервере или когда сервер запускается для игровых объектов в сцене
+* **OnStopServer** вызывается на сервере, когда игровой объект уничтожается на сервере или когда сервер останавливается для игровых объектов в сцене
+* **OnStartClient** вызывается на клиентах, когда игровой объект появляется на клиенте, или когда клиент подключается к серверу для игровых объектов в сцене
+* **OnStopClient** вызывается на клиентах, когда сервер уничтожает игровой объект
+* **OnStartLocalPlayer** вызывается на клиенте после `OnStartClient` для игрового объекта игрока на локальном клиенте
+* **OnStopLocalPlayer** вызывается на клиенте перед `OnStopClient` для игрового объекта игрока на локальном клиенте
+* **OnStartAuthority** вызывается на клиенте-владельце при назначении полномочий сервером. `isOwned` будет верно для таких объектов в контексте клиента.
+* **OnStopAuthority** вызывается на клиенте-владельце, когда сервер удаляет полномочия.
 
-Note that in a peer-hosted setup, when one of the clients is acting as both host and client, both `OnStartServer` and `OnStartClient` are called on the same game object. Both these functions are useful for actions that are specific to either the client or server, such as suppressing effects on a server, or setting up client-side events.
+Обратите внимание, что при одноранговой настройке, когда один из клиентов выступает одновременно и в качестве хоста, и в качестве клиента, `OnStartServer` и `OnStartClient` будут вызваны на одном и том же объекте. Обе эти функции полезны для действий, специфичных либо для клиента, либо для сервера, таких как выключение эффектов на сервере или настройка событий на стороне клиента.
 
-## Server and Client Attributes <a href="#server-and-client-functions" id="server-and-client-functions"></a>
+## Атрибуты клиента и сервера <a href="#server-and-client-functions" id="server-and-client-functions"></a>
 
-You can tag methods in Monobehaviour and Network Behaviour scripts with custom attributes to designate them as server-only or client-only functions. `[Server]` and `[ServerCallback]` return immediately if the client is not active. Likewise, `[Client]` and `[ClientCallback]` return immediately if the server is not active.
+Вы можете помечать методы в скриптах Monobehaviour и Network Behaviour с пользовательскими атрибутами для обозначения их как функций только для сервера или только для клиента. `[Server]` и `[ServerCallback]` немедленно вызываются если клиент не активен. Также, `[Client]` и `[ClientCallback]` немедленно вызываются если сервер не активен.
 
-The `[Server]` and `[Client]` attributes do not generate compile time errors, but they do emit a warning log message if called in the wrong context.
+Атрибуты `[Server]` и `[Client]` не генерируют ошибок во время компиляции, но они выдают предупреждающее сообщение журнала, если вызываются в неправильном контексте, к примеру если клиент попытается исполнить метод с атрибутом \[Server] или наоборот.
 
-The `ServerCallback` and `ClientCallback` attributes act the same as above but do not cause a warning to be generated.
+Атрибуты `ServerCallback` и `ClientCallback` действуйте так же, как описано выше, но не выдает предупреждения.
 
-For more information, see [Attributes](../guides/attributes.md).
+Для получения дополнительной информации, смотрите раздел [Атрибуты](../guides/attributes.md).
 
-## Commands <a href="#commands" id="commands"></a>
+## Command <a href="#commands" id="commands"></a>
 
-To execute code on the server, you must use Commands. The high-level API is a server-authoritative system, so Commands are the only way for a client to trigger some code on the server.
+Чтобы выполнить код на сервере, вы должны использовать команды. Высокоуровневый API - это система, зависящая от сервера, поэтому команды - это единственный способ для клиента запустить какой-либо код на сервере.
 
-Typically only player objects can have Commands, however they may also exist on other networked objects, and may be called by a client that has authority assigned for that object, or by any client where [bypassing authority](../guides/communications/remote-actions.md) has been specifically indicated.
+Обычно команды могут быть только у объектов игроков, однако они также могут существовать в других сетевых объектах и могут вызываться клиентом, которому назначены полномочия для этого объекта, или любым клиентом, который применил [обход полномочий](../guides/communications/remote-actions.md).
 
-When a client player game object sends a command, that command runs on the corresponding player game object on the server. This routing happens automatically, so it is impossible for a client to send a command for a different player.
+Когда клиентский игровой объект игрока отправляет команду, эта команда выполняется в соответствующем игровом объекте игрока на сервере. Эта маршрутизация происходит автоматически, поэтому клиент не может отправить команду другому игроку.
 
-To define a Command in your code, you must decorate a method with the \[Command] attribute. While not required, it is strongly suggested to prefix method names with `Cmd` so it's easier to recognize in your calling code what will be happening.
+Чтобы создать команду в вашем коде, вы должны украсить метод атрибутом \[Command]. Хотя это и не требуется, настоятельно рекомендуется добавлять к именам методов префикс `Cmd`, чтобы в вашем вызывающем коде было легче распознать, что будет происходить.
 
-Commands are called just by invoking the method normally on the client. Instead of the method running on the client, it is automatically invoked on the corresponding player game object on the server.
+Команды вызываются просто путем обычного вызова метода на клиенте. Вместо метода, запущенного на клиенте, он автоматически вызывается для соответствующего игрового объекта игрока на сервере.
 
-Commands are type-safe, have built-in security and routing to the player, and use an efficient serialization mechanism for the arguments to make calling them fast.
+Команды безопасны по типу, имеют встроенную защиту и маршрутизацию к объекту игрока, а также используют эффективный механизм сериализации аргументов для ускорения их вызова.
 
-See [Communications](../guides/communications/) and related sections for more information.
+Смотрите [Коммуникации](../guides/communications/) и соответствующие разделы для получения дополнительной информации.
 
-## Client RPC Calls <a href="#client-rpc-calls" id="client-rpc-calls"></a>
+## Вызовы Client RPC <a href="#client-rpc-calls" id="client-rpc-calls"></a>
 
-Client RPC calls are a way for server game objects to make things happen on client game objects.
+Вызовы Client RPC это способ для серверных игровых объектов заставить что-то происходить с клиентскими игровыми объектами.
 
-Client RPC calls are not restricted to player game objects, and may be called on any game object with a Network Identity component.
+Вызовы Client RPC не ограничиваются игровыми объектами игрока, и могут быть вызваны для любого игрового объекта к компонентом Network Identity.
 
-To define a Client RPC call in your code, you must decorate the method with `[ClientRpc]`. While not required, it is strongly suggested to prefix method names with `Rpc` so it's easier to recognize in your calling code what will be happening.
+Чтобы вызвать RPC-вызов в вашем коде, вы должны украсить метод с помощью `[ClientRpc]`. Хотя это и не требуется, настоятельно рекомендуется добавлять к именам методов префикс `Rpc`, чтобы в вашем вызывающем коде было легче распознать, что будет происходить.
 
-See [Communications](../guides/communications/) and related sections for more information.
+Смотрите [Коммуникации](../guides/communications/) и соответствующие разделы для получения дополнительной информации.
 
-## Networked Events (Obsolete) <a href="#networked-events-obsolete" id="networked-events-obsolete"></a>
+## Сетевые события (Устарело) <a href="#networked-events-obsolete" id="networked-events-obsolete"></a>
 
-> **IMPORTANT** SyncEvents have been removed in version 18.0.0, see this [Issue](https://github.com/vis2k/Mirror/pull/2178) for more information
+> **ВАЖНО** SyncEvents были удалены в версии 18.0.0, смотрите [Issue](https://github.com/vis2k/Mirror/pull/2178) для получения дополнительной информации
 
-Networked events are like Client RPC calls, but instead of calling a function on the game object, they trigger Events instead.
+Это сетевые события по типу вызовов Client RPC, но вместо того, чтобы вызывать функцию для игрового объекта, они запускают события.
 
-This allows you to write scripts which can register for a callback when an event is triggered.
+Это позволяет вам писать сценарии, которые могут регистрироваться для обратного вызова при срабатывании события.
 
-To define a Networked event in your code, you must write a function which both:
+Чтобы определить сетевое событие в вашем коде, вы должны написать функцию, которая одновременно:
 
-* Has a name that begins with `Event`
-* Has the `SyncEvent` attribute
+* Имеет имя, начинающееся с `Event`
+* Имеет атрибут `SyncEvent`
 
-You can use events to build powerful networked game systems that can be extended by other scripts. This example shows how an effect script on the client can respond to events generated by a combat script on the server.
+Вы можете использовать события для создания мощных сетевых игровых систем, которые могут быть расширены с помощью других скриптов. В этом примере показано, как сценарий эффекта на клиенте может реагировать на события, генерируемые боевым сценарием на сервере.
 
-SyncEvent is the base class that Commands and ClientRpc calls are derived from. You can use the SyncEvent attribute on your own functions to make your own event-driven networked game play code. Using SyncEvent, you can extend Mirror’s Multiplayer features to better fit your own programming patterns.
+SyncEvent - это базовый класс, производными от которого являются команды и вызовы ClientRpc. Вы можете использовать атрибут SyncEvent в своих собственных функциях, чтобы создать свой собственный управляемый событиями сетевой игровой код. Используя SyncEvent, вы можете расширить многопользовательские функции Mirror, чтобы они лучше соответствовали вашим собственным шаблонам программирования.
 
-See [SyncEvents](../guides/synchronization/syncevent.md) for more details.
+Смотрите раздел [SyncEvents](../guides/synchronization/syncevent.md) для получения более подробной информации.
