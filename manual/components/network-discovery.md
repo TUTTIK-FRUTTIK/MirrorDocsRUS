@@ -1,88 +1,88 @@
 # Network Discovery
 
-Suppose your are next to a friend. He starts a game in host mode and you want to join him. How will your phone locate his? Finding out his IP address is not exactly intuitive or something kids can do.
+Предположим, вы находитесь рядом с другом. Он начинает игру в режиме ведущего, и вы хотите присоединиться к нему. Как ваш телефон определит его местонахождение? Узнать его IP-адрес не совсем интуитивно и не то, что могут сделать дети.
 
-To solve this problem you can use Network Discovery. When your game starts, it sends a message in your current network asking "Is there any server available?". Any server within the same network will reply and provide information about how to connect to it.
+Чтобы решить эту проблему, вы можете использовать Network Discovery. Когда ваша игра запускается, она отправляет сообщение в вашу текущую сеть с вопросом "Доступен ли какой-нибудь сервер?". Любой сервер в пределах той же сети ответит и предоставит информацию о том, как подключиться к нему.
 
-Mirror comes with a simple implementation of Network Discovery you can simply use in your game. It also provides a way for you to extend it so that you can pass additional data during the discovery phase.
+Mirror поставляется с простой реализацией обнаружения сети, которую вы можете просто использовать в своей игре. Мы также предоставляем вам возможность расширить его скрипт, чтобы вы могли передавать дополнительные данные на этапе обнаружения.
 
 ![](<../../.gitbook/assets/image (10).png>)
 
-NetworkDiscovery and NetworkDiscoveryHUD components are included, or you can make your own from a [ScriptTemplate](../general/script-templates.md).
+Компоненты NetworkDiscovery и NetworkDiscoveryHUD идут в комплекте, или вы можете создать свои собственные скрипты по [шаблонам скриптов](../general/script-templates.md).
 
-Network Discovery uses a UDP broadcast on the LAN enabling clients to find the running server and connect to it.
+Network Discovery использует широковещательную передачу UDP по локальной сети, позволяющую клиентам находить работающий сервер и подключаться к нему.
 
-When a server is started, it listens on the UDP Broadcast Listen Port for requests from clients and returns a connection URI that clients apply to their transport.
+Когда сервер запускается, он прослушивает запросы от клиентов через порт широковещательного прослушивания UDP и возвращает URI соединения, который клиенты применяют к своему транспорту.
 
-You can adjust how often the clients send their requests out to find a server in seconds with the Active Discovery Interval.
+Вы можете настроить частоту отправки клиентами своих запросов на поиск сервера в секундах с активным интервалом обнаружения.
 
-The Server Found event must be assigned to a handler method, e.g. the OnDiscoveredServer method of NetworkDiscoveryHUD.
+Событие, обнаруженное сервером, должно быть назначено методу обработчика, тоесть таким как OnDiscoveredServer метод у NetworkDiscoveryHUD.
 
-In the NetworkDiscoveryHUD, the NetworkDiscovery component should be assigned automatically.
+В NetworkDiscoveryHUD, компонент NetworkDiscovery должен быть назначен автоматически.
 
-## Quick Start <a href="#quick-start" id="quick-start"></a>
+## Быстрый старт <a href="#quick-start" id="quick-start"></a>
 
-To use Network Discovery follow these steps:
+Для использования Network Discovery следуйте этим шагам:
 
-1. Create a gameobject with a NetworkManager if you have not done so already
-2. Do not add a NetworkManagerHUD. Discovery has a different UI component.
-3. Add a NetworkDiscoveryHUD component to the NetworkManager gameobject.\
-   &#x20;A NetworkDiscovery component will be automatically added and wired up to your HUD.
-4. Add a player to the NetworkManager if you have not done so.
-5. Build and run a standalone version
-6. Click on Start Host
-7. Start play mode in the editor and click on Find Servers
-8. The editor should find the standalone version and display a button
-9. Click on the button to connect to it.
+1. Создайте gameobject с NetworkManager если вы еще этого не сделали
+2. Не добавляйте NetworkManagerHUD. Discovery имеет другой компонент пользовательского интерфейса.
+3. Добавьте компонент NetworkDiscoveryHUD к объекту NetworkManager.\
+   Компонент NetworkDiscovery будет автоматически добавлен и назначен в ваш HUD.
+4. Добавьте игрока в поле NetworkManager'а если вы ещё не сделали этого.
+5. Создайте и запустите билд
+6. Кликните на Start Host
+7. Запустите play mode в редакторе и нажмите на Find Servers
+8. Редактор должен найти другой билд и отобразить кнопку
+9. Кликните на новую кнопку чтобы подключиться к хосту.
 
-The NetworkDiscoveryHUD is provided as a simple and quick way to get started, but you will probably want to replace it with your own user interface.
+NetworkDiscoveryHUD предоставляется как простой и быстрый способ начать работу, но вы, вероятно, захотите заменить его своим собственным пользовательским интерфейсом.
 
 ## Custom Network Discovery <a href="#custom-network-discovery" id="custom-network-discovery"></a>
 
-You can completely replace the user interface by adding your own interface (typically Unity UI based) instead of the default NetworkDiscoveryHUD. You do still need the NetworkDiscovery component to do the heavy lifting.
+Вы можете полностью заменить пользовательский интерфейс, добавив свой собственный интерфейс вместо стандартного NetworkDiscoveryHUD. Вам все еще нужен компонент NetworkDiscovery чтобы проделать дальнейшую работу.
 
-Sometimes you want to provide more information in the discovery messages. Some use cases could include:
+Иногда требуется предоставить дополнительную информацию в сообщениях об обнаружении. Некоторые варианты использования могут включать:
 
-* The client can show if the server is in PvP or PvE mode
-* The client can show how full the servers are.
-* The client can show the ping to each server so the player can chose the fastest server
-* The client can show the language
-* The client can show if the server is password protected
+* Клиент может показать, находится ли сервер в PvP или PvE режиме
+* Клиент может показать, насколько загружены серверы.
+* Клиент может показать пинг для каждого сервера, чтобы игрок мог выбрать самый быстрый сервер
+* Клиент может показать язык, который используется на сервере
+* Клиент может показать, защищен ли сервер паролем
 
-To do this, we've provided a [Template](../general/script-templates.md), so from the Assets menu, click Create > Mirror > Network Discovery.
+Для этого мы предоставили [шаблон](../general/script-templates.md), который находится в Asset menu, кликните Create > Mirror > Network Discovery.
 
-This will create a script in your project with 2 empty message classes and a custom NetworkDiscovery class that inherits from NetworkDiscoveryBase and has all the override methods included and documented for you.
+Это создаст скрипт в вашем проекте с двумя пустыми классами сообщений и пользовательским классом NetworkDiscovery, который наследуется от NetworkDiscoveryBase и содержит все методы переопределения, включенные и задокументированные для вас.
 
-The message classes define what is sent between the client and server. As long as you keep your messages simple using the [data types](../guides/data-types.md) that Mirror can serialize, you won't need to write custom serializers for them.
+Классы сообщений определяют, что передается между клиентом и сервером. До тех пор, пока вы сохраняете простоту своих сообщений, используя [типы данных](../guides/data-types.md) которые Mirror может  сериализовать, вам не нужно будет писать для них пользовательские сериализаторы.
 
 ```csharp
 public class DiscoveryRequest : NetworkMessage
 {
     public string language="en";
 
-    // Add properties for whatever information you want sent by clients
-    // in their broadcast messages that servers will consume.
+    // Добавляйте свойства для любой информации, которую вы хотите отправлять клиентам
+    // в своих сообщениях, которые будут потребляться серверами.
 }
 
 public class DiscoveryResponse : NetworkMessage
 {
     enum GameMode {PvP, PvE};
 
-    // you probably want uri so clients know how to connect to the server
+    // вероятно, вам нужен uri, чтобы клиенты знали, как подключиться к серверу
     public Uri uri;
 
     public GameMode GameMode;
     public int TotalPlayers;
     public int HostPlayerName;
 
-    // Add properties for whatever information you want the server to return to
-    // clients for them to display or consume for establishing a connection.
+    // Добавьте свойства для любой информации, которую вы хотите, чтобы сервер возвращал
+    // клиентам для отображения или использования при установлении соединения.
 }
 ```
 
-The custom NetworkDiscovery class contains the overrides for handling the messages above.
+Кастомный класс NetworkDiscovery содержит переопределения для обработки приведенных выше сообщений.
 
-You may want to refer to the NetworkDiscovery.cs script in the Components/Discovery folder to see how these should be implemented.
+Возможно, вы захотите обратиться к скрипту NetworkDiscovery.cs в папке Components/Discovery, чтобы увидеть, как они должны быть реализованы.
 
 ```csharp
 public class NewNetworkDiscovery: NetworkDiscoveryBase 
@@ -96,7 +96,7 @@ public class NewNetworkDiscovery: NetworkDiscoveryBase
 
     protected override DiscoveryResponse ProcessRequest(DiscoveryRequest request, IPEndPoint endpoint) 
     {
-        // TODO: Create your response and return it   
+        // TODO: Создайте свой ответ и верните его 
         return new DiscoveryResponse();
     }
 
@@ -111,7 +111,7 @@ public class NewNetworkDiscovery: NetworkDiscoveryBase
 
     protected override void ProcessResponse(DiscoveryResponse response, IPEndPoint endpoint)
     {
-        // TODO: a server replied,  do something with the response such as invoking a unityevent
+        // TODO: сервер ответил, сделайте что-нибудь с ответом, например, вызовите unityevent
     }
 
     #endregion
@@ -119,5 +119,5 @@ public class NewNetworkDiscovery: NetworkDiscoveryBase
 ```
 
 {% hint style="info" %}
-Note: Take into account any anti virus/firewall blocking, along with additional settings for your particular platform (broadcast address iOS, Network Discovery sharing settings to on in Windows etc).
+Примечание: Примите во внимание любую блокировку антивирусом / брандмауэром, а также дополнительные настройки для вашей конкретной платформы (широковещательный адрес iOS, настройки общего доступа к обнаружению сети в Windows и т.д.).
 {% endhint %}
