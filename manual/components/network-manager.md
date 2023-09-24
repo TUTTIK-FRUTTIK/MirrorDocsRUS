@@ -1,91 +1,91 @@
 # Network Manager
 
-The Network Manager is a component for managing the networking aspects of a multiplayer game.  It wraps up a lot of useful functionality into a single place, and makes creating, running and debugging multiplayer games as simple as possible.
+Network Manager - это компонент для управления сетевыми аспектами многопользовательской игры. Он объединяет множество полезных функций в одном месте и максимально упрощает создание, запуск и отладку многопользовательских игр.
 
-The Network Manager features include:
+Network Manager включают в себя:
 
-* Game state management
-* Spawn management
-* Scene management
-* Debugging information
-* Customization
+* Управление состоянием игры
+* Управление спавном игроков
+* Управление сценами
+* Дебаггинг
+* Кастомизацию
 
-## Getting Started with the Network Manager <a href="#getting-started-with-the-network-manager" id="getting-started-with-the-network-manager"></a>
+## Начало работы с Network Manager
 
-The Network Manager is the core controlling component of a multiplayer game. To get started, create your new Network Manager from the [Script Template](../general/script-templates.md) included with Mirror, create an empty game object in your starting Scene, and add the newly created Network Manager component. The newly added Network Manager component looks like this:
+Network Manager - это основной управляющий компонент многопользовательской игры.Чтобы начать, создайте свой новый Network Manager из [шаблона скрипта](../general/script-templates.md), который идёт в Mirror. Создайте пустой игровой объект в вашей начальной сцене и добавьте недавно созданный компонент Network Manager. Недавно добавленный компонент Network Manager должен выглядеть следующим образом:
 
 <figure><img src="../../.gitbook/assets/image (43) (1).png" alt=""><figcaption></figcaption></figure>
 
-The Inspector for the Network Manager in the Editor allows you to configure and control many things related to networking.
+Инспектор для Network Manager'a в редакторе позволяет вам настраивать и контролировать многие вещи, связанные с сетевым взаимодействием.
 
-**Note**: You can only ever have one active Network Manager in each scene because it's a singleton. Do not place the Network Manager component on a networked game object (one which has a Network Identity component), because Mirror disables these when the Scene loads.
+**Примечание:** У вас может быть только один активный Network Manager в каждой сцене, потому что это синглтон. Не размещайте компонент Network Manager на сетевом игровом объекте (который имеет компонент Network Identity), поскольку Mirror отключает их при загрузке сцены.
 
-## Transports <a href="#transports" id="transports"></a>
+## Транспорты <a href="#transports" id="transports"></a>
 
-Mirror uses a separate component (derived from the Transport class) to connect across the network. The new default Transport is KCP (which uses UDP, not TCP). This design choice of separating the transport into its own component allows game developers to choose the transport that best fits their game needs. Changing transports is as simple as swapping out the component on the Network Manager object and assigning it to the Transport field.
+Mirror использует отдельный компонент (производный от транспортного класса) для подключения по сети. Новым транспортом по умолчанию является KCP (который использует UDP, а не TCP). Такой архитектурный подход разделения транспорта на отдельные компоненты позволяет разработчикам игр выбирать транспорт, который наилучшим образом соответствует их игровым потребностям. Изменить транспорт так же просто, как поменять местами компонент в объекте Network Manager и назначить его полю Transport.
 
-Transports are available for TCP, UDP, WebGL, Steam, and many more. Additionally, there's a Multiplex transport that allows for using two transports together on the server, e.g. Telepathy and WebSockets, so that desktop and browser players can play together on the same server seamlessly. See [Transports](../transports/) for more information.
+Транспорты доступны для TCP, UDP, WebGL, Steam и многих других. Кроме того, существует multiplex transport, который позволяет совместно использовать два транспорта на сервере, например Telepathy и WebSockets, так что игроки с настольных компьютеров и браузеров могут беспрепятственно играть вместе на одном сервере. Смотрите [Транспорты](../transports/) для получения более подробного содержания.
 
-## Game State Management <a href="#game-state-management" id="game-state-management"></a>
+## Управление состоянием игры
 
-A Networking multiplayer game can run in three modes - as a client, as a dedicated server, or as a host which is both a client and a server at the same time.
+Сетевая многопользовательская игра может запускаться в трех режимах - как клиент, как выделенный сервер или как хост, который одновременно является и клиентом, и сервером.
 
-If you’re using the [Network Manager HUD](network-manager-hud.md), it automatically tells the Network Manager which mode to start in, based on which button the player clicks. If you’re writing your own UI that allows the player to start the game, you’ll need to call these from your own code. These methods are:
+Если вы используете [Network Manager HUD](network-manager-hud.md), он автоматически сообщает Network Manager'у, в каком режиме запускаться, в зависимости от того, на какую кнопку нажимает игрок. Если вы пишете свой собственный пользовательский интерфейс, который позволяет игроку запустить игру, вам нужно будет вызывать методы Network Manager'a, чтобы запустить игру в определенном режиме. Этими методами являются:
 
 * StartClient
 * StartServer
 * StartHost
 
-Whichever mode the game starts in (client, server, or host), the Network Address and Transport configuration are used.
+В каком бы режиме ни запускалась игра (клиентском, серверном или хостинговом), используются сетевой адрес и конфигурация транспорта.
 
-* In client mode, the game attempts to connect to the network address specified. A fully-qualified domain name (FQDN) can also be used for the Network Address, e.g. "game.example.com".
-* In server or host mode, the game listens for incoming connections on `localhost` which includes the local network IP address of the server machine.
+* В клиентском режиме игра пытается подключиться к указанному сетевому адресу. Полное доменное имя (FQDN) также может быть использовано в качестве сетевого адреса, например: "game.example.com ".
+* В режиме сервера или хоста игра прослушивает входящие соединения на `localhost` который включает в себя IP-адрес серверной машины в локальной сети.
 
-## Spawn Management <a href="#spawn-management" id="spawn-management"></a>
+## Управление спавном <a href="#spawn-management" id="spawn-management"></a>
 
-Use the Network Manager to manage the spawning (networked instantiation) of networked game objects from Prefabs.
+используйте Network Manager чтобы управлять спавном (networked instantiation) сетевых объектов из Prefab'ов.
 
 ![](<../../.gitbook/assets/image (84).png>)
 
-Most games have a Prefab which represents the player, so the Network Manager has a Player Prefab slot. You should assign this slot with your player Prefab. When you have a player Prefab set, a player game object is automatically spawned from that Prefab for each user in the game. This applies to the local player on a hosted server, and remote players on remote clients. You must attach a Network Identity component to the Player Prefab before assigning it to this field.
+В большинстве игр есть Prefab, который представляет игрока, поэтому у сетевого менеджера есть слот для Prefab'а игрока. Вы должны назначить этот слот вашему Prefab'у. Когда у вас установлен Prefab player, игровой объект player автоматически создается из этого Prefab'а для каждого пользователя в игре. Это относится к локальному проигрывателю на размещенном сервере и удаленным проигрывателям на удаленных клиентах. Вы должны прикрепить компонент сетевой идентификации к Prefab'у игрока, прежде чем назначать его этому полю.
 
-Once you have assigned a Player Prefab, you can start the game as a host and see the player game object spawn. Stopping the game destroys the player game object. If you build and run another copy of the game and connect it as a client to _localhost_, the Network Manager makes another player game object appear. When you stop that client, it destroys that player’s game object.
+После того, как вы назначили prefab игрока, вы можете запустить игру в качестве хоста и увидеть появление игрового объекта игрока. Остановка игры уничтожает игровой объект игрока. Если вы создадите и запустите другую копию игры и подключите ее в качестве клиента к localhost, сетевой менеджер отобразит другой игровой объект player. Когда вы останавливаете этот клиент, он уничтожает игровой объект этого игрока.
 
-In addition to the Player Prefab, you must also register other prefabs that you want to dynamically spawn during game play with the Network Manager.
+В дополнение к prefab'у игрока, вы также должны зарегистрировать другие prefab'ы, которые вы хотите динамически создавать во время игры, с помощью Network Manager.
 
-You can add prefabs to the list shown in the inspector labelled Registered Spawnable Prefabs. You can also register prefabs via code, with the `ClientScene.RegisterPrefab` method.
+Вы можете добавить Prefab'ы в список, показанный в инспекторе, с пометкой "Registered Spawnable Prefabs". Вы также можете зарегистрировать prefab'ы с помощью кода с помощью метода `ClientScene.RegisterPrefab`.
 
-If you have one Network Manager that is persisted through scenes via Don't Destroy On Load (DDOL), you need to register all prefabs to it which might be spawned in any scene. If you have a separate Network Manager in each scene, you only need to register the prefabs relevant for that scene.
+Если у вас есть один Network Manager, он будет сохраняться между сценами с помощью Don't Destroy On Load (DDOL), вам нужно зарегистрировать в нем все Prefab'ы, которые могут быть созданы в любой сцене. Если у вас есть отдельный Network Manager в каждой сцене, вам нужно только зарегистрировать Prefab'ы, относящиеся к этой сцене.
 
-## Start Positions <a href="#start-positions" id="start-positions"></a>
+## Стартовые позиции <a href="#start-positions" id="start-positions"></a>
 
-The Network Manager will spawn Player Prefab at their defined transform position and rotation by default, however the Player Spawn Method property allows you to control how start positions are chosen in conjunction with [Network Start Position](network-start-position.md) components.
+Network Manager по умолчанию создаст Player Prefab в заданном им положении и повороте, однако свойство Player Spawn Method позволяет вам управлять выбором начальных позиций в сочетании с компонентами [Network Start Position](network-start-position.md).
 
-* Choose Random to spawn players at randomly chosen startPosition options.
-* Choose Round Robin to cycle through startPosition options in a set list.
+* Выберите Random, чтобы вызвать игроков в случайно выбранных вариантах начальной позиции.
+* Выберите Round Robin, чтобы начальные позиции задавались проходя по листу, в котором все начальные позиции.
 
-If the Random or Round Robin modes don’t suit your game, you can customize how the start positions are selected by using code. You can access the available Network Start Position components by the list `NetworkManager.startPositions`, and you can use the helper method `GetStartPosition` on the Network Manager that can be used in an implementation of `OnServerAddPlayer` to find a start position.
+Если режимы Random или Round Robin не подходят к вашей игре, вы можете кастомизировать данный процесс используя код. Вы также можете получить все доступные начальные позиции в листе `NetworkManager.startPositions`, а ещё вы можете использовать вспомогательный компонент `GetStartPosition` в Network Manager, который может быть использован при реализации `OnServerAddPlayer` для нахождения начальных позиций.
 
-## Scene Management <a href="#scene-management" id="scene-management"></a>
+## Управление сценами <a href="#scene-management" id="scene-management"></a>
 
-Most games have more than one scene. At the very least, there is usually a title screen or starting menu scene in addition to the scene where the game is actually played. The Network Manager is designed to automatically manage scene state and scene transitions in a way that works for a multiplayer game.
+В большинстве игр есть более одной сцены. По крайней мере, обычно есть сцена начального меню в дополнение к сцене, где на самом деле разыгрывается игра. Network Manager предназначен для автоматического управления состоянием сцены и переходами между сценами таким образом, который подходит для многопользовательской игры.
 
-There are two slots on the Network Manager inspector for scenes: the Offline Scene and the Online Scene. Dragging scene assets into these slots activates networked Scene Management.
+В инспекторе сетевого менеджера есть два слота для сцен: оффлайн сцена и онлайн сцена. Перетаскивание ресурсов сцены в эти слоты активирует сетевое Scene Management.
 
-When a server or host is started, the Online Scene is loaded. This then becomes the current network scene. Any clients that connect to that server are instructed to also load that scene. The name of this scene is stored in the `networkSceneName` property.
+При запуске сервера или хоста загружается онлайн сцена. Затем это становится текущей сетевой сценой. Всем клиентам, которые подключаются к этому серверу, дается указание также загрузить эту сцену. Название этой сцены хранится в поле `networkSceneName`.
 
-When the network is stopped, by stopping the server or host or by a client disconnecting, the offline Scene is loaded. This allows the game to automatically return to a menu scene when disconnected from a multiplayer game.
+При остановке сети, в результате остановки сервера или хоста или при отключении клиента, загружается оффлайн сцена. Это позволяет игре автоматически возвращаться к сцене меню при отключении от многопользовательской игры.
 
-You can also change scenes while the game is active by calling `ServerChangeScene`. This makes all the currently connected clients change Scene too, and updates `networkSceneName` so that new clients also load the new Scene.
+Вы также можете менять сцены во время активной игры, вызвав метод `ServerChangeScene`. Это приводит к тому, что все подключенные в данный момент клиенты также меняют сцену и обновляют `networkSceneName`, так что новые клиенты также загружают новую сцену.
 
-While networked Scene management is active, any calls to game state management functions such as `StartHost` or `StopClient` can cause scene changes. This applies to the runtime control UI. By setting up scenes and calling these methods, you can control the flow of your multiplayer game.
+Пока активировано сетевое управление сценой, любые вызовы функций управления состоянием игры, таких как `StartHost` или `StopClient` может привести к изменению сцены. Это относится к пользовательскому интерфейсу. Настраивая сцены и вызывая эти методы, вы можете управлять ходом вашей многопользовательской игры.
 
-Note that scene change causes all the game objects in the previous scene to be destroyed.
+Обратите внимание, что смена сцены приводит к уничтожению всех игровых объектов в предыдущей сцене.
 
-You should normally make sure the Network Manager persists between Scenes, otherwise the network connection is broken upon a scene change. To do this, ensure the Don’t Destroy On Load checkbox is ticked in the inspector.
+Обычно вы должны убедиться, что Network Manager сохраняется между сценами, в противном случае сетевое соединение прерывается при смене сцены. Чтобы сделать это, убедитесь, что в инспекторе установлен флажок Don’t Destroy On Load.
 
-## Customization <a href="#customization" id="customization"></a>
+## Кастомизация <a href="#customization" id="customization"></a>
 
-There are virtual functions on the `NetworkManager` class that you can customize by creating your own derived class that inherits from `NetworkManager`. When implementing these functions, be sure to take care of the functionality that the default implementations provide. For example, in `OnServerAddPlayer`, the function `NetworkServer.AddPlayer` must be called to activate the player game object for the connection.
+Вы можете использовать виртуальные функции `NetworkManager` класса, который вы можете настроить, создав свой собственный производный класс, наследуемый от `NetworkManager`. При реализации этих функций обязательно позаботьтесь о функциональности, которую предоставляют реализации по умолчанию. К примеру, в `OnServerAddPlayer`, функцию `NetworkServer.AddPlayer` необходимо вызвать, чтобы активировать игровой объект игрока для подключения.
 
-To make this easier, we've made a set of [Script Templates](../general/script-templates.md) that have all the overrides stubbed out for you.
+Чтобы сделать это проще, мы создали набор [шаблонов скриптов](../general/script-templates.md) в которых для вас объяснены все переопределения.
