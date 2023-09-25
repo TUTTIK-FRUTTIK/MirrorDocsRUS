@@ -1,43 +1,43 @@
 # Network Profiler
 
-The Mirror Profiler is part of the Mirror Pro suit. As of this writing it is accessible to our [GitHub Sponsors](https://github.com/sponsors/vis2k).
+Mirror Profiler является частью подписки Mirror Pro. На момент написания этой статьи он доступен для наших [Спонсоров на GitHub](https://github.com/sponsors/vis2k).
 
 ![](<../../.gitbook/assets/image (51).png>)
 
-## Installation <a href="#installation" id="installation"></a>
+## Установка <a href="#installation" id="installation"></a>
 
-1. Make sure you have the latest version of Mirror.
-2. Become a [GitHub Sponsor](https://github.com/sponsors/vis2k) if you haven't.
-3. Visit with the Mirror Networking Discord. In the _information_ channel you will learn how to join the _github\_sponsors_ channel.
-4. In the _github\_sponsors_ channel, pinned messages will guide you on how to download the profiler.
-5. Install the unity package in your project.
+1. Убедитесь, что у вас установлена последняя версия Mirror.
+2. Станьте [спонспором на GitHub](https://github.com/sponsors/vis2k) если вы этого еще не сделали.
+3. Посетите Mirror Networking Discord. В канале информации вы узнаете, как присоединиться к каналу github\_sponsors.
+4. В канале _github\_sponsors_ закрепленные сообщения подскажут вам, как загрузить профилировщик.
+5. Установите пакет unity в свой проект.
 
-## Usage <a href="#usage" id="usage"></a>
+## Использование
 
-1. In Unity menu, click on Open Window -> Analysis -> Mirror Network Profiler. The profiler view will appear
-2. You may dock the profiler anywhere you want
-3. Start your game in the editor
-4. Press "Record" in the profiler
-5. Begin your game as host, client or server
-6. At the top a chart will show messages coming in and out
-7. Click the chart to select a frame
-8. The profiler will display information about all the messages sent and received in that frame
+1. В меню Unity, кликните на Open Window -> Analysis -> Mirror Network Profiler. Появится окно profiler
+2. Вы можете закрепить profiler в любом месте, где захотите
+3. Запустите свою игру в редакторе
+4. Нажмите "Record" в profiler'e
+5. Начните свою игру в качестве хоста, клиента или сервера
+6. Вверху на диаграмме будут показаны входящие и исходящие сообщения
+7. Щелкните по диаграмме, чтобы выбрать рамку
+8. Profiler отобразит информацию обо всех сообщениях, отправленных и полученных в текущем кадре
 
-Currently the messages display the following fields:
+В настоящее время в сообщениях отображаются следующие поля:
 
-* In/Out: Whether the message was received (in) or sent (out)
-* Name: Short name of the message, if the message was a `[Command]`, `[ClientRpc]`, `[TargetRpc]` or `[TargetEvent]`, this will display the name of the method, otherwise it will display the name of the message class.
-* Bytes: The size of the message in bytes
-* Count: In the case of out messages, this will contain how many clients the message was sent to.
-* Total Bytes: the size of the message multiplied by the amount of clients the message was sent to (Bytes \* Count)
-* Channel: The channel used to send the message. As of this writing, we cannot determine the channel for inbound messages, so it displays -1. This will be improved in future versions. Transports can use channels for many purposes such as reliable, unreliable, encrypted, compressed, etc.
+* In/Out: Было ли сообщение получено (in) или отправлено (out)
+* Name: Краткое название сообщения, если сообщение было `[Command]`, `[ClientRpc]`, `[TargetRpc]` или `[TargetEvent]`, при этом будет отображено имя метода, в противном случае будет отображено имя класса message.
+* Bytes: Размер сообщения в байтах
+* Count: В случае исходящих сообщений здесь будет указано, скольким клиентам было отправлено сообщение.
+* Total Bytes: размер сообщения, умноженный на количество клиентов, которым было отправлено сообщение (Bytes \* Count)
+* Channel: Канал, использованный для отправки сообщения. На момент написания этой статьи мы не можем определить канал для входящих сообщений, поэтому отображается значение -1. Это будет улучшено в будущих версиях. Транспортные средства могут использовать каналы для многих целей, таких как надежные, ненадежные, зашифрованные, сжатые и т.д.
 
 ## Optimizing bandwidth <a href="#optimizing-bandwidth" id="optimizing-bandwidth"></a>
 
-On most transports, the total bandwidth is dominated by the Count column. This is because each message is packaged in a TCP or UDP frame, which have large headers.
+На большинстве транспортных систем общая пропускная способность определяется столбцом Count. Это происходит потому, что каждое сообщение упаковано во фрейм TCP или UDP, которые имеют большие заголовки.
 
-* If you are sending multiple `[Command]` in the same frame, consider consolidating them into a single `[Command]` call if it makes sense
-* If you see a large Count number on a specific message, consider adding a NetworkProximityChecker to your object, so that it is only visible to nearby players instead of the entire world. This can dramatically reduce the Count (and total bytes) depending on your game.
-* If you are sending a message every single frame, consider changing your logic so that you only send messages when things change, or use a timer.
-* Consider using SyncToOwner feature so that only the owner gets a message when private information such as inventory changes. This can dramatically reduce the Count depending on your game.
-* If you have a lot of `[ClientRpc]` calls that synchronize data, consider using `[SyncVar]` and synclists instead. They can reduce the amount of messages because they only send deltas when they change, plus they get batched together, so hundreds of variables can be synchronized with a single message.
+* Если вы отправляете несколько `[Command]` в одном и том же кадре рассмотрите возможность объединения их в единый `[Command]`, если в этом есть смысл
+* Если вы видите большое число Count в определенном сообщении, подумайте о добавлении NetworkProximityChecker к вашему объекту, чтобы он был виден только ближайшим игрокам, а не всему миру. Это может значительно сократить количество (и общее количество байт) в зависимости от вашей игры.
+* Если вы отправляете сообщение каждый отдельный кадр, подумайте о том, чтобы изменить свою логику таким образом, чтобы вы отправляли сообщения только тогда, когда что-то меняется, или используйте таймер.
+* Рассмотрите возможность использования функции SyncToOwner, чтобы только владелец получал сообщение при изменении личной информации, такой как инвентарь. Это может значительно сократить количество сообщений в зависимости от вашей игры.
+* Если у вас вызывается много`[ClientRpc]` которые синхронизируют данные, рассмотрите возможность использования`[SyncVar]` и synclists вместо этого. Они могут уменьшить количество сообщений, потому что отправляют дельты только при их изменении, плюс они группируются вместе, так что сотни переменных могут быть синхронизированы с одним сообщением.
