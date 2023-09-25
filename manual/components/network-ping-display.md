@@ -1,9 +1,9 @@
 # Network Ping Display
 
-Network Ping Display shows the Ping time for clients using OnGUI.
+Network Ping Display показывает пинг для клиентов, использующих OnGUI.
 
-The Ping time is the moving average of the of the (RTT) Round-trip delay time. RTT is calculated by the PingMessage/PongMessage between the client and server.
+Пинг -это время, необходимое запросу для преодоления пути к другому компьютеру и обратно (RTT). RTT вычисляется с помощью сообщений PingMessage/PongMessage между клиентом и сервером.
 
 ![](<../../.gitbook/assets/image (80).png>)
 
-See [Time Synchronization](../guides/time-sync.md) for more info.
+Смотрите [Синхронизация времени](../guides/time-sync.md) для получения более подробного содержания.
