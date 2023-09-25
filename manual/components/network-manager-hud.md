@@ -1,66 +1,66 @@
 # Network Manager HUD
 
-The Network Manager HUD (“heads-up display”) is a quick-start tool to help you start building your multiplayer game straight away, without first having to build a user interface for game creation/connection/joining. It allows you to jump straight into your game play programming, and means you can build your own version of these controls later in your development schedule.
+Network Manager HUD (“heads-up display”) это инструмент, который поможет вам сразу приступить к созданию вашей многопользовательской игры, не создавая предварительно пользовательский интерфейс для создания игры / подключения / присоединения. Это позволяет вам сразу перейти к программированию игрового процесса и означает, что вы сможете создать свою собственную версию этих элементов управления позже в рамках вашего графика разработки.
 
-It is not, however, intended to be included in finished games. The idea is that these controls are useful to get you started, but you should create your own UI later on, to allow your players to find and join games in a way that suits your game. For example, you might want to stylize the design of the screens, buttons and list of available games to match the overall style of your game.
+Однако он не предназначен для включения в готовые игры. Идея в том, что эти элементы управления полезны для начала работы, но позже вам следует создать свой собственный пользовательский интерфейс, чтобы ваши игроки могли находить игры и присоединяться к ним способом, подходящим для вашей игры. Например, вы можете захотеть стилизовать дизайн окон, кнопок и списка доступных игр в соответствии с общим стилем вашей игры.
 
-To start using the Network Manager HUD, either add the component to the same scene object that has the Network Manager component, or create an empty game object in your scene (menu: game object > Create Empty) and add the Network Manager HUD component to the new game object.
+Чтобы начать использовать Network Manager HUD, либо добавьте компонент в тот же объект сцены, в котором есть компонент Network Manager, либо создайте пустой игровой объект в вашей сцене (меню: игровой объект > Создать пустой) и добавьте компонент Network Manager HUD в новый игровой объект.
 
 ![](<../../.gitbook/assets/image (127).png>)
 
 * **Show GUI**\
-  &#x20;Tick this checkbox to show the HUD GUI at run time. This allows you to reveal or hide it for quick debugging.
+  Установите этот флажок, чтобы отображать GUI HUD во время выполнения. Это позволяет вам раскрыть или скрыть его для быстрой отладки.
 * **Offset X**\
-  &#x20;Set the horizontal **pixel** offset of the HUD GUI, measured from the left edge of the screen.
+  Установите горизонтальное смещение **пикселя** графического интерфейса HUD, измеряемое от левого края экрана.
 * **Offset Y**\
-  &#x20;Set the vertical pixel offset of the HUD GUI, measured from the top edge of the screen.
+  Установите вертикальное смещение **пикселя** графического интерфейса HUD, измеряемое от верхнего края экрана.
 
-The Network Manager HUD provides the basic functions so that people playing your game can start hosting a networked game, or find and join an existing networked game. Unity displays the Network Manager HUD as a collection of simple UI buttons in the Game view.
+Network Manager HUD предоставляет основные функции, позволяющие пользователям, играющим в вашу игру, начать размещать сетевую игру или найти существующую сетевую игру и присоединиться к ней. Unity отображает Network Manager HUD в виде набора простых кнопок пользовательского интерфейса в режиме Game view.
 
 ![](<../../.gitbook/assets/image (7).png>)
 
-## Using the HUD <a href="#using-the-hud" id="using-the-hud"></a>
+## Использование HUD <a href="#using-the-hud" id="using-the-hud"></a>
 
-The Network Manager HUD starts in Server + Client mode, and displays buttons relating to hosting and joining a multiplayer game.
+Network Manager HUD запускается в режиме Сервер + клиент и отображает кнопки, относящиеся к размещению и присоединению к многопользовательской игре.
 
-### Host (Server + Client) <a href="#host-server--client" id="host-server--client"></a>
+### Хост (Сервер + Клиент) <a href="#host-server--client" id="host-server--client"></a>
 
-Click the Host (Server + Client) button to start a game as a host on the local network. This client is both the host _and_ one of the players in the game. It uses the information from the Network Info section in the inspector to host the game.
+Нажмите кнопку Host (Сервер + клиент), чтобы запустить игру от имени хоста в локальной сети. Этот клиент является одновременно хозяином и одним из игроков в игре. Он использует информацию из раздела "Информация о сети" в инспекторе для размещения игры.
 
-When you click this button, the HUD switches to a simple display of network details, and a Stop button which allows you to stop hosting the game and return to the main HUD menu.
+Когда вы нажимаете на эту кнопку, HUD переключается на простое отображение сведений о сети и кнопки остановки, которая позволяет вам прекратить размещение игры и вернуться в главное меню HUD.
 
 ![](<../../.gitbook/assets/image (121).png>)
 
-When you have started a game as a host, other players of the game can then connect to the host to join the game.
+Когда вы запустили игру в качестве хоста, другие игроки игры могут подключиться к хосту, чтобы присоединиться к игре.
 
-Click the Stop button to disconnect from the host. Clicking Stop also returns to the main HUD menu.
+Нажмите кнопку "Стоп", чтобы отключиться от хоста. Нажатие кнопки "Стоп" также возвращает к главному меню HUD.
 
-### Client <a href="#client" id="client"></a>
+### Клиент <a href="#client" id="client"></a>
 
-To connect to a host on the internet use the text field to the right of the Client button to specify the address of the host. The default host address is “localhost”, which means the client looks on its own computer for the game host. In addition to _localhost_, you can specify an IPv4 address, and IPv6 address, or a fully-qualified domain name (FQDN), e.g. _game.example.com_, and the transport with resolve the name using DNS. Click Client to attempt to connect to the host address you have specified.
+Чтобы подключиться к хосту в Интернете, используйте текстовое поле справа от кнопки клиента, чтобы указать адрес хоста. Адрес хоста по умолчанию - “localhost”, что означает, что клиент ищет хост игры на своем собственном компьютере. Вместо localhost вы можете указать IPv4-адрес и IPv6-адрес или полное доменное имя (FQDN), например game.example.com , и транспорт с разрешением имени с помощью DNS. Нажмите кнопку Клиент, чтобы попытаться подключиться к указанному вами адресу хоста.
 
-Use the default “localhost” in this field if you are running multiple instances of your game on one computer, to test multiplayer interactivity. To do this, you can create a standalone build of your game, and then launch it multiple times on your computer. This is a common way to quickly test that your networked game interactions are functioning as you expect, without you needing to deploy your game to multiple computers or devices.
+Используйте значение по умолчанию “localhost” в этом поле, если вы запускаете несколько экземпляров своей игры на одном компьютере, чтобы протестировать интерактивность многопользовательской игры. Чтобы сделать это, вы можете создать отдельный билд своей игры, а затем запустить ее несколько раз на своем компьютере. Это распространенный способ быстро проверить, что ваши сетевые игровые взаимодействия функционируют так, как вы ожидаете, без необходимости развертывать игру на нескольких компьютерах или устройствах.
 
 ![](<../../.gitbook/assets/image (55).png>)
 
-When you want to test your game on multiple machines you need to put the address of the computer acting as host into the address text field.
+Если вы хотите протестировать свою игру на нескольких компьютерах, вам нужно ввести адрес компьютера, выступающего в качестве хоста, в текстовое поле address.
 
-The computer acting as the host needs to tell their IP address to everyone running clients, so that you can type this into the box. For local clients on a LAN, that's the local IP address. For remote clients, that's the WAN IP address of the router of the host. Firewall rules and port-forwarding are generally required for a computer to act as host and accept connections from other computers, whether they're on the LAN or the internet.
+Компьютер, выступающий в качестве хоста, должен сообщить свой IP-адрес всем запущенным клиентам, чтобы вы могли ввести его в поле. Для локальных клиентов в локальной сети это локальный IP-адрес. Для удаленных клиентов это IP-адрес глобальной сети маршрутизатора хоста. Правила брандмауэра и переадресация портов обычно требуются для того, чтобы компьютер мог выступать в качестве хоста и принимать соединения с других компьютеров, независимо от того, находятся ли они в локальной сети или Интернете.
 
-Enter the IP address (or leave it as “localhost” if you are testing it on your own machine), then click Client to attempt to connect to the host.
+Введите IP-адрес (или оставьте его как “localhost”, если вы тестируете его на своем компьютере), затем нажмите "Клиент", чтобы попытаться подключиться к хосту.
 
-When the client is attempting to connect, the HUD displays a Cancel Connection Attempt button. Click this if you want to stop trying to connect to the host.
+Когда клиент пытается подключиться, на дисплее HUD отображается кнопка отмены попытки подключения. Нажмите на это, если вы хотите прекратить попытки подключиться к хосту.
 
 ![](<../../.gitbook/assets/image (116).png>)
 
-If the connection is successful, the HUD displays the Stop button. Click this if you want to stop the game on the client and disconnect from the host:
+Если подключение выполнено успешно, на дисплее HUD отобразится кнопка остановки. Нажмите на неё, если вы хотите остановить игру на клиенте и отключиться от хоста:
 
 ![](<../../.gitbook/assets/image (9).png>)
 
-### Server Only <a href="#server-only" id="server-only"></a>
+### Только сервер <a href="#server-only" id="server-only"></a>
 
-Click Server Only to start a game which acts as a server that other clients can connect to, but which does not act as a client to the game itself. This type of game is often called a “dedicated server”. A user cannot play the game on this particular instance of your game. All players must connect as clients, and nobody plays on the instance that is running as the server.
+Нажмите "Сервер" только для запуска игры, которая действует как сервер, к которому могут подключаться другие клиенты, но которая не является клиентом самой игры. Этот тип игр часто называют “выделенным сервером”. Пользователь не может играть в игру на этом конкретном экземпляре вашей игры. Все игроки должны подключаться как клиенты, и никто не играет на экземпляре, который запущен как сервер.
 
-A dedicated server results in better performance for all connected players, because the server doesn’t need to process a local player’s game play in addition to acting as server.
+Выделенный сервер обеспечивает более высокую производительность для всех подключенных игроков, поскольку серверу не нужно обрабатывать игру локального игрока в дополнение к выполнению функций сервера.
 
-You might also choose this option if you want to host a game that can be played over the internet (rather than just within a local network), but want to maintain control of the server yourself - for example, to prevent cheating by one of the clients, because only the server has authority over the game. To do this, you would need to run the game in Server Only mode on a computer with a public IP address.
+Вы также можете выбрать этот вариант, если хотите разместить игру, в которую можно играть через Интернет (а не только в локальной сети), но хотите сохранить контроль над сервером самостоятельно - например, чтобы предотвратить мошенничество со стороны одного из клиентов, поскольку только сервер имеет полномочия над игрой на сервере. Чтобы сделать это, вам нужно будет запустить игру только в режиме сервера на компьютере с общедоступным IP-адресом.
