@@ -1,11 +1,11 @@
 # Network Start Position
 
-To control where players are spawned, you can use the Network Start Position component.
+Чтобы контролировать, где спавнятся игроки, вы можете использовать компонент Network Start Position.
 
-To use these, attach a Network Start Position component to a game object in the scene, and position the game object where you would like one of the players to start. You can add as many start positions to your Scene as you like. The Network Manager detects all start positions in your Scene, and when it spawns each player instance, it uses the position and orientation of one of them.
+Чтобы использовать это, прикрепите компонент Network Start Position к игровому объекту на сцене, и расположите игровой объект там, где вы хотели бы, чтобы спавнился один из игроков. Вы можете добавить в свою сцену столько начальных позиций, сколько захотите. Network Manager определяет все начальные позиции в вашей сцене, и когда он создает каждый экземпляр player, он использует положение и ориентацию одного из них.
 
-The Network Manager will spawn players at (0, 0, 0) by default. Adding this component to a game object will automatically register/unregister its game object's transform to the Network Manager as an available spawning position.
+По умолчанию Network Manager будет спавнить игроков в координатах (0, 0, 0). Добавление этого компонента к игровому объекту автоматически зарегистрирует/отменит регистрацию преобразования его игрового объекта в Network Manager в качестве доступной позиции для появления.
 
-Depending on the Network Manager Player Spawn Method setting the spawning is either Random (possible that the same spawn position will be used by two or more players) or Round Robin (use every available position, until there are more clients than spawn points).
+В зависимости от того, как настроено полеPlayer Spawn Method в Network Manager, игроки будут спавниться либо рандомно (возможно, что одна и та же позиция для появления будет использоваться двумя или более игроками), либо по очереди (используйте все доступные позиции, пока клиентов не станет больше, чем точек появления).
 
 ![](<../../.gitbook/assets/image (48).png>)
