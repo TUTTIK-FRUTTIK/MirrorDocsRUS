@@ -1,56 +1,56 @@
 # Network Room Manager
 
-**Please see the Room example in the Examples folder in your Mirror folder.**
+**Пожалуйста посмотрите пример Room в папке Examples в вашей папке Mirror.**
 
-The Network Room Manager is a specialized type of [Network Manager](network-manager.md) that provides a multiplayer room before entering the main play scene of the game. It allows you to set up a network with:
+Network Room Manager является специализированным типом [Network Manager](network-manager.md) который обеспечивает многопользовательскую комнату перед входом в основную игровую сцену игры. Это позволяет вам настроить сеть с:
 
-* A maximum player limit
-* Automatic start when all players are ready
-* Game is locked after start, preventing late joiners
-* Customizable ways for players to choose options while in room &#x20;
+* Максимальным лимитом пользователей
+* Автоматическим стартом, когда все игроки готовы
+* Блокирующейся после запуска игрой, не допуская опоздавших участников
+* Настраиваемыми способами выбора игроками опций во время нахождения в комнате
 
-There are two types of player objects with the Network Room Manager:
+Существует два типа объектов игрока с Network Room Manager:
 
 **Room Player Prefab**
 
-* One for each player
-* Created when client connects, or player is added
-* Persists until client disconnects
-* Holds ready flag and configuration data
-* Handles commands in the room
-* Must use the [Network Room Player](network-room-player.md) component
+* По одному для каждого игрока
+* Создается при подключении клиента или добавлении игрока
+* Сохраняется до тех пор, пока клиент не отключится
+* Содержит флаг готовности и данные конфигурации
+* Выполняет команды в комнате
+* Обязан использовать компонент [Network Room Player](network-room-player.md)
 
 **Player Prefab**
 
-* One for each player
-* Created when game scene is started
-* Destroyed when leaving game scene
-* Handles commands in the game &#x20;
+* По одному для каждого игрока
+* Создается при запуске игровой сцены
+* Уничтожается при выходе из игровой сцены
+* Обрабатывает команды в игре
 
 ![](<../../.gitbook/assets/image (13).png>)
 
-## Properties <a href="#properties" id="properties"></a>
+## Параметры <a href="#properties" id="properties"></a>
 
 * **Show Room GUI**\
-  &#x20;Show the default OnGUI controls for the room.
+  Отображает элементы управления OnGUI по умолчанию для комнаты.
 * **Min Players**\
-  &#x20;Minimum number of players needed to start a game.
+  Минимальное количество игроков, необходимое для начала игры.
 * **Room Player Prefab**\
-  &#x20;The prefab to create for players when they enter the room (requires Network Room Player component).
+  Prefab, который нужно создать для игроков, когда они войдут в комнату (требуется компонент Network Room Player).
 * **Room Scene**\
-  &#x20;The scene to use for the room.
+  Сцена, которую нужно использовать для оформления комнаты.
 * **Gameplay Scene**\
-  &#x20;The scene to use for main game play.
+  Сцена, которую нужно использовать для основной игры.
 * **pendingPlayers**\
-  &#x20;List that holds players that are ready to start playing.
+  Список, содержащий игроков, которые готовы начать играть.
 * **roomSlots**\
-  &#x20;List that manages the slots for connected clients in the room.
+  Список, который управляет слотами для подключенных клиентов в комнате.
 * **allPlayersReady**\
-  &#x20;Bool indicating if all players are ready to start playing. This value changes as players invoke `CmdChangeReadyState` indicating true or false, and will be set false when a new client connects.
+  Bool, указывающий, готовы ли все игроки начать игру. Это значение меняется по мере того, как игроки вызывают`CmdChangeReadyState` указывающее true или false, и будет установлено значение false при подключении нового клиента.
 
-## Methods <a href="#methods" id="methods"></a>
+## Методы <a href="#methods" id="methods"></a>
 
-### Server Virtual Methods <a href="#server-virtual-methods" id="server-virtual-methods"></a>
+### Виртуальные методы сервера <a href="#server-virtual-methods" id="server-virtual-methods"></a>
 
 ```csharp
 public virtual void OnRoomStartHost() {}
@@ -77,7 +77,7 @@ public virtual void OnRoomServerPlayersReady()
 }
 ```
 
-### Client Virtual Methods <a href="#client-virtual-methods" id="client-virtual-methods"></a>
+### Виртуальные методы клиента <a href="#client-virtual-methods" id="client-virtual-methods"></a>
 
 ```csharp
 public virtual void OnRoomClientEnter() {}
