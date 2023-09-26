@@ -1,15 +1,15 @@
 # Network Lerp Rigidbody
 
-> The Network Lerp Rigidbody classed as "Experimental" for now so please share any problems or bugs you find with it and use at your own risk if production builds.
+> Network Lerp Rigidbody помечен как "Экспериментальный" на данный момент, пожалуйста, делитесь любыми проблемами или багами, которые вы обнаружите в нем, и используйте на свой страх и риск, если будете создавать готовую игру использующую данный компонент.
 
-The Network Lerp Rigidbody component synchronizes position and velocity of a rigidbody across the network. This component is useful when you have a non-kinematic rigidbody that have constant forces applied to them, like gravity, but also want to apply forces or change velocity to that rigidbody or server or client with authority. For example, objects that move and jump using rigidbody using gravity.
+Компонент Network Lerp Rigidbody синхронизирует velocity и другие параметры rigidbody по всей сети. Этот компонент полезен, когда у вас есть не kinematic rigidbody к которому постоянно применяется сила, к примеру гравитация, но также хотите применить силу или изменить скорость к этому Rigidbody, серверу или клиенту с полномочиями. Например, объекты, которые перемещаются и прыгают с помощью Rigidbody, использующего гравитацию.
 
-A game object with a Network Rigidbody component must also have a Network Identity component. When you add a Network Rigidbody component to a game object, Mirror also adds a Network Identity component on that game object if it does not already have one.
+Объект с компонентом Network Rigidbody должен также иметь компонент Network Identity. Когда вы добавляете компонент Network Rigidbody на GameObject, Mirror также добавляет компонент Network Identity на этот объект, если он не был добавлен ранее.
 
-When using the Network Lerp Rigidbody you should NOT have NetworkTransform on the same object as the Network Lerp Rigidbody will handle syncing the position
+Когда вы используете Network Lerp Rigidbody у вас НЕ должно быть NetworkTransform на объекте, который имеет компонент Network Lerp Rigidbody.
 
-By default, Network Lerp Rigidbody is server-authoritative unless you check the box for **Client Authority**. Client Authority applies to player objects as well as non-player objects that have been specifically assigned to a client, but only for this component. With this enabled, value changes are send from the client to the server.
+По умолчанию, Network Lerp Rigidbody является серверо-авторитарным, если вы не установите флажок на поле **Client Authority**. Client Authority применяется как к игровым объектам, так и к неигровым объектам, которые были специально назначены клиенту, но только для этого компонента. Если этот параметр включен, изменения значений отправляются с клиента на сервер.
 
-Normally, changes are sent to all observers of the object this component is on. Setting **Sync Mode** to Owner Only makes the changes private between the server and the client owner of the object.
+Обычно изменения отправляются всем наблюдателям объекта, на котором находится этот компонент. Настройте **Sync Mode** на Owner Only чтобы сделать изменения приватными для сервера и клиента владельца.
 
-You can use the **Sync Interval** to specify how often it syncs (in seconds). This applies both to Client Authority and Server Authority.
+Вы можете использовать **Sync Interval** чтобы указать, как часто он будет синхронизироваться (в секундах). Это относится как к Client Authority, так и к Server Authority.
