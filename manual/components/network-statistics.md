@@ -1,7 +1,7 @@
 # Network Statistics
 
-Network Statistics component shows messages and bytes per second sent and received.
+Компонент Network Statistics показывает количество отправленных и полученных сообщений и байт в секунду.
 
-Add this component to Network Manager object (or any object in an online scene).
+Добавьте компонент Network Manager на объект (или любой объект в онлайн сцене).
 
 ![](<../../.gitbook/assets/image (22).png>)
