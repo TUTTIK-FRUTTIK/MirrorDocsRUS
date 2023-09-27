@@ -1,6 +1,6 @@
 # Network Transform
 
-The Network Transform component synchronizes the position, rotation, and scale of networked game objects across the network.
+Компонент Network Transform синхронизирует положение, поворот и масштаб сетевых игровых объектов по всей сети.
 
 <div align="center">
 
@@ -9,44 +9,38 @@ The Network Transform component synchronizes the position, rotation, and scale o
 </div>
 
 {% hint style="info" %}
-Mirror currently provides **two** NetworkTransform variations:
+Mirror в настоящее время предоставляет **два** варианта NetworkTransform:
 
-* Reliable: low bandwidth, same latency as Rpcs/Cmds/etc.
-* Unreliable: high bandwidth, extremely low latency
+* Reliable: низкая пропускная способность, та же задержка, что и у Rpcs/Cmds/т.д.
+* Unreliable: высокая пропускная способность, чрезвычайно низкая задержка
 
-Use NetworkTransform**Reliable** unless you need super low latency.
-
-
+Используйте NetworkTransform**Reliable** если только вам не нужна сверхнизкая задержка.
 {% endhint %}
 
+Игровой объект с компонентом Network Transform также должен иметь компонент Network Identity. Когда вы добавляете компонент Network Transform к игровому объекту, Mirror также добавляет компонент Network Identity к этому игровому объекту, если у него его еще нет.
 
+По умолчанию, Network Transform является авторитетным для сервера, если вы не измените Sync Direction на Client To Server. Client Authority применяется как к игровым объектам, так и к неигровым объектам, которые были специально назначены клиенту, но применяется только для этого компонента. Если этот параметр включен, изменения местоположения отправляются с клиента на сервер.
 
-A game object with a Network Transform component must also have a Network Identity component. When you add a Network Transform component to a game object, Mirror also adds a Network Identity component on that game object if it does not already have one.
+Вы можете использовать **Sync Interval** чтобы указать, как часто он будет синхронизироваться (в секундах).
 
-By default, Network Transform is server-authoritative unless you change the Sync Direction to Client To Server. Client Authority applies to player objects as well as non-player objects that have been specifically assigned to a client, but only for this component. With this enabled, position changes are send from the client to the server.
+## Плавное перемещение во время задержки, потери пакетов и дрожания
 
-You can use the **Sync Interval** to specify how often it syncs (in seconds).
+`NetworkTransform` отправляет обновление позиции каждые `sendInterval` поверх `Unreliable` канала.
 
-### Smooth Movement during Latency, Packet Loss & Jitter
+Условия работы сети никогда не бывают идеальными, поэтому эти обновления могут приходить не по порядку, с задержкой или быть сброшены где-нибудь по пути.
 
-`NetworkTransform` sends movement updates every `sendInterval` over the `Unreliable` channel.
+Плавное перемещение в неидеальных сетевых условиях является одной из наиболее сложных проблем в игровых сетях. Наш компонент `NetworkTransform` решает это с помощью [Snapshot Interpolation](snapshot-interpolation.md). Мы рекомендуем прочитать главу, на которую дана ссылка, чтобы понять ее в деталях.
 
-Network conditions are never ideal, so those updates may come in out of order, delayed or get dropped somewhere on the way.
+Короче говоря, плавное перемещение в неидеальных условиях достигается за счет буферизации. Чем хуже условия, тем больше **Buffer Time Multiplier** должно быть. Однако, чем он выше, тем дольше он также буферизуется.
 
-Smooth movement over non ideal network conditions is one of the more difficult problems in game networking. Our `NetworkTransform` component solves it by using [Snapshot Interpolation](snapshot-interpolation.md). We recommend reading through the linked chapter to understand it in detail.
+Общее время буферизации вычисляется по формуле `sendInterval * Buffer Time Multiplier`. Обычно рекомендуется использовать коэффициент '3'.
 
-In short, smooth movement over non ideal conditions is achieved through buffering. The worse the conditions, the higher the **Buffer Time Multiplier** needs to be. However, the higher it is the longer it buffers too.&#x20;
+Это означает, что, хотя вы можете **увеличить** `Buffer Time Multiplier` чтобы компенсировать ухудшение условий, вы также могли бы **уменьшить** `sendInterval` чтобы по-прежнему сохранять разумно низкую задержку буферизации.
 
-The total buffer time is calculated by `sendInterval * Buffer Time Multiplier`. It's usually recommended to use a factor of '3'.&#x20;
-
-This means that while you can **increase** the `Buffer Time Multiplier` to make up for worse conditions, you could also **decrease** the `sendInterval` to still keep a reasonably low buffering delay.
-
-Our new Network Transform is already used in production by several real world game projects. Check out [this video](https://www.youtube.com/watch?v=z2JpT\_qLmzk) for a comparison between our old & new **Network Transform** components.
-
-
+Наш новый Network Transform уже используется в производстве несколькими реальными игровыми проектами. Посмотрите наше [видео](https://www.youtube.com/watch?v=z2JpT\_qLmzk) для сравнения между нашими старыми и новыми компонентами **Network Transform**.
 
 {% hint style="info" %}
-Note:\
-In Newer Mirror versions, sync interval has moved to NetworkManager as "Send Rate".\
-Send rate of 10, would be 0.1 sync interval.
+Примечание:\
+В более новых версиях Mirror, sync interval был перемещён в NetworkManager как "Send Rate".\
+Send rate в 10, будет как 0.1 у sync interval.
 {% endhint %}
