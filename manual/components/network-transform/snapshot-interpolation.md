@@ -1,79 +1,79 @@
 # Snapshot Interpolation
 
-Mirror's `NetworkTransform` component uses [**Snapshot Interpolation**](https://gafferongames.com/post/snapshot\_interpolation/).
+Компонент `NetworkTransform` использует [**Snapshot Interpolation**](https://gafferongames.com/post/snapshot\_interpolation/).
 
 {% hint style="info" %}
-If you are not familiar with the term: **Snapshot Interpolation** interpolates through snapshots, while buffering enough of them to make up for non-ideal networking conditions like latency, packet loss and scramble.
+Если вы не знакомы с этим термином: **Snapshot Interpolation** интерполирует моментальные снимки, сохраняя при этом их достаточное количество в буфере, чтобы компенсировать плохие вещи в неидеальных сетевых условиях, такие как задержка, потеря пакетов и смена местами пакетов.
 {% endhint %}
 
-When developing the new `NetworkTransform` component, we've had two goals:
+При разработке нового компонента `NetworkTransform`, у нас был выбор из двух решений:
 
-* **Make it stable**: We needed something that can be used by thousands of projects without _any_ surprises. Major hits already use Mirror and production, so we needed to be extremely careful to get this right.
-* **Make it reusable**: NetworkTransform is one of many components that need Snapshot Interpolation. Someone might need it for 3D / 2D Rigidbodies, Character Controllers and more. The algorithm however is always the same.
+* **Сделать его стабильным**: Нам нужно было что-то, что можно было бы использовать в тысячах проектов без _каких-либо сюрпризов_. Некоторые хиты уже используют Mirror, поэтому нам нужно было быть предельно осторожными, чтобы сделать компонент правильным.
+* **Сделать его многоразовым**: NetworkTransform является одним из многих компонентов, которые нуждаются в Snapshot Interpolation. Кому-то это может понадобиться для Rigidbody 3D / 2D, контроллеров персонажей и многого другого. Однако алгоритм всегда был бы один и тот же.
 
-In order to achieve both goals, we decided to split the **Snapshot Interpolation** algorithm into a standalone class that can be used by anyone. It's raw C#, completely independent from Mirror & Unity. You can use it in Mirror, or in standalone servers or in different game engines.
+Чтобы достичь обеих целей, мы решили разделить алгоритм **Snapshot Interpolation** в отдельный класс, который может быть использован кем угодно. Это необработанный C# скрипт, полностью независимый от Mirror и Unity. Вы можете использовать его в Mirror, на автономных серверах или в разных игровых движках.
 
-In short, we wanted to **solve the problem** once and for all, so we have an algorithm that we can use for decades, no matter which engine.
+Вкратце, мы хотели **решить эту проблему** раз и навсегда, итак, у нас есть алгоритм, который мы можем использовать десятилетиями, независимо от того, какой движок мы используем.
 
 {% hint style="info" %}
-The approach is comparable to **kcp**, which is merely a reliability algorithm that can be used in all languages & engines. For our kcp transport, we simply wrap it in server & client classes and send the results over UDP sockets.
+Этот подход сравним с **kcp**, который представляет собой просто надежный алгоритм, который может использоваться на всех языках и движках. Для нашего транспорта kcp мы просто помещаем его в классы server и client и отправляем результаты через сокеты UDP.
 {% endhint %}
 
-## Simulations & Tests
+## Моделирование и тесты
 
-**Snapshot Interpolation** is quite difficult to get right. Not only do we operate on two timelines (local & remote), we also have to deal with adverse network conditions like latency spikes, packet loss and scramble. To make matters worse, servers & clients might also be under heavy load and update on significantly different frequencies at times.
+**Snapshot Interpolation** довольно трудно сделать правильно. Мы не только работаем в двух временных рамках (локальном и удаленном), нам также приходится сталкиваться с неблагоприятными сетевыми условиями, такими как всплески задержки, потеря пакетов и смена пакетов местами. Что еще хуже, серверы и клиенты также могут находиться под большой нагрузкой и время от времени обновляться со значительно отличающимися частотами.
 
 {% hint style="info" %}
-To put things into perspective: the Snapshot Interpolation algorithm took us **4 months** of work to get it work. More than half the time was spent on tests & simulations to guarantee stability.
+Чтобы взглянуть на вещи в перспективе:  нам потребовалось 4 месяца работы, чтобы заставить работать алгоритм Snapshot Interpolation. Более половины времени было потрачено на тесты и моделирование, чтобы гарантировать стабильность.
 {% endhint %}
 
-Developing Snapshot Interpolation as a standalone algorithm allows us to **simulate** the different scenarios without even running latency simulation or Mirror:
+Разрабатывая Snapshot Interpolation как самостоятельный алгоритм, позволяет нам **моделировать** различные сценарии, даже не запуская моделирование задержки или Mirror:
 
-* We can simulate exactly how the snapshot interpolation algorithm behaves if the remote is at t=5, we are at t=3 and we have three snapshots at t=0, 1, 2, while **sampling** through different points of the interpolation.&#x20;
-* We can simulate what happens if someone only has two snapshots, reached the end of the interpolation and is still **waiting** for the next one.
-* We can simulate how the algorithm behaves if a mobile user switches back to the game after a **100s delay**.
-* We can simulate extremely poor network conditions like 99% **packet loss & scramble**.
-* We can **catch-up** if the buffer gets too large.
-* And many more..
+* Мы можем точно смоделировать, как ведет себя алгоритм интерполяции моментальных снимков, если пульт дистанционного управления находится в t = 5, мы находимся в t = 3 и у нас есть три моментальных снимка в t = 0, 1, 2, при этом **выборка** выполняется через разные точки интерполяции.
+* Мы можем смоделировать, что произойдет, если у кого-то есть только два снимка, он достиг конца интерполяции и все еще **ждет** следующего.
+* Мы можем смоделировать, как поведет себя алгоритм, если мобильный пользователь переключится обратно в игру после **100-секундной задержки**.
+* Мы можем смоделировать чрезвычайно плохие сетевые условия, такие как 99%-ная **потеря пакетов и смена их местами**.
+* Мы можем **наверстать** упущенное, если буфер станет слишком большим.
+* И много чего ещё..
 
 ![Snapshot Interpolation Simulations](../../../.gitbook/assets/2021-07-06\_20-23-58@2x.png)
 
-**As result**
+**Как результат**
 
-_It's only a matter of computing with snapshots & parameters in, result out._intended
+Это всего лишь вопрос вычислений с включенными моментальными снимками и параметрами вместе с полученным результатом.
 
-## Using the Algorithm
+## Использование алгоритма
 
-Please read through our `SnapshotInterpolation.cs` code in Mirror to see the algorithm & helper functions, and then read through `NetworkTransform` as usage example.
+Пожалуйста, ознакомьтесь с нашим кодом `SnapshotInterpolation.cs` в Mirror чтобы ознакомиться с алгоритмом и вспомогательными функциями, а затем ознакомьтесь с примером использования `NetworkTransform`.
 
-To summarize, there are a few key aspects:
+Подводя итог, можно выделить несколько ключевых аспектов:
 
-* The **Snapshot** **interface**: your `RigidbodySnapshot`, `CharacterControllerSnapshot` etc. structs have to implement that interface.
-* The **Time Buffer**, which is a `SortedList<timestamp, Snapshot>` buffer. We offer several helper functions like `InsertIfNewEnough` for convenience.&#x20;
-  * All of those functions are heavily covered with unit tests.
-* The **Compute()** algorithm: given a snapshot buffer, time, deltaTime and configuration parameters, it spits out the next interpolated Snapshot (if any).&#x20;
-  * This function comes with heavy test coverage, in fact it's likely the most tested function in all of Mirror.
+* **Snapshot** **interface**: ваши `RigidbodySnapshot`, `CharacterControllerSnapshot` и т.д. структуры должны реализовывать этот интерфейс.
+* **Time Buffer**, который является буфером `SortedList<timestamp, Snapshot>`. Мы предлагаем несколько вспомогательных функций, таких как `InsertIfNewEnough` для удобства.
+  * Все эти функции в значительной степени охвачены юнит тестами.
+* Алгоритм **Compute()**: учитывая буфер моментального снимка, время, deltaTime и параметры конфигурации, он выдает следующий интерполированный моментальный снимок (если таковой имеется).
+  * Эта функция поставляется с обширным тестовым покрытием, на самом деле это, вероятно, самая протестированная функция во всем Mirror.
 
 {% hint style="success" %}
-Make sure to read the [Snapshot Interpolation](https://gafferongames.com/post/snapshot\_interpolation/) article to understand how it all works, and then look through`SnapshotInterpolation.cs` and `NetworkTransformBase.cs`to see it in action. Even with our provided algorithm, it's still not an easy topic to understand and implement correctly.
+Обязательно ознакомьтесь с артиклом [Snapshot Interpolation](https://gafferongames.com/post/snapshot\_interpolation/) для понимания как это всё работает, а затем просмотрите`SnapshotInterpolation.cs` и `NetworkTransformBase.cs`чтобы увидеть это в действии. Даже с предоставленным нами алгоритмом, это все равно непростая тема для понимания и правильной реализации.
 {% endhint %}
 
 {% hint style="warning" %}
-Note how`NetworkTransform` sends snapshots **every**`sendInterval`over the **unreliable** channel. Do not send **only if changed**, this would require knowledge about the other end's last received snapshot (either over **reliable**, or with a **notify** algorithm).
+Обратите внимание, что`NetworkTransform` отправляет снапшоты **каждый**`sendInterval`над **ненадежным** каналом. Не отправляйте **only if changed**, для этого потребовались бы знания о последнем полученном снимке другой стороны (либо **сверхнадежный**, либо с использованием алгоритма **уведомления**).
 {% endhint %}
 
 {% hint style="info" %}
-Note that NetworkTransform sends **every**`sendInterval`. Bandwidth will be significantly reduced once we implement **Bitpacking** and **Delta Compression** into Mirror.
+Обратите внимание, что NetworkTransform отправляет сообщения **каждый**`sendInterval`. Пропускная способность будет значительно сокращена, как только мы внедрим **обработку пакетов** и **дельта-сжатие** в Mirror.
 {% endhint %}
 
-## Benchmarks & Results
+## Бенчмарки и результаты
 
-We recommend using Mirror's **LatencySimulationTransport** to try it yourself, for example with our **Benchmark** demo. Even for poor networking conditions, Snapshot Interpolation will perform well as long as the **bufferMultiplier** is high enough.
+Мы рекомендуем использовать **LatencySimulationTransport** чтобы опробовать это самому, например использовав **Benchmark** demo. Даже при плохих условиях работы сети, Snapshot Interpolation будет работать хорошо до тех пор, пока **bufferMultiplier** достаточно высок.
 
-#### Some test videos:
+#### Некоторые другие видео тесты:
 
 * NetworkTransform [old vs. new comparison](https://youtu.be/z2JpT\_qLmzk) on Youtube (secret project).
-* See the original [Pull Request](https://github.com/vis2k/Mirror/pull/2791) progress videos. You can see how latency, loss & scramble are gradually solved with every added feature.
+* Смотрите оригинал [Pull Request](https://github.com/vis2k/Mirror/pull/2791) прогресс видео. Вы можете видеть, как с каждой добавленной функцией постепенно решаются проблемы задержки, потерь и смены пакетов местами.
 * JesusLovsYooh old vs. new NetworkTransform _(watch the left build, OG NT is the old one and NT 2k is the new one)_
 
 {% embed url="https://www.youtube.com/watch?v=fu7w9vlG7yQ" %}
