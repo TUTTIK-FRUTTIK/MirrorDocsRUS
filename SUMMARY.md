@@ -62,7 +62,7 @@
   * [Network Statistics](manual/components/network-statistics.md)
   * [Network Transform](manual/components/network-transform/README.md)
     * [Snapshot Interpolation](manual/components/network-transform/snapshot-interpolation.md)
-  * [Deprecated](manual/components/deprecated/README.md)
+  * [Устаревшее](manual/components/deprecated/README.md)
     * [Network Proximity Checker](manual/components/deprecated/network-proximity-checker.md)
     * [Network Scene Checker](manual/components/deprecated/network-scene-checker.md)
     * [Network Match Checker](manual/components/deprecated/network-match-checker.md)

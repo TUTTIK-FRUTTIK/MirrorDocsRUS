@@ -1,8 +1,8 @@
-# Deprecated
+# Устаревшее
 
-The following components have been deprecated and should not be used.
+Следующие компоненты устарели и не должны использоваться.
 
-Follow the links below for information on what replaced them.
+Перейдите по ссылкам ниже для получения информации о том, что их заменило.
 
 * [Network Proximity Checker](network-proximity-checker.md)
 * [Network Scene Checker](network-scene-checker.md)
