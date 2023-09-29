@@ -6,42 +6,42 @@ description: Scene Interest Management
 
 ## Scene Interest Management
 
-Scene Interest Management is used with Additive Scenes to networked objects to subscenes with physics isolation.  That means that even if you have several instances of the same subscene loaded on the server, collisions and such between objects only happen within that subscene without interfering with others.
+Scene Interest Management используется при добавлении дополнительных сцен с физической изоляцией. Это означает, что даже если у вас есть несколько экземпляров одной и той же под-сцены, загруженных на сервер, коллизии и тому подобное между объектами взаимодействуют только внутри это своей под-сцены, не мешая другим.
 
 {% hint style="info" %}
-Server and connected clients always have the same main scene loaded. With additive scenes, this is typically a container scene, and additive subscenes have the actual scene contents.
+Обычно на сервер и подключенные клиенты всегда загружается одна и та же основная сцена. В случае дополнительных сцен это, как правило, главная сцена, а дополнительные подзаголовки содержат фактическое содержимое сцены.
 {% endhint %}
 
-### Setting Up
+### Перед началом
 
-Add the **Scene Interest Management** component to the same object as your **Network Manager**:
+Добавьте компонент **Scene Interest Management** на объект, который имеет компонент **Network Manager**:
 
 ![](<../../.gitbook/assets/image (18).png>)
 
-### Add Physics Simulator
+### Добавьте Physics Simulator
 
-In each subscene, add an empty game object, and add a **Physics Simulator** component to that.  Since additive scenes will be loaded on the server as "[physics scenes](https://docs.unity3d.com/ScriptReference/PhysicsScene.html)" Unity doesn't simulate physics for them, so this component does that for you in each subscene.
+В каждой под-сцене добавьте пустой игровой объект и добавьте на него компонент [**Physics Simulator**](https://github.com/MirrorNetworking/Mirror/blob/master/Assets/Mirror/Examples/MultipleAdditiveScenes/Scripts/PhysicsSimulator.cs). Поскольку дополнительные сцены будут загружаться на сервер в виде "[физических сцен](https://docs.unity3d.com/ScriptReference/PhysicsScene.html)" Unity не имитирует физику для них, поэтому этот компонент делает это за вас в каждой под-сцене.
 
 ![](<../../.gitbook/assets/image (115).png>)
 
-### Environment Content
+### Окружающая среда
 
-Also in each subscene, create an empty game object called **Environment** with a **Network Identity** and make all static non-networked content to be children of this object.  Typically this would include scenery, such as buildings, road meshes and other non-interactive content.
+Также в каждой под-сцене создайте пустой игровой объект под названием **Environment** с Network Identity и сделайте весь статический несетевой контент дочерним по отношению к этому объекту. Как правило, это декорации, такие как здания, дорожные сетки и другой неинтерактивный контент.
 
 ![](<../../.gitbook/assets/image (37) (1).png>)
 
 {% hint style="warning" %}
-Do not put anything under the Environment object that will be networked and/or may be interactive by players, e.g. doors, pickups, kiosks, etc.
+Не размещайте под объектом Environment ничего, что будет подключено к сети и/или может быть интерактивным для игроков, например, двери, пикапы, киоски и т.д.
 {% endhint %}
 
-### Spawning Players
+### Спавн игроков
 
-When you instantiate a player or other networked object, Unity doesn't have any built-in mechanism to specify which subscene the object is instantiated to...it's always the active scene, which is our container scene.  After instantiating and before spawning the object, call `SceneManager.MoveGameObjectToScene` to move the object into the correct subscene. Once it's spawned it will be visible to clients with player objects in the same subscene.  If you move it to another subscene, visibility in both the new and previous subscenes will be updated automatically.
+Когда вы создаете экземпляр игрока или другого сетевого объекта, Unity не имеет встроенного механизма для указания, в какой под-сцене создается экземпляр объекта... объекты создаются всегда в активной сцене, которая является нашей главной сценой. После создания экземпляра и перед спавном объекта вызовите `SceneManager.MoveGameObjectToScene` чтобы переместить объект в нужную под-сцену. Как только он будет создан, он будет виден клиентам с объектами player в той же под-сцене. Если вы переместите его в другую под-сцену, видимость как в новой, так и в предыдущей под-сценах будет обновлена автоматически.
 
 {% hint style="info" %}
-Note that the networked objects are only moved to subscenes on the server.  Clients spawn everything in the container scene, and there's no need to move objects to a subscene on the clients, since they only have one subscene loaded at a time.
+Обратите внимание, что сетевые объекты перемещаются по под-сценам только на стороне сервера. Клиенты создают все в своей главной сцене, и нет необходимости перемещать объекты по под-сценам на клиентах, поскольку у них загружается только одна под-сцена.
 {% endhint %}
 
-### Raycasting and Such
+### Raycasting и остальное
 
-Physics scenes have a special set of methods for Raycast and such that must be used on the server since the server has the subscenes as physics scenes.  You can read about those [here](https://docs.unity3d.com/ScriptReference/PhysicsScene.html).  On the remote (non-Host) clients, raycasting is done with the normal methods, since the client just merges the additive scene with the container without it being a physics scene.
+Физические сцены имеют специальный набор методов для Raycast и остальным подобным проверкам, которые должны использоваться на сервере, поскольку сервер имеет под-сцены в качестве физических сцен. Вы можете прочитать об этих методах [здесь](https://docs.unity3d.com/ScriptReference/PhysicsScene.html). На удаленных клиентах (не являющихся хостом) raycasting и остальное выполняется обычными методами, поскольку клиент просто объединяет дополнительную сцену с главной.
