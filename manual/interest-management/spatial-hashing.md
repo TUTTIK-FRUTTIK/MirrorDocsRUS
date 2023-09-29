@@ -6,20 +6,20 @@ description: Spatial Hash Interest Management
 
 ## **Spatial Hashing Interest Management**
 
-First things first: **"Spatial Hashing"** sounds complicated so that we network programmers can stroke our egos. The technique is actually pretty simple, and if you used uMMORPG before then you probably remember this as **"Grid Checker"**. We go with "Spatial Hashing" anyway since that's the industry term.
+Перво-наперво: **"Spatial Hashing"** звучит сложно, чтобы мы, сетевые программисты, могли потешить свое эго. Техника на самом деле довольно проста, и если вы раньше использовали uMMORPG, то, вероятно, помните это как "**Проверку по сетке**". В любом случае мы используем "Spatial Hashing", поскольку это отраслевой термин.
 
-### Setting Up
+### Перед началом
 
-Add the **Spatial Hashing Interest Management** component to the same object as your **Network Manager**:
+Добавьте компонент **Spatial Hashing Interest Management** на тот объект, на котором у вас висит компонент **Network Manager**:
 
 ![](<../../.gitbook/assets/image (49).png>)
 
-### **How It Works**
+### **Как это работает**
 
-Previously we **Vector3.Distance** checked each spawned entity against each connection. Instead, we put each spawned entity into a **Grid** and for each connection, we send all **8-neighbor** grid entries to it.  This is extremely fast. In early uMMORPG tests, it was 30x faster than distance checking. The algorithm is less complex, so it scales well to large amounts of entities.
+Ранее, мы проверяли **Vector3.Distance** каждого заспавненного объекта у каждого соединения. Вместо этого теперь мы помещаем каждый созданный объект в сетку и для каждого клиента, мы отправляем ему обновления, которые есть в **8 соседних** клетках сетки. Это очень быстро. В начале тестирования uMMORPG, это было в 30 раз быстрее, чем проверка расстояния. Алгоритм менее сложен, поэтому он хорошо масштабируется для большого количества объектов.
 
 ![Source: https://www.dynetisgames.com/2017/04/05/interest-management-mog/](<../../.gitbook/assets/image (102).png>)
 
 {% hint style="info" %}
-Check out Mirror's **Benchmark** example. It uses Spatial Hashing and displays a runtime slider to let you play around with the visibility range.
+Проверьте примеры Mirror **Benchmark**. Это использует Spatial Hashing и отображает ползунок в реальном времени, позволяющий вам поиграться с диапазоном видимости.
 {% endhint %}
