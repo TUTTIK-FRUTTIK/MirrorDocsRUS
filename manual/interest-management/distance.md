@@ -6,7 +6,7 @@ description: Distance Interest Management
 
 ## Distance Interest Management
 
-The straight forward, brute force solution for Interest Management is to simply send all entities to all connections within range.  This is what **Network Proximity Checker** did:
+Простое решение для Interest Management методом перебора заключается в том, чтобы просто отправлять все объекты всем клиентам в пределах досягаемости. Это то, что делает **Network Proximity Checker**:
 
 ```csharp
 foreach spawned entity:
@@ -15,20 +15,20 @@ foreach spawned entity:
             connection.Send(spawned);
 ```
 
-The only downside is that it's relatively expensive to check every entity against every connection. So if you need loads of entities or connections, it would be smart to use a faster algorithm like [**Spatial Hashing**](spatial-hashing.md).
+Единственным недостатком является то, что проверка каждого объекта на соответствие каждому соединению обходится относительно дорого. Поэтому, если вам нужно множество объектов или подключений, было бы разумно использовать более быстрый алгоритм, такой как [**Spatial Hashing**](spatial-hashing.md).
 
-### Setting Up
+### Перед началом
 
-Add the **Distance Interest Management** component  to the same object as your **Network Manager**:
+Добавьте компонент **Distance Interest Management** на тот объект, на котором у вас висит компонент **Network Manager**:
 
 ![](<../../.gitbook/assets/image (97).png>)
 
-The **Vis Range** defines the radius around a player from which it receives world updates.
+**Диапазон видимости** определяет радиус вокруг игрока, в пределах которого он получает обновления о состоянии мира.
 
-The **Rebuild Interval** is in seconds, and determines how often Mirror recalculates visibility of objects to clients.
+**Rebuild Interval** измеряется в секундах и определяет, как часто Mirror пересчитывает видимость объектов для клиентов.
 
 ### Custom Visible Range
 
-The Vis Range setting above applies to all networked objects as the "default" range. You can override this value on objects that need a different range, e.g. exception cases for things that are very large or very small, relative to most other things in the scene. To do this, just add a **Distance Interest Management Custom Range** component to those objects and set the Vis Range values for those objects according to your needs.
+Приведенная выше настройка диапазона видимости применяется ко всем сетевым объектам в качестве диапазона "по умолчанию". Вы можете переопределить это значение для объектов, которым требуется другой диапазон, например, исключительные случаи для объектов, которые очень велики или очень малы по сравнению с большинством других объектов в сцене. Чтобы сделать это, просто добавьте к этим объектам компонент **Distance Interest Management Custom Range** и установите значения диапазона видимости для этих объектов в соответствии с вашими потребностями.
 
 ![](<../../.gitbook/assets/image (66).png>)
