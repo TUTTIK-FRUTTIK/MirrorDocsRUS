@@ -1,43 +1,43 @@
 ---
-description: Documentation for our new global Interest Management system.
+description: Документация о новой глобальной системе Interest Management.
 ---
 
 # Interest Management
 
 ## Interest Management
 
-When making multiplayer games, the first obvious approach is to simply broadcast the world state to every player. By default, that's what **Mirror** does when you don't use any Interest Management components.
+При создании многопользовательских игр первый очевидный подход заключается в простой синхронизации состояния мира каждому игроку. По умолчанию это то, что делает Mirror, когда вы не используете какие-либо компоненты Interest Management.
 
 ![Source: https://www.dynetisgames.com/2017/04/05/interest-management-mog/](<../../.gitbook/assets/image (57).png>)
 
-Instead of sending the full world state to every player, it's worth considering sending only what's around a player to the player. There are a few major reasons for interest management:
+Вместо того, чтобы отправлять полное состояние мира каждому игроку, стоит подумать о том, чтобы отправлять игроку только то, что находится вокруг игрока. Есть несколько основных принципов для interest management:
 
-* **Scale**: imagine World of Warcraft. Sending the whole world to every single player would be insane. In order to scale to thousands of connections, we need to only send what's relevant to any given player.
-* **Visibility**: in a MOBA game like DotA/League of Legends, not everyone should see everyone else all the time. A player should only see his own team and monsters around him. Not only that, but players shouldn't see behind walls etc.
-* **Cheating**: in games like Counter-Strike, players naturally don't see enemies behind walls because the camera wouldn't render them. But if the whole world state is known in memory, then hackers could exploit that by showing players behind a wall anyway.
+* **Размер**: представьте себе World of Warcraft. Посылать весь мир каждому отдельному игроку было бы безумием. Чтобы масштабироваться до тысяч подключений, нам нужно отправлять только то, что имеет отношение к любому данному игроку.
+* **Видимость**: в такой MOBA-игре, как DotA / League of Legends, не все должны постоянно видеть друг друга. Игрок должен видеть только свою собственную команду и монстров вокруг себя. Не только для этого, игроки также не должны видеть друг друга за стенами и т.д.
+* **Читерство**: в таких играх, как Counter-Strike, игроки, естественно, не видят врагов за стенами, потому что камера их не отображает. Но если состояние всего мира известно в памяти, то хакеры все равно могли бы воспользоваться этим, показав игроков за стеной.
 
-In other words, interest management is almost always a good idea.
+Другими словами, interest management - почти всегда хорошая идея.
 
-### Built-in Systems
+### Встроенные системы
 
-Select the **Network Manager** and add one of the built in Interest Management components.
+Выберите **Network Manager** и добавьте к нему один из некоторых компонентов Interest Management.
 
-* [**Spatial Hashing**](spatial-hashing.md) is the reason why we moved from the legacy **per-Network Identity** system to a **global** system and uses one global **Vis Range** setting that is the same for everything in the scene.&#x20;
-* [**Distance**](distance.md) is a parity replacement for Network Proximity Checker.
-* [**Scene**](scene.md) allows for visual and physics isolation across additive scenes.
-* [**Match**](match.md) isolates players for non-physics card, board, arcade games.
-* [**Team**](team.md) provides for restricting visibility of networked objects to members of a team. This can also be used for owner-only items, replacing **Network Owner Checker**.
-* [**Custom**](custom.md) Interest Management provides a template that you can use to create your own system.
-* [**Legacy**](legacy-interest-management.md) Interest Management - Deprecated.
+* [**Spatial Hashing**](spatial-hashing.md) это причина, по которой мы перешли от устаревшей системы идентификации для каждой сети к глобальной системе и используем одну глобальную настройку диапазона видимости, которая одинакова для всего на сцене.
+* [**Distance**](distance.md) является заменой для Network Proximity Checker.
+* [**Scene**](scene.md) обеспечивает визуальную и физическую изоляцию между дополнительными сценами.
+* [**Match**](match.md) изолирует игроков для нефизических карточных, настольных, аркадных игр.
+* [**Team**](team.md) обеспечивает ограничение видимости сетевых объектов для членов команды. Это также может быть использовано для предметов, доступных только владельцу, заменяя **Network Owner Checker**.
+* [**Custom**](custom.md) Interest Management предоставляет шаблон, который вы можете использовать для создания своей собственной системы.
+* [**Legacy**](legacy-interest-management.md) Interest Management - Устарело.
 
-### Final Remarks
+### Финальные ремарки
 
-The new Interest Management API is fairly simple and allows for heavy customization. We walked through it with the distance based example, which is easy to understand.&#x20;
+Новый API для Interest Management довольно прост и допускает сложную настройку. Мы рассмотрели это на примере, основанном на расстоянии, который легко понять.
 
-You may have noticed that this is a **global** component, yet all the functions seem to work **locally** around one **Network Identity** at a time. There are two reasons for that:
+Возможно вы заметили что этот компонент **глобальный**, тем не менее, все функции, похоже, работают **локально** для каждого **Network Identity**. На это есть две причины:
 
-* Our **legacy** Interest Management system worked on a **per-Network Identity** basis (or **locally** if you will). For the global system, we simply moved those functions into one **global** component.&#x20;
-  * This allows for global solution like **Spatial hashing**, while also guaranteeing feature pararity and easy upgrades from the old systems.
-  * It's really just the old system moved to a different place. Don't fear it :)
-* Interest Management can be quite complicated with all the spawning and despawning at the right time. Mirror has a whole lot of interest management code in **`NetworkServer`**, which simply calls the three functions above.&#x20;
-  * The idea is to shield you from all the complexity. All you need to do is worry about **one Network Identity at a time**. That's fairly easy to think about.
+* Наша система **legacy** Interest Management работал на основе идентификации **каждого** Network Identity (или **локально**, если хотите). Для **глобальной** системы мы просто перенесли эти функции в один **глобальный** компонент.
+  * Это позволяет создавать глобальные решения, такие как **Spatial hashing**,при этом также гарантируется совместимость функций и простота обновления по сравнению со старыми системами.
+  * На самом деле это просто старая система, перенесенная в другое место. Не бойтесь этого :)
+* Interest Management может быть нелегким со всеми этими спавнами и деспавнами в любое время. Mirror имеет целую кучу кода для interest management в скрипте **`NetworkServer`**, который просто вызывает три описанные выше функции.
+  * Идея состоит в том, чтобы оградить вас от всех сложностей. Все, что вам нужно сделать, это беспокоиться об **одном Network Identity в текущее время**. С этим очень легко работать
