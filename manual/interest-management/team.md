@@ -6,20 +6,20 @@ description: Team Interest Management
 
 ## Team Interest Management
 
-Team Interest Management provides for having networked objects only visible to those on the same Team, using a Network Team component on the player object and as well as networked objects that need to have their visibility restricted to a team.
+Team Interest Management обеспечивает видимость сетевых объектов только для своей команды, используйте компонент Network Team на объекте игрока, а также на сетевых объектах, видимость которых должна быть ограничена командой.
 
-### Setting Up
+### Перед началом
 
-Add the **Team Interest Management** component to the same object as your **Network Manager**:
+Добавьте компонент **Team Interest Management** на объект, который имеет компонент **Network Manager**:
 
 ![](<../../.gitbook/assets/image (118).png>)
 
-Add a **Network Team** component to the player prefab and any other prefabs that will belong to a team.  Set the Team ID to the same value at runtime for players / objects on the same team.
+И добавьте компонент **Network Team** prefab'у игрока и остальным prefab'ам, которые будут состоять в команде. Во время игры назначайте объектам одной команды один и тот же ID.
 
 ![](<../../.gitbook/assets/image (123).png>)
 
-Enable **Force Shown** on Player objects so they can be seen by players on other teams.
+Включите **Force Shown** на объектах игроков, чтобы их могли видеть игроки других команд.
 
-### Owner Only
+### Только владелец
 
-By assigning a unique value to Team ID for each player and the objects only that client should see, you can achieve "Owner Interest Management" similar to the former Network Owner Checker.&#x20;
+Путем присвоения уникального значения Team ID для каждого игрока и его объектов, вы можете добиться некого "Owner Interest Management" аналогично бывшему Network Owner Checker.
