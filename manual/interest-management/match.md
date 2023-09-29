@@ -7,21 +7,21 @@ description: Match Interest Management
 ## Match Interest Management
 
 {% hint style="danger" %}
-Do not use this for physics-based games...use [**Scene Interest Management**](scene.md) instead.
+Не используйте это для игр, в которых есть физика... Если она есть, используйте вместо данного компонента компонент [**Scene Interest Management**](scene.md).
 {% endhint %}
 
-Match Interest Management is intended for non-physics games like card, board, arcade games.
+Match Interest Management предназначен для нефизических игр, таких как карточные, настольные, аркадные игры.
 
-### Setting Up
+### Перед началом
 
-Add the **Match Interest Management** component to the same object as your **Network Manager**:
+Добавьте компонент **Match Interest Management** на объект, который имеет компонент **Network Manager**:
 
 ![](<../../.gitbook/assets/image (68).png>)
 
-And add a **Network Match** component to all networked objects, including the player prefab, that will be involved in match play.
+И добавьте компонент **Network Match** всем сетевым объектам включая prefab игрока, это будет задействовано в матче.
 
 ![](<../../.gitbook/assets/image (47).png>)
 
-At runtime, assign the same `matchId` to players and objects that belong to the same match.
+Во время выполнения назначайте один и тот же`matchId` игрокам и объектам, которые учавствуют другом в матче, тоесть у объектов конкретного матча должен быть один и тот же  `matchId`.
 
-See the **Multiple Matches** example included with Mirror for reference and inspiration.
+Посмотрите наш пример **Multiple Matches**, который идет в комплекте с Mirror для справки и вдохновения.
