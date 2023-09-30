@@ -1,30 +1,30 @@
-# Guides
+# Гайды
 
-## Networking Concepts Overview
+## Обор сетевой концепции
 
-### High Level Scripting API <a href="#high-level-scripting-api" id="high-level-scripting-api"></a>
+### Высокоуровневый скриптинг API <a href="#high-level-scripting-api" id="high-level-scripting-api"></a>
 
-Mirror is a “high-level” networking library. Using this means you get access to commands which cover most of the common requirements for multiuser games without needing to worry about the “lower level” implementation details. Mirror allows you to:
+Mirror это сетевая библиотека “высокого уровня”. Использование этого означает, что вы получаете доступ к командам, которые удовлетворяют большинству общих требований для многопользовательских игр, без необходимости беспокоиться о деталях реализации “более низкого уровня”. Mirror позволяет вам:
 
-* Control the networked state of the game using a “Network Manager”.
-* Operate “client hosted” games, where the host is also a player client.
-* Serialize data using a general-purpose serializer.
-* Send and receive network messages.
-* Send networked commands from clients to servers.
-* Make remote procedure calls (RPCs) from servers to clients.
-* Send networked events from servers to clients.
+* Управлять сетевым состоянием игры с помощью “Network Manager”.
+* Управлять играми, размещенными на клиенте, где хост также является клиентом игрока.
+* Сериализовать данные с помощью универсального сериализатора.
+* Отправлять и получать сетевые сообщений.
+* Отправлять сетевые команды от клиентов к серверу.
+* Выполнять удаленные вызовы процедур (RPCs) от сервера к клиентам.
+* Отправлять сетевые события с сервера клиентам.
 
 ### Low Level Transport API
 
-Mirror requires a low level [Transport](../transports/) to **connect/disconnect/send/recv** messages on a byte\[] level.
+Mirror требует низкоуровневый [транспорт](../transports/) для подключения**/отключения/отправки/получения** сообщений на уровне byte\[].
 
-### Engine and Editor integration <a href="#engine-and-editor-integration" id="engine-and-editor-integration"></a>
+### Интеграция движка и редактора <a href="#engine-and-editor-integration" id="engine-and-editor-integration"></a>
 
-Mirror’s networking is integrated into the engine and the editor, allowing you to work with components and visual aids to build your multiplayer game. It provides:
+Mirror networking интегрирован в движок и редактор, позволяя вам работать с компонентами и наглядными пособиями для создания вашей многопользовательской игры. Он обеспечивает:
 
-* A NetworkIdentity component for networked objects.
-* A NetworkBehaviour for networked scripts.
-* Configurable automatic synchronization of object transforms.
-* Automatic synchronization of script variables.
-* Support for placing networked objects in Unity scenes.
-* Network components
+* Компонент NetworkIdentity для сетевых объектов.
+* NetworkBehaviour для сетевых скриптов.
+* Конфигурируемая автоматическая синхронизация object transforms.
+* Автоматическая синхронизация переменных.
+* Поддержка размещения сетевых объектов в сценах Unity.
+* Сетевые компоненты

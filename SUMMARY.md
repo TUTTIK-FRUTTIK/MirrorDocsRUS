@@ -75,7 +75,7 @@
   * [Team](manual/interest-management/team.md)
   * [Custom](manual/interest-management/custom.md)
   * [Legacy](manual/interest-management/legacy-interest-management.md)
-* [Guides](manual/guides/README.md)
+* [Гайды](manual/guides/README.md)
   * [Authority](manual/guides/authority.md)
   * [IDs](manual/guides/ids.md)
   * [Attributes](manual/guides/attributes.md)
