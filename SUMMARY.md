@@ -78,7 +78,7 @@
 * [Гайды](manual/guides/README.md)
   * [Контроль](manual/guides/authority.md)
   * [ID](manual/guides/ids.md)
-  * [Attributes](manual/guides/attributes.md)
+  * [Атрибуты](manual/guides/attributes.md)
   * [Time Synchronization](manual/guides/time-sync.md)
   * [Data types](manual/guides/data-types.md)
   * [Serialization](manual/guides/serialization.md)

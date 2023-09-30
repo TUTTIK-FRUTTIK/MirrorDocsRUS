@@ -1,26 +1,26 @@
-# Attributes
+# Атрибуты
 
-Networking attributes are added to member functions of Network Behaviour scripts, to make them run on either the client or server.
+Сетевые атрибуты добавляются к функциям скриптов Network Behaviour, чтобы заставить их работать либо на клиенте, либо на сервере.
 
-These attributes can be used for Unity game loop methods like **Start** or **Update**, as well as other implemented methods.
+Эти атрибуты могут использоваться для методов игрового цикла Unity, таких как **Start** или **Update**, а также для других реализованных методов.
 
 {% hint style="info" %}
-**NOTE**: when using abstract or virtual methods the Attributes need to be applied to the override methods too.
+**ПРИМЕЧАНИЕ**: при использовании абстрактных или виртуальных методов атрибуты также должны быть применены к переопределяемым методам.
 {% endhint %}
 
 * **\[Server]**\
-  Only a server can call the method (throws a warning when called on a client).
+  Только сервер может вызвать этот метод (выдает предупреждение при вызове на клиенте).
 * **\[ServerCallback]**\
-  Same as **Server** but does not throw a warning when called on client.
+  То же, что и **\[Server]**, но не выдает предупреждение при вызове на клиенте.
 * **\[Client]**\
-  Only a Client can call the method (throws a warning when called on the server).
+  Только клиент может вызвать этот метод (выдает предупреждение при вызове на сервере).
 * **\[ClientCallback]**\
-  Same as **Client** but does not throw a warning when called on server.
+  То же, что и **\[Client]**, но не выдает предупреждение при вызове на сервере.
 * **\[Command]**\
-  Call this from a client to run this function on the server. Make sure to validate input etc. It's not possible to call this from a server. Use this as a wrapper around another function, if you want to call it from the server too. See also [**Remote Actions**​](communications/remote-actions.md) and [**Data Types**](data-types.md).
+  Вызовите это с клиента, чтобы запустить эту функцию на сервере. Убедитесь в правильности ввода и т.д. Это невозможно вызвать с сервера. Но вы можете использовать это как оболочку для другой функции, если вы хотите вызвать ее и с сервера тоже. Смотрите также [**удаленные действия**​](communications/remote-actions.md) и [**типы данных**](data-types.md).
 * **\[ClientRpc]**\
-  The server uses a Remote Procedure Call (RPC) to run that function on clients. See also: [**Remote Actions**](communications/remote-actions.md)**.**
+  Сервер использует удаленный вызов процедуры (RPC) для запуска этой функции на клиентах. Смотрите также: [**удаленные действия**](communications/remote-actions.md)**.**
 * **\[TargetRpc]**\
-  This is an attribute that can be put on methods of Network Behaviour classes to allow them to be invoked on clients from a server. Unlike the ClientRpc attribute, these functions are invoked on one individual target client, not all of the ready clients. See also: [**Remote Actions**](communications/remote-actions.md).
+  Это атрибут, который может быть применен к методам класса Network Behaviour чтобы разрешить их вызов на клиентах с сервера. В отличие от атрибута ClientRpc, функции с данным атрибутом вызываются на одном отдельном целевом клиенте, а не на всех готовых клиентах. Смотрите также: [**удаленные действия**](communications/remote-actions.md).
 * **\[SyncVar]**\
-  [**SyncVars**](synchronization/syncvars.md) are used to synchronize a variable from the server to all clients automatically. Don't assign them from a client, it's pointless. Don't let them be null, you will get errors. You can use int, long, float, string, Vector3 etc. (all simple types) and Network Identity and game object if the game object has a Network Identity attached to it. You can use [**SyncVar Hooks**](synchronization/syncvar-hooks.md) to run code on clients when they receive updates from the server.
+  [**SyncVars**](synchronization/syncvars.md) используются для автоматической синхронизации переменной с сервера со всеми клиентами. Не назначайте их от клиента, это бессмысленно. Не позволяйте им быть нулевыми, вы получите ошибки. Вы можете использовать int, long, float, string, Vector3 и т.д. (все простые типы), а также Network Identity и игровой объект, если к игровому объекту прикреплен Network Identity. Вы можете использовать [**SyncVar Hooks**](synchronization/syncvar-hooks.md) для запуска кода на клиентах, когда они получают обновление с сервера.
