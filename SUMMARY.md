@@ -76,7 +76,7 @@
   * [Custom](manual/interest-management/custom.md)
   * [Legacy](manual/interest-management/legacy-interest-management.md)
 * [Гайды](manual/guides/README.md)
-  * [Authority](manual/guides/authority.md)
+  * [Контроль](manual/guides/authority.md)
   * [IDs](manual/guides/ids.md)
   * [Attributes](manual/guides/attributes.md)
   * [Time Synchronization](manual/guides/time-sync.md)
