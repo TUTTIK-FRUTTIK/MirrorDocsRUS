@@ -79,7 +79,7 @@
   * [Контроль](manual/guides/authority.md)
   * [ID](manual/guides/ids.md)
   * [Атрибуты](manual/guides/attributes.md)
-  * [Time Synchronization](manual/guides/time-sync.md)
+  * [Синхронизация времени](manual/guides/time-sync.md)
   * [Data types](manual/guides/data-types.md)
   * [Serialization](manual/guides/serialization.md)
   * [Synchronization](manual/guides/synchronization/README.md)

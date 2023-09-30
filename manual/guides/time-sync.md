@@ -1,42 +1,41 @@
-# Time Synchronization
+# Синхронизация времени
 
-For many algorithms you need the clock to be synchronized between the client and the server. Mirror does that automatically for you.
+Для многих алгоритмов вам нужно, чтобы часы были синхронизированы между клиентом и сервером. Mirror делает это автоматически за вас.
 
-To get the current time use this code:
+Чтобы получить текущее время, используйте этот код:
 
 ```csharp
 double now = NetworkTime.time;
 ```
 
-It will return the same value in the client and the servers. It starts at 0 when the server starts. Note the time is a double and should never be cast to a float. Casting this down to a float means the clock will lose precision after some time:
+Он вернет одно и то же значение на клиенте и серверах. Он начинается с 0 при запуске сервера. Обратите внимание, что время является типом double и никогда не должно быть приведено к типу float. Приведение этого значения к значению float означает, что через некоторое время часы потеряют точность:
 
-* after 1 day, accuracy goes down to 8 ms
-* after 10 days, accuracy is 62 ms
-* after 30 days , accuracy is 250 ms
-* after 60 days, accuracy is 500 ms
+* через 1 день точность снижается до 8 мс
+* через 10 дней точность снижается до 62 мс
+* через 30 дней точность снижается до 250 мс
+* через 60 дней точность снижается до 500 мс
 
-Mirror will also calculate the RTT(round trip time) as seen by the application:
+Mirror также будет рассчитывать RTT(Время приема-передачи) как видно из приложения:
 
 ```csharp
 double rtt = NetworkTime.rtt;
 ```
 
-You can measure accuracy.
+Вы можете измерить точность.
 
 ```csharp
 double time_standard_deviation = NetworkTime.timeSd;
 ```
 
-for example, if this returns 0.2, it means the time measurements swing up and down roughly 0.2 s
+например, если это возвращает значение 0,2, это означает, что измерения времени колеблются вверх и вниз примерно на 0,2 с
 
-Network hiccups are compensated against by smoothing out the values using EMA.\
-&#x20;You can configure how often you want the the ping to be sent:
+Сбои в работе сети компенсируются сглаживанием значений с помощью EMA. Вы можете настроить, как часто вы хотите, чтобы ping отправлялся:
 
 ```csharp
 NetworkTime.PingFrequency = 2;
 ```
 
-You can also configure how many ping results are used in the calculation:
+Вы также можете настроить, сколько результатов проверки связи будет использоваться при расчете:
 
 ```csharp
 NetworkTime.PingWindowSize = 10;
