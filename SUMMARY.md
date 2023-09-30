@@ -80,7 +80,7 @@
   * [ID](manual/guides/ids.md)
   * [Атрибуты](manual/guides/attributes.md)
   * [Синхронизация времени](manual/guides/time-sync.md)
-  * [Data types](manual/guides/data-types.md)
+  * [Типы данных](manual/guides/data-types.md)
   * [Serialization](manual/guides/serialization.md)
   * [Synchronization](manual/guides/synchronization/README.md)
     * [SyncVars](manual/guides/synchronization/syncvars.md)
