@@ -1,16 +1,16 @@
 # SyncHashSet
 
-`SyncHashSet` are sets similar to C# [HashSet](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1) that synchronize their contents from the server to the clients.
+`SyncHashSet` очень похож на C# [HashSet](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.hashset-1) который синхронизирует свое содержимое с сервера на клиенты.
 
-A SyncHashSet can contain any [supported mirror type](../data-types.md)
+SyncHashSet может содержать [любой поддерживаемый тип данных в Mirror](../data-types.md)
 
-## Usage <a href="#usage" id="usage"></a>
+## Использование <a href="#usage" id="usage"></a>
 
 {% hint style="info" %}
-SyncHashSet must be declared **readonly** and initialized in the constructor.
+SyncHashSet должен быть помечен как **readonly** и инициализирован в конструкторе.
 {% endhint %}
 
-Add a SyncHashSet field to your NetworkBehaviour class. For example:
+Добавьте поле SyncHashSet в ваш класс NetworkBehaviour. Например:
 
 ```csharp
 public class Player : NetworkBehaviour
@@ -32,12 +32,12 @@ public class Player : NetworkBehaviour
 }
 ```
 
-You can also detect when a SyncHashSet changes. This is useful for refreshing your character in the client or determining when you need to update your database.
+Вы также можете определить, когда изменяется SyncHashSet. Это полезно для обновления вашего персонажа в клиенте или определения того, когда вам нужно обновить свою базу данных.
 
-Subscribe to the Callback event typically during `Start`, `OnClientStart` or `OnServerStart` for that.
+Подписаться на событие обратного вызова обычно можно в `Start`, `OnClientStart` или `OnServerStart`.
 
 {% hint style="warning" %}
-Note that by the time you subscribe, the set will already be populated, so you will not get a call for the initial data, only updates.
+Обратите внимание, что к моменту вашей подписки набор уже будет заполнен, поэтому вы не получите запрос на исходные данные, только обновления.
 {% endhint %}
 
 ```csharp
@@ -46,30 +46,30 @@ public class Player : NetworkBehaviour
     [SerializeField]
     public readonly SyncHashSet<string> buffs = new SyncHashSet<string>();
 
-    // this will add the delegate on the client.
-    // Use OnStartServer instead if you want it on the server
+    // это добавит делегата на клиент.
+    // Вместо этого используйте OnStartServer, если вы хотите, чтобы это было на сервере
     public override void OnStartClient()
     {
         buffs.Callback += OnBuffsChanged;
 
-        // Process initial SyncHashSet payload
+        // Обработать начальную полезную нагрузку SyncHashSet
         foreach (string buff in buffs)
             OnBuffsChanged(SyncSet<string>.Operation.OP_ADD, buff);
     }
 
-    // SyncHashSet inherits from SyncSet so use SyncSet here
+    // SyncHashSet наследуется от SyncSet, поэтому используйте SyncSet здесь
     void OnBuffsChanged(SyncSet<string>.Operation op, string buff)
     {
         switch (op)
         {
             case SyncSet<string>.Operation.OP_ADD:
-                // Added a buff to the character
+                // Добавлен бафф к персонажу
                 break;
             case SyncSet<string>.Operation.OP_REMOVE:
-                // Removed a buff from the character
+                // Удален бафф с персонажа
                 break;
             case SyncSet<string>.Operation.OP_CLEAR:
-                // Cleared all buffs from the character
+                // Снял все баффы с персонажа
                 break;
         }
     }
