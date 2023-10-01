@@ -85,7 +85,7 @@
   * [Синхронизация](manual/guides/synchronization/README.md)
     * [SyncVars](manual/guides/synchronization/syncvars.md)
     * [SyncVar Hook](manual/guides/synchronization/syncvar-hooks.md)
-    * [SyncEvent (Obsolete)](manual/guides/synchronization/syncevent.md)
+    * [SyncEvent (Устарело)](manual/guides/synchronization/syncevent.md)
     * [SyncLists](manual/guides/synchronization/synclists.md)
     * [SyncDictionary](manual/guides/synchronization/syncdictionary.md)
     * [SyncHashSet](manual/guides/synchronization/synchashset.md)
