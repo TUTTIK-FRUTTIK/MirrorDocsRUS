@@ -1,15 +1,15 @@
-# SyncVar Hooks
+# SyncVar Hook
 
-The hook attribute can be used to specify a function to be called when the SyncVar changes value on the client.
+Атрибут hook можно использовать для указания функции, которая будет вызываться при изменении значения SyncVar.
 
-* The Hook method must have two parameters of the same type as the SyncVar property. One for the old value, one for the new value.
-* The Hook is always called after the property value is set. You don't need to set it yourself.
-* The Hook only fires for changed values, and changing a value in the inspector will not trigger an update.
-* As of version 11.1.4 (March 2020) and later, hooks can be virtual methods and overriden in a derived class.
+* Метод Hook должен иметь два параметра того же типа, что и свойство SyncVar. Один для старого значения, один для нового значения.
+* Hook всегда вызывается после установки значения свойства. Вам не нужно устанавливать его самостоятельно.
+* Hook срабатывает только для измененных значений, и изменение значения в инспекторе не вызовет обновления.
+* Начиная с версии 11.1.4 (Март 2020) и позже, hook могут быть виртуальными методами и переопределяться в производном классе.
 
-Below is a simple example of assigning a random color to each player when they're spawned on the server. All clients will see all players in the correct colors, even if they join later.
+Ниже приведен простой пример присвоения случайного цвета каждому игроку при его появлении на сервере. Все клиенты будут видеть всех игроков в правильных цветах, даже если они присоединятся позже.
 
-> Note: The signature for hook methods was changed in version 9.0 (Feb 2020) to having 2 parameters (old and new values). If you're on an older version, hook methods just have one parameter (new value).
+> Примечание: Сигнатура для методов перехвата была изменена в версии 9.0 (февраль 2020 г.) на имеющую 2 параметра (старые и новые значения). Если вы используете более старую версию, методы hook имеют только один параметр (новое значение).
 
 ```csharp
 using UnityEngine;
@@ -20,8 +20,8 @@ public class PlayerController : NetworkBehaviour
     [SyncVar(hook = nameof(SetColor))]
     Color playerColor = Color.black;
 
-    // Unity makes a clone of the Material every time GetComponent().material is used.
-    // Cache it here and Destroy it in OnDestroy to prevent a memory leak.
+    // Unity создает клон материала каждый раз, когда используется GetComponent().material.
+    // Кэшируйте его здесь и уничтожьте в onDestroy, чтобы предотвратить утечку памяти.
     Material cachedMaterial;
 
     public override void OnStartServer()
@@ -45,9 +45,9 @@ public class PlayerController : NetworkBehaviour
 }
 ```
 
-## Hook call order <a href="#hook-call-order" id="hook-call-order"></a>
+## Порядок вызова Hook <a href="#hook-call-order" id="hook-call-order"></a>
 
-Hooks are invoked in the order the syncvars are defined in the file.
+Hooks вызываются в том порядке, в котором syncvars определены в файле.
 
 ```csharp
 public class MyBehaviour : NetworkBehaviour 
@@ -63,10 +63,10 @@ public class MyBehaviour : NetworkBehaviour
 }
 ```
 
-if X, Y, and Z are all set on the server at the same time then the call order will be:
+если все X, Y и Z установлены на сервере одновременно, то порядок вызовов будет следующим:
 
-1. X value is set
-2. Y value is set
-3. Hook1 is called
-4. Z value is set
-5. Hook2 is called
+1. X значение установлено
+2. Y значение установлено
+3. Hook1 вызван
+4. Z значение установлено
+5. Hook2 вызван

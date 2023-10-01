@@ -84,7 +84,7 @@
   * [Сериализация](manual/guides/serialization.md)
   * [Синхронизация](manual/guides/synchronization/README.md)
     * [SyncVars](manual/guides/synchronization/syncvars.md)
-    * [SyncVar Hooks](manual/guides/synchronization/syncvar-hooks.md)
+    * [SyncVar Hook](manual/guides/synchronization/syncvar-hooks.md)
     * [SyncEvent (Obsolete)](manual/guides/synchronization/syncevent.md)
     * [SyncLists](manual/guides/synchronization/synclists.md)
     * [SyncDictionary](manual/guides/synchronization/syncdictionary.md)
