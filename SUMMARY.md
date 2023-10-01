@@ -82,7 +82,7 @@
   * [Синхронизация времени](manual/guides/time-sync.md)
   * [Типы данных](manual/guides/data-types.md)
   * [Сериализация](manual/guides/serialization.md)
-  * [Synchronization](manual/guides/synchronization/README.md)
+  * [Синхронизация](manual/guides/synchronization/README.md)
     * [SyncVars](manual/guides/synchronization/syncvars.md)
     * [SyncVar Hooks](manual/guides/synchronization/syncvar-hooks.md)
     * [SyncEvent (Obsolete)](manual/guides/synchronization/syncevent.md)
