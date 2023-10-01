@@ -1,22 +1,22 @@
 # SyncDictionary
 
-A SyncDictionary is an associative array containing an unordered list of key, value pairs. Keys and values can be any [supported mirror type](../data-types.md). By default we use .Net [Dictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1) which may impose additional constraints on the keys and values.
+SyncDictionary представляет собой ассоциативный массив, содержащий неупорядоченный список пар ключ-значение. Ключи и значения могут быть любых типов, которые [поддерживаются в Mirror](../data-types.md). По умолчанию мы используем .Net [Dictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1) что может накладывать дополнительные ограничения на ключи и значения.
 
-SyncDictionary works much like [SyncLists](synclists.md): when you make a change on the server the change is propagated to all clients and the Callback is called. Only deltas are transmitted.
+Работа SyncDictionary очень похожа на [SyncLists](synclists.md): когда вы вносите изменение на сервере, это изменение распространяется на всех клиентов и вызывается обратный вызов. Передаются только дельты.
 
-## Usage <a href="#usage" id="usage"></a>
+## Использование <a href="#usage" id="usage"></a>
 
-Add a field to your NetworkBehaviour class of type `SyncDictionary`.
+Добавьте поле в ваш класс NetworkBehaviour типа `SyncDictionary`.
 
 {% hint style="info" %}
-`SyncDictionary must` be declared **readonly** and initialized in the constructor.
+`SyncDictionary должен` быть помечен как **readonly** и инициализирован в конструкторе.
 {% endhint %}
 
 {% hint style="warning" %}
-Note that by the time you subscribe to the callback, the dictionary will already be initialized, so you will not get a call for the initial data, only updates.
+Обратите внимание, что к тому времени, когда вы подпишетесь на обратный вызов, словарь уже будет инициализирован, поэтому вы не получите вызов для получения исходных данных, только обновления.
 {% endhint %}
 
-## Simple Example <a href="#simple-example" id="simple-example"></a>
+## Простой пример <a href="#simple-example" id="simple-example"></a>
 
 ```csharp
 using UnityEngine;
@@ -43,8 +43,8 @@ public class ExamplePlayer : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        // Equipment is already populated with anything the server set up
-        // but we can subscribe to the callback in case it is updated later on
+        // Оборудование уже заполнено всем, что настроил сервер
+        // но мы можем подписаться на обратный вызов на случай, если он будет обновлен позже
         equipment.Callback += OnEquipmentChange;
 
         // Process initial SyncDictionary payload
@@ -57,23 +57,23 @@ public class ExamplePlayer : NetworkBehaviour
         switch (op)
         {
             case SyncIDictionary<string, Item>.Operation.OP_ADD:
-                // entry added
+                // добавлена запись
                 break;
             case SyncIDictionary<string, Item>.Operation.OP_SET:
-                // entry changed
+                // запись изменена
                 break;
             case SyncIDictionary<string, Item>.Operation.OP_REMOVE:
-                // entry removed
+                // запись удалена
                 break;
             case SyncIDictionary<string, Item>.Operation.OP_CLEAR:
-                // Dictionary was cleared
+                // Dictionary был очищен
                 break;
         }
     }
 }
 ```
 
-By default, SyncDictionary uses a [Dictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1) to store it's data. If you want to use a different `IDictionary` implementation such as [SortedList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.sortedlist?view=netcore-3.1) or [SortedDictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sorteddictionary-2?view=netcore-3.1), then use `SyncIDictionary` and pass the dictionary instance you want it to use. For example:
+По умолчанию, SyncDictionary использует [Dictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.dictionary-2?view=netcore-3.1) чтобы хранить данные. Если вы хотите использовать другую реализацию `IDictionary` такую как [SortedList](https://docs.microsoft.com/en-us/dotnet/api/system.collections.sortedlist?view=netcore-3.1) или [SortedDictionary](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.sorteddictionary-2?view=netcore-3.1), используйте `SyncIDictionary` и передайте экземпляр словаря, который вы хотите, чтобы он использовался. Например:
 
 ```csharp
 public class ExamplePlayer : NetworkBehaviour
