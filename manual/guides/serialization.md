@@ -1,40 +1,40 @@
-# Serialization
+# Сериализация
 
-This page goes into depth about Serialization, for the basics see [DataTypes](data-types.md).
+На этой странице подробно рассказывается о сериализации, основы смотрите в разделе [типы данных](data-types.md).
 
-Mirror creates Serialize and Deserialize functions for types using Weaver. Weaver edits dll after unity compiles them using Mono.Cecil. This allows mirror to have a lot of complex features like SyncVar, ClientRpc and Message Serialization without the user needed to manually set everything up.
+Mirror создает функции сериализации и десериализации для типов использующих Weaver. Weaver редактирует библиотеки dll после того, как unity скомпилирует их с помощью Mono.Cecil. Это позволяет Mirror иметь множество сложных функций, таких как SyncVar, ClientRpc и сериализация сообщений, без необходимости пользователю вручную все настраивать.
 
-## Rules and tips <a href="#rules-and-tips" id="rules-and-tips"></a>
+## Правила и советы <a href="#rules-and-tips" id="rules-and-tips"></a>
 
-There are some rules and limits for what Weaver can do. Some features add complexity and are hard to maintain so have not been implemented. These features are not impossible to implement and could be added if there is a high demand for them.
+Существуют некоторые правила и ограничения для того, что может делать Weaver. Некоторые функции усложняют работу и их трудно поддерживать, поэтому они не были реализованы. Эти функции не являются невозможными для реализации и могут быть добавлены, если на них будет высокий спрос.
 
-* You should be able to write Custom Read/Write functions for any type, and Weaver will use.
-  * This means if there is a unsupported type like `int[][]` creating a custom Read/Write function will allow you to sync `int[][]` in SyncVar/ClientRpc/etc
-* If you have a type that has a field that is not able to be Serialize, you can mark that field with `[System.NonSerialized]` and weaver will ignore it
+* Вы должны иметь возможность писать пользовательские функции Read / Write для любого типа, и Weaver будет использовать.
+  * Это означает, что если существует неподдерживаемый тип, такой как `int[][]`, создайте свою Read/Write функцию чтобы синхронизировать `int[][]` в SyncVar/ClientRpc/и т.д.
+* Если у вас есть тип, содержащий поле, которое невозможно сериализовать, вы можете пометить это поле с помощью `[System.NonSerialized]` и weaver будет игнорировать это
 
-### Unsupported Types <a href="#unsupported-types" id="unsupported-types"></a>
+### Неподдерживаемые типы <a href="#unsupported-types" id="unsupported-types"></a>
 
-Some of these types are unsupported due to the complexity they would add, as mentioned above.
+Некоторые из этих типов не поддерживаются из-за добавленной ими сложности, как упоминалось выше.
 
-> NOTE: Types in this list can have custom writers.
+> ПРИМЕЧАНИЕ: Типы в этом списке могут иметь пользовательские средства записи.
 
-* Jagged and Multidimensional array
-* Types that Inherit from `UnityEngine.Component`
+* Неровный и многомерный массив
+* Типы унаследованные от `UnityEngine.Component`
 * `UnityEngine.Object`
 * `UnityEngine.ScriptableObject`
-* Generic Types, eg `MyData`
-  * Custom Read/Write must declare T, eg `MyData`
-* Interfaces
-* Types that references themselves
+* Универсальные типы, например `MyData`
+  * Пользовательское Read/Write должно объявлять T, например `MyData`
+* Интерфейсы
+* Типы, которые ссылаются сами на себя
 
-### Built-in Read Write Functions <a href="#built-in-read-write-functions" id="built-in-read-write-functions"></a>
+### Встроенные функции Read Write <a href="#built-in-read-write-functions" id="built-in-read-write-functions"></a>
 
-Mirror provides some built-in Read/Write Functions. They can be found in `NetworkReaderExtensions` and `NetworkWriterExtensions`.
+Mirror предоставляет некоторые встроенные функции Read/Write. Их можно найти в `NetworkReaderExtensions` и `NetworkWriterExtensions`.
 
-This is a Non-compete list of types that have built-in functions, check the classes above to see the full list.
+Это неконкурентный список типов, которые имеют встроенные функции, проверьте классы выше, чтобы увидеть полный список.
 
-* Most [C# primitive types](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types)
-* Common Unity structs
+* Некоторые [примитивные типы C#](https://docs.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/built-in-types)
+* Общие структуры Unity
   * Vector3
   * Quaternion
   * Rect
@@ -44,32 +44,32 @@ This is a Non-compete list of types that have built-in functions, check the clas
 
 ### NetworkIdentity, GameObject, Transform
 
-The `netId` of the Object is sent over the network, and the Object with the same `netId` is returned on the other side. If the `netId` is zero or an object is not found then `null` will be returned.
+`netId` объекта отправляется по сети, и объект с таким же `netId` возвращается с другой стороны у клиента или сервера. Если `netId` равно нулю или объект не найден, тогда будет возвращено `null`.
 
-### Generated Read Write Functions <a href="#generated-read-write-functions" id="generated-read-write-functions"></a>
+### Сгенерированные функции Read Write <a href="#generated-read-write-functions" id="generated-read-write-functions"></a>
 
-Weaver will Generate Read Write functions for
+Weaver будет генерировать функции Read Write для
 
-* Classes or Structs
+* Классов или структур
 * Enums
-* Arrays
-  * eg `int[]`
+* Массивов
+  * например `int[]`
 * ArraySegments
-  * eg `ArraySegment`
+  * например `ArraySegment`
 * Lists
-  * eg `List`
+  * например `List`
 
-#### Classes and Structs <a href="#classes-and-structs" id="classes-and-structs"></a>
+#### Классы и структуры <a href="#classes-and-structs" id="classes-and-structs"></a>
 
-Weaver will Read/Write every public field in the type, unless the field is marked with `[System.NonSerialized]`. If there is an unsupported type in the class or struct Weaver will fail to make Read/Write functions for it.
+Weaver будет Read/Write каждое общедоступное поле в типе, если только поле не помечено знаком `[System.NonSerialized]`. Если в классе или структуре есть неподдерживаемый тип, Weaver не сможет выполнить функции чтения/записи для него.
 
-> NOTE: Weaver does not check properties
+> ПРИМЕЧАНИЕ: Weaver не проверяет свойства
 
 #### Enums <a href="#enums" id="enums"></a>
 
-Weaver will use the underlying Type of an enum to Read and Write them. By default this is `int`.
+Weaver будет использовать базовый тип перечисления для их чтения и записи. По умолчанию это `int`.
 
-For example `Switch` will use the `byte` Read/Write functions to be Serialized
+К примеру `Switch` будет использовать тип `byte` Read/Write функций чтобы сериализоваться
 
 ```csharp
 public enum Switch : byte
@@ -82,12 +82,12 @@ public enum Switch : byte
 
 #### Collections <a href="#collections" id="collections"></a>
 
-Weaver will Generate writes for the collections listed above. Weaver will use the elements Read/Write function. The element must have a Read/Write function so must be a supported type, or have a custom Read/Write function.
+Weaver сгенерирует записи для коллекций, перечисленных выше. Weaver будет использовать функцию чтения/записи элементов. Элемент должен иметь функцию чтения/ записи, поэтому должен быть поддерживаемого типа или иметь пользовательскую функцию чтения / записи.
 
-For example:
+К примеру:
 
-* `float[]` is a supported type because Mirror has a built-in Read/Write function for `float`.
-* `MyData[]` is a supported type as Weaver is able to generate a Read/Write function for `MyData`
+* `float[]` является поддерживаемым типом, поскольку Mirror имеет встроенную функцию чтения / записи для `float`.
+* `MyData[]` является поддерживаемым типом, поскольку Weaver способен генерировать функцию чтения / записи для `MyData`
 
 ```csharp
 public struct MyData
@@ -97,31 +97,31 @@ public struct MyData
 }
 ```
 
-## Adding Custom Read Write functions <a href="#adding-custom-read-write-functions" id="adding-custom-read-write-functions"></a>
+## Добавление пользовательских функций Read/Write <a href="#adding-custom-read-write-functions" id="adding-custom-read-write-functions"></a>
 
-Read Write functions are static methods in the form of:
+Read Write функции - это статические методы в виде:
 
 ```csharp
 public static void WriteMyType(this NetworkWriter writer, MyType value)
 {
-    // write MyType data here
+    // напишите данные MyType здесь
 }
 
 public static MyType ReadMyType(this NetworkReader reader)
 {
-    // read MyType data here
+    // прочитайте данные MyType здесь
 }
 ```
 
-It is best practice to make Read/Write functions [extension methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) so they can be called like `writer.WriteMyType(value)`.
+Наилучшей практикой является создание функций чтения/записи [extension methods](https://docs.microsoft.com/en-us/dotnet/csharp/programming-guide/classes-and-structs/extension-methods) таким образом, их можно вызывать как `writer.WriteMyType(value)`.
 
-It is a good idea to call them `ReadMyType` and `WriteMyType` so it is obvious what type they are for. However the name of the function doesn't matter, weaver should be able to find it no matter what it is called.
+Это хорошая идея - вызвать `ReadMyType` и `WriteMyType` таким образом, очевидно, для какого типа они предназначены. Однако название функции не имеет значения, weaver должен быть в состоянии найти ее независимо от того, как она называется.
 
-#### Properties Example <a href="#properties-example" id="properties-example"></a>
+#### Пример свойств <a href="#properties-example" id="properties-example"></a>
 
-Weaver wont write properties, but a custom writer can be used to send them over the network.
+Weaver не записывает свойства, но для отправки их по сети можно использовать пользовательский writer.
 
-This can be useful if you want to have private set for your properties
+Это может быть полезно, если вы хотите иметь приватный набор для своих свойств
 
 ```csharp
 public struct MyData
@@ -151,9 +151,9 @@ public static class CustomReadWriteFunctions
 }
 ```
 
-#### Unsupported type Example <a href="#unsupported-type-example" id="unsupported-type-example"></a>
+#### Пример неподдерживаемого типа <a href="#unsupported-type-example" id="unsupported-type-example"></a>
 
-Rigidbody is an unsupported type because it inherits from `Component`. But a custom writer can be added so that it is synced using a NetworkIdentity if one is attached.
+Rigidbody является неподдерживаемым типом, поскольку он наследуется от `Component`. Но можно добавить пользовательский writer, чтобы он синхронизировался с помощью NetworkIdentity если тот к нему привязан.
 
 ```csharp
 public struct MyCollision
@@ -190,7 +190,7 @@ public static class CustomReadWriteFunctions
 }
 ```
 
-Above are functions for `MyCollision`, but instead you could add functions for `Rigidbody` and let weaver would generate a writer for `MyCollision`.
+Выше приведены функции для `MyCollision`, но вместо этого вы могли бы добавить функции для `Rigidbody` и пусть weaver создаст write для `MyCollision`.
 
 ```csharp
 public static class CustomReadWriteFunctions
@@ -215,4 +215,4 @@ public static class CustomReadWriteFunctions
 
 ## Debugging <a href="#debugging" id="debugging"></a>
 
-You can use tools like [ILSpy](https://github.com/icsharpcode/ILSpy) and [dnSpy](https://github.com/0xd4d/dnSpy) to view the complied code after Weaver has altered it. This can help to understand and debug what Mirror and Weaver does.
+Вы можете использовать такие инструменты, как [ILSpy](https://github.com/icsharpcode/ILSpy) и [dnSpy](https://github.com/0xd4d/dnSpy) чтобы просмотреть соответствующий код после того, как Weaver изменил его. Это может помочь понять и отладить то, что делают Mirror и Weaver.

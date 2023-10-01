@@ -81,7 +81,7 @@
   * [Атрибуты](manual/guides/attributes.md)
   * [Синхронизация времени](manual/guides/time-sync.md)
   * [Типы данных](manual/guides/data-types.md)
-  * [Serialization](manual/guides/serialization.md)
+  * [Сериализация](manual/guides/serialization.md)
   * [Synchronization](manual/guides/synchronization/README.md)
     * [SyncVars](manual/guides/synchronization/syncvars.md)
     * [SyncVar Hooks](manual/guides/synchronization/syncvar-hooks.md)
