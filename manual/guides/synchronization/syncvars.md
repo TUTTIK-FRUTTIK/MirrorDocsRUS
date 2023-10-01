@@ -1,18 +1,18 @@
 # SyncVars
 
-SyncVars are properties of classes that inherit from NetworkBehaviour, which are synchronized from the server to clients. When a game object is spawned, or a new player joins a game in progress, they are sent the latest state of all SyncVars on networked objects that are visible to them. Use the `SyncVar` custom attribute to specify which variables in your script you want to synchronize.
+SyncVars - это свойства классов, наследуемых от NetworkBehaviour, которые синхронизируются с сервера на клиенты. Когда создается игровой объект или новый игрок присоединяется к текущей игре, ему отправляется последнее состояние всех SyncVar сетевых объектов, которые ему видны. Используйте пользовательский атрибут `SyncVar` чтобы указать, какие переменные в вашем скрипте вы хотите синхронизировать.
 
-The state of SyncVars is applied to game objects on clients before `OnStartClient()` is called, so the state of the object is always up-to-date inside `OnStartClient()`.
+Состояние SyncVars применяется к игровым объектам на клиентах перед вызовом `OnStartClient()`, поэтому состояние объектов всегда актуально внутри `OnStartClient()`.
 
-SyncVars can use any [type supported by Mirror](../data-types.md). You can have up to 64 SyncVars on a single NetworkBehaviour script, including SyncLists (see next section, below).
+SyncVars могут использовать любые [типы данных, поддерживаемые Mirror](../data-types.md). У вас может быть до 64 SyncVar в одном скрипте NetworkBehaviour, включая SyncLists (смотрите следующий раздел ниже).
 
-The server automatically sends SyncVar updates when the value of a SyncVar changes, so you do not need to track when they change or send information about the changes yourself. Changing a value in the inspector will not trigger an update.
+Сервер автоматически отправляет обновления SyncVar при изменении значения SyncVar, поэтому вам не нужно отслеживать, когда они изменяются, или отправлять информацию об изменениях самостоятельно. Изменение значения в инспекторе не вызовет обновления.
 
-> The [SyncVar hook](syncvar-hooks.md) attribute can be used to specify a method to be called when the SyncVar changes value on the client.
+> Атрибут [SyncVar hook](syncvar-hooks.md) может использоваться для указания метода, который будет вызываться при изменении значения SyncVar на клиенте.
 
-## SyncVar Example <a href="#syncvar-example" id="syncvar-example"></a>
+## Пример использования SyncVar <a href="#syncvar-example" id="syncvar-example"></a>
 
-Let's say we have a networked object with a script called Enemy:
+Допустим, у нас есть сетевой объект со скриптом под названием Enemy:
 
 ```csharp
 public class Enemy : NetworkBehaviour
@@ -29,7 +29,7 @@ public class Enemy : NetworkBehaviour
 }
 ```
 
-The `PlayerController` might look like this:
+`PlayerController` может выглядеть примерно так:
 
 ```csharp
 public class PlayerController : NetworkBehaviour
@@ -47,17 +47,18 @@ public class PlayerController : NetworkBehaviour
     [Command]
     public void CmdShoot(GameObject enemy)
     {
-        // Do your own shot validation here because this runs on the server
+        // Здесь отличное место чтобы выполнить проверку на попадание после выстрела
+        // так как данный метод выполняется на сервере
         enemy.GetComponent<Enemy>().health -= 5;
     }
 }
 ```
 
-In this example, when a Player clicks on an Enemy, the networked enemy game object is assigned to `PlayerController.currentTarget`. When the player presses X, with a correct target selected, that target is passed through a Command, which runs on the server, to decrement the `health` SyncVar. All clients will be updated with that new value. You can then have a UI on the enemy to show the current value.
+В этом примере, когда игрок нажимает на врага, игровой объект врага присваивается переменной `PlayerController.currentTarget`. Когда игрок нажимает на клавишу X с выбранной целью, эта цель передается в метод \[Command], который выполняется на сервере, для вычисления `health` SyncVar. У всех клиентов обновится значение ХП у этого врага. Затем вы можете создать пользовательский интерфейс на враге (к примеру полоску ХП), чтобы показывать его текущее значение ХП.
 
-## Class inheritance <a href="#class-inheritance" id="class-inheritance"></a>
+## Наследование классов <a href="#class-inheritance" id="class-inheritance"></a>
 
-SyncVars work with class inheritance. Consider this example:
+SyncVars работает с наследованием классов. Рассмотрим этот пример:
 
 ```csharp
 class Pet : NetworkBehaviour
@@ -73,6 +74,6 @@ class Cat : Pet
 }
 ```
 
-You can attach the Cat component to your cat prefab, and it will synchronize both it's `name` and `color`.
+Вы можете перетащить компонент Cat на ваш Prefab кота и у него будут синхронизироваться оба его `name` и `color`.
 
-> **Warning** Both `Cat` and `Pet` should be in the same assembly. If they are in separate assemblies, make sure not to change `name` from inside `Cat` directly, add a method to `Pet` instead.
+> **Внимание:** Оба`Cat` и `Pet` должно быть в том же билде. Если они находятся в разных билдах, убедитесь, что `name` не изменяется внутри `Cat`, вместо этого добавьте метод классу `Pet`.
