@@ -1,25 +1,25 @@
-# SyncLists
+# SyncList
 
-SyncLists are array based lists similar to C# [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=netframework-4.7.2) that synchronize their contents from the server to the clients.
+SyncLists является массивом, основанном на листах, похожих на C# [List](https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1?view=netframework-4.7.2) который синхронизирует свое содержимое с сервера на клиенты.
 
-A SyncList can contain any [supported mirror type](../data-types.md).
+SyncList может содержать в себе любые [поддерживаемые типы данных Mirror](../data-types.md).
 
-## Differences with UNET <a href="#differences-with-hlapi" id="differences-with-hlapi"></a>
+## Различия с UNET <a href="#differences-with-hlapi" id="differences-with-hlapi"></a>
 
-UNET also supports SyncLists, but we have redesigned them to make them more efficient and easier to use. Some of the key differences include:
+UNET также поддерживает SyncLists, но мы переработали их архитектуру, чтобы сделать более эффективными и простыми в использовании. Некоторые из ключевых отличий включают:
 
-* In UNET, SyncLists were synchronized immediately when they changed. If you add 10 elements, that means 10 separate messages. Mirror synchronizes SyncLists with the SyncVars. The 10 elements and other SyncVars are batched together into a single message. Mirror also respects the sync interval when synchronizing lists.
-* In UNET if you want a list of structs, you have to use `SyncListStruct`, we changed it to just `SyncList`
-* In UNET the Callback is a delegate. In Mirror we changed it to an event, so that you can add many subscribers.
-* In UNET the Callback tells you the operation and index. In Mirror, the callback also receives an item. We made this change so that we could tell what item was removed.
-* In UNET you must create a class that inherits from SyncList. In Mirror you can just use SyncList directly (starting with version 20.0.0)
+* В UNET, SyncLists были синхронизированы сразу же, как только они изменились. Если вы добавляете 10 элементов, это означает отправку 10 отдельных сообщений. Mirror синхронизирует SyncLists вместе с SyncVars. 10 элементов и другие SyncVar объединяются в одно сообщение. Mirror также учитывает интервал синхронизации при синхронизации списков.
+* В UNET если вам нужен список структур, вы должны использовать `SyncListStruct`, мы изменили его на просто `SyncList`
+* В UNET обратный вызов - это делегат. В Mirror мы изменили его на событие, чтобы вы могли добавлять много подписчиков.
+* В UNET обратный вызов сообщает вам об операции и индексе. В Mirror обратный вызов также получает элемент. Мы внесли это изменение, чтобы можно было определить, какой элемент был удален.
+* В UNET вы должны создать класс, который наследуется от SyncList. В Mirror вы можете просто использовать SyncList (начиная с версии 20.0.0)
 
-## Usage <a href="#usage" id="usage"></a>
+## Использование <a href="#usage" id="usage"></a>
 
-Add a SyncList field to your NetworkBehaviour class.
+Добавьте поле SyncList в ваш класс NetworkBehaviour.
 
 {% hint style="info" %}
-SyncList must be declared **readonly** and initialized in the constructor.
+SyncList должен быть объявлен как **readonly** и инициализирован в конструкторе.
 {% endhint %}
 
 ```csharp
@@ -49,17 +49,17 @@ public class Player : NetworkBehaviour
                 color = new Color32(125, 125, 125, 255)
             };
 
-            // during next synchronization,  all clients will see the item
+            // во время следующей синхронизации все клиенты увидят этот элемент
             inventory.Add(item);
         }
     }
 }
 ```
 
-You can also detect when a SyncList changes in the client or server. This is useful for refreshing your character when you add equipment or determining when you need to update your database. Subscribe to the Callback event typically during `Start`, `OnClientStart`, or `OnServerStart` for that.
+Вы также можете определить, когда изменяется SyncList на клиенте или сервере. Это полезно для обновления вашего персонажа при добавлении снаряжения или определения того, когда вам нужно обновить свою базу данных. Подписаться на событие обратного вызова обычно можно в `Start`, `OnClientStart`, или `OnServerStart`.
 
 {% hint style="warning" %}
-Note that by the time you subscribe, the list will already be populated, so you will not get a call for the initial data, only updates.
+Обратите внимание, что к моменту вашей подписки список уже будет заполнен, поэтому вы не получите запрос на исходные данные, а только обновления.
 {% endhint %}
 
 ```csharp
@@ -69,7 +69,7 @@ class Player : NetworkBehaviour {
     {
         inventory.Callback += OnInventoryUpdated;
         
-        // Process initial SyncList payload
+        // Обработать начальную полезную нагрузку SyncList
         for (int index = 0; index < inventory.Count; index++)
             OnInventoryUpdated(SyncList<Item>.Operation.OP_ADD, index, new Item(), inventory[index]);
     }
@@ -79,27 +79,26 @@ class Player : NetworkBehaviour {
         switch (op)
         {
             case SyncList<Item>.Operation.OP_ADD:
-                // index is where it was added into the list
-                // newItem is the new item
+                // индекс - это место, где он был добавлен в список
+                // newItem - это новый элемент
                 break;
             case SyncList<Item>.Operation.OP_INSERT:
-                // index is where it was inserted into the list
-                // newItem is the new item
+                // индекс - это место, где он был вставлен в список
+                // newItem - это новый элемент
                 break;
             case SyncList<Item>.Operation.OP_REMOVEAT:
-                // index is where it was removed from the list
-                // oldItem is the item that was removed
+                // индекс - это место, где он был удален из списка
+                // oldItem - это элемент, который был удален
                 break;
             case SyncList<Item>.Operation.OP_SET:
-                // index is of the item that was changed
-                // oldItem is the previous value for the item at the index
-                // newItem is the new value for the item at the index
+                // индекс относится к элементу, который был изменен
+                // oldItem - это предыдущее значение элемента в индексе
+                // newItem - это новое значение для элемента в индексе
                 break;
             case SyncList<Item>.Operation.OP_CLEAR:
-                // list got cleared
+                // список был очищен
                 break;
         }
     }
 }
 ```
-
