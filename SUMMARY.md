@@ -92,7 +92,7 @@
     * [SyncSortedSet](manual/guides/synchronization/syncsortedset.md)
   * [Взаимодействие](manual/guides/communications/README.md)
     * [Удаленные действия](manual/guides/communications/remote-actions.md)
-    * [NetworkManager Callbacks](manual/guides/communications/networkmanager-callbacks.md)
+    * [Обратные вызовы NetworkManager](manual/guides/communications/networkmanager-callbacks.md)
     * [NetworkBehaviour Callbacks](manual/guides/communications/networkbehaviour-callbacks.md)
     * [Network Messages](manual/guides/communications/network-messages.md)
   * [GameObjects](manual/guides/gameobjects/README.md)

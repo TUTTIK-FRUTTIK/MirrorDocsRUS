@@ -1,20 +1,20 @@
-# NetworkManager Callbacks
+# Обратные вызовы NetworkManager
 
 {% hint style="info" %}
-See also [NetworkManager](https://mirror-networking.com/docs/api/Mirror.NetworkManager.html) in the API Reference.
+Смотрите также [NetworkManager](https://mirror-networking.com/docs/api/Mirror.NetworkManager.html) в API Reference.
 {% endhint %}
 
-There are a number of events that can occur over the course of the normal operation of a multiplayer game, such as the host starting up, a player joining, or a player leaving. Each of these possible events has an associated callback that you can implement in your own code to take action when the event occurs.
+Существует ряд событий, которые могут произойти в ходе обычной работы многопользовательской игры, таких как запуск хоста, присоединение игрока или уход игрока. Каждое из этих возможных событий имеет связанный с ним обратный вызов, который вы можете реализовать в своем собственном коде, чтобы предпринять действие при возникновении события.
 
-To do this for the `NetworkManager`, you need to create your own script which inherits from `NetworkManager`. You can then override the virtual methods on `NetworkManager` with your own implementation of what should happen when the given event occurs.
+Чтобы сделать это для `NetworkManager`, вам нужно создать свой собственный скрипт, который будет наследоваться от `NetworkManager`. Затем вы можете переопределить виртуальные методы в `NetworkManager` с вашей собственной реализацией того, что должно произойти, когда произойдет данное событие.
 
-This page lists all the virtual methods (the callbacks) that you can implement on the `NetworkManager`, and when they occur. The callbacks that occur, and the order they occur, vary slightly depending on which mode your game is running in, so each mode’s callbacks are listed separately below.
+На этой странице перечислены все виртуальные методы (обратные вызовы), которые вы можете реализовать в `NetworkManager`, когда они происходят. Выполняемые обратные вызовы и порядок их выполнения немного различаются в зависимости от того, в каком режиме запущена ваша игра, поэтому обратные вызовы каждого режима перечислены ниже отдельно.
 
-A game can be running in one of three modes, host, client, or server-only. The callbacks for each mode are listed below:
+Игра может быть запущена в одном из трех режимов: хост, клиент или только сервер. Обратные вызовы для каждого режима перечислены ниже:
 
-## Host Mode: <a href="#host-mode" id="host-mode"></a>
+## Режим Хоста: <a href="#host-mode" id="host-mode"></a>
 
-When the host is started:
+Когда хост запускается:
 
 * `OnStartServer`
 * `OnStartHost`
@@ -27,54 +27,54 @@ When the host is started:
 * `OnClientChangeScene`
 * `OnClientSceneChanged`
 
-When a client connects:
+Когда клиент подключается:
 
 * `OnServerConnect`
 * `OnServerReady`
 * `OnServerAddPlayer`
 
-When a client disconnects:
+Когда клиент отключается:
 
 * `OnServerDisconnect`
 
-When the host is stopped:
+Когда хост останавливается:
 
 * `OnStopHost`
 * `OnServerDisconnect`
 * `OnStopClient`
 * `OnStopServer`
 
-## Client Mode <a href="#client-mode" id="client-mode"></a>
+## Режим клиента <a href="#client-mode" id="client-mode"></a>
 
-When the client starts:
+Когда клиент запускается:
 
 * `OnStartClient`
 * `OnClientConnect`
 * `OnClientChangeScene`
 * `OnClientSceneChanged`
 
-When the client stops:
+Когда клиент останавливается:
 
 * `OnStopClient`
 * `OnClientDisconnect`
 
-## Server Mode <a href="#server-mode" id="server-mode"></a>
+## Режим сервера <a href="#server-mode" id="server-mode"></a>
 
-When the server starts:
+Когда сервер запускается:
 
 * `OnStartServer`
 * `OnServerSceneChanged`
 
-When a client connects:
+Когда сервер подключается:
 
 * `OnServerConnect`
 * `OnServerReady`
 * `OnServerAddPlayer`
 
-When a client disconnects:
+Когда сервер отключается:
 
 * `OnServerDisconnect`
 
-When the server stops:
+Когда сервер останавливается:
 
 * `OnStopServer`
