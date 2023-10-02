@@ -1,14 +1,14 @@
 # Network Messages
 
-For the most part we recommend the high level [Commands and RPC](remote-actions.md) calls and [SyncVar](../synchronization/syncvars.md), but you can also send low level network messages. This can be useful if you want clients to send messages that are not tied to game objects, such as logging, analytics or profiling information.
+Для начала мы вам рекомендуем использовать [Commands и RPC](remote-actions.md) вызовы, а также [SyncVar](../synchronization/syncvars.md), но вы можете отправлять собственные низкоуровневые network messages. Это может быть полезно, если вы хотите, чтобы клиенты отправляли сообщения, не привязанные к игровым объектам, такие как ведение журнала, аналитика или информация о профилировании.
 
-There is a public interface called NetworkMessage that you can extend to make serializable network message structs. This interface has Serialize and Deserialize functions that take writer and reader objects. You can implement these functions yourself, but we recommend you let Mirror generate them for you.
+Существует общедоступный интерфейс под названием NetworkMessage, который вы можете расширить, чтобы создавать сериализуемые структуры сетевых сообщений. Этот интерфейс имеет функции сериализации и десериализации, которые принимают объекты writer и reader. Вы можете реализовать эти функции самостоятельно, но мы рекомендуем вам позволить Mirror сгенерировать их за вас.
 
-The auto generated Serialize/Deserialize can efficiently deal any [supported mirror type](../data-types.md). Make your members public. If you need classes or complex containers such as List and Dictionary, you must implement the Serialize and Deserialize methods yourself.
+Автоматические сгенерированные Serialize/Deserialize могут эффективно справляться с любыми [поддерживаемыми типами Mirror](../data-types.md). Сделайте своих участников общедоступными. Если вам нужны классы или сложные контейнеры, такие как List и Dictionary, вы можете реализовать собственные методы Serialize и Deserialize.
 
-To send a message, use the `Send()` method on the NetworkClient, NetworkServer, and NetworkConnection classes, which all work the same way using a message struct that is derived from NetworkMessage. The code below demonstrates how to send and handle a message:
+Чтобы отправить сообщение, используйте метод `Send()` в классах NetworkClient, NetworkServer, и NetworkConnection, которые все сработают одинаково, используя структуру сообщения, производную от NetworkMessage. Приведенный ниже код демонстрирует, как отправлять сообщение и обрабатывать его:
 
-To declare a custom network message class and use it:
+Чтобы объявить пользовательский класс Network Message и использовать его:
 
 ```csharp
 using UnityEngine;
@@ -48,4 +48,4 @@ public class Scores : MonoBehaviour
 }
 ```
 
-Note that there is no serialization code for the `ScoreMessage` class in this source code example. The body of the serialization functions is automatically generated for this class by Mirror.
+Обратите внимание, что для нет кода сериализации для класса `ScoreMessage` в этом примере исходного кода. Тело функций сериализации автоматически генерируется для этого класса с помощью Mirror.
