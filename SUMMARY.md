@@ -96,7 +96,7 @@
     * [Обратные вызовы NetworkBehaviour](manual/guides/communications/networkbehaviour-callbacks.md)
     * [Network Messages](manual/guides/communications/network-messages.md)
   * [GameObject](manual/guides/gameobjects/README.md)
-    * [Player Game Objects](manual/guides/gameobjects/player-gameobjects.md)
+    * [Game Object игрока](manual/guides/gameobjects/player-gameobjects.md)
     * [Custom Character Spawning](manual/guides/gameobjects/custom-character-spawning.md)
     * [Custom Spawn Functions](manual/guides/gameobjects/custom-spawnfunctions.md)
     * [Scene GameObjects](manual/guides/gameobjects/scene-gameobjects.md)
