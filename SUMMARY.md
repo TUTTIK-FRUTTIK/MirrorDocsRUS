@@ -97,7 +97,7 @@
     * [Network Messages](manual/guides/communications/network-messages.md)
   * [GameObject](manual/guides/gameobjects/README.md)
     * [Game Object игрока](manual/guides/gameobjects/player-gameobjects.md)
-    * [Custom Character Spawning](manual/guides/gameobjects/custom-character-spawning.md)
+    * [Пользовательский спавн персонажа](manual/guides/gameobjects/custom-character-spawning.md)
     * [Custom Spawn Functions](manual/guides/gameobjects/custom-spawnfunctions.md)
     * [Scene GameObjects](manual/guides/gameobjects/scene-gameobjects.md)
     * [Pickups, Drops, and Child Objects](manual/guides/gameobjects/pickups-drops-and-child-objects.md)

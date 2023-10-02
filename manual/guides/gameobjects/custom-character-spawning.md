@@ -1,10 +1,10 @@
-# Custom Character Spawning
+# Пользовательский спавн персонажа
 
-Many games need character customization. You may want to pick the color of the hair, eyes, skin, height, race, etc.
+Многие игры нуждаются в кастомизации персонажа. Возможно, вы захотите выбрать цвет волос, глаз, кожи, рост, расу и т.д.
 
-By default Mirror will instantiate the player for you. While that is convenient, it might prevent you from customizing it. Mirror provides the option of overriding player creation and customize it.
+По умолчанию Mirror создаст экземпляр объекта игрока сам. Хотя это удобно, это может помешать вам настроить его. Mirror предоставляет возможность переопределить создание объекта игрока и настроить его.
 
-1. Create a class that extends `NetworkManager` if you have not done so. For example:
+1. Создайте класс, который наследуется от `NetworkManager` если вы еще этого не сделали. Например:
 
 ```csharp
 public class MMONetworkManager : NetworkManager
@@ -13,10 +13,10 @@ public class MMONetworkManager : NetworkManager
 }
 ```
 
-and use it as your Network manager.
+и используйте это в вашем Network manager.
 
-1. Open your Network Manager in the inspector and disable the "Auto Create Player" Boolean.
-2. Create a message that describes your player. For example:
+1. Откройте ваш Network Manager в инспекторе и выключите галочку "Auto Create Player".
+2. Создайте сообщение, описывающее вашего игрока. Например:
 
 ```csharp
 public struct CreateMMOCharacterMessage : NetworkMessage
@@ -36,8 +36,8 @@ public enum Race
 }
 ```
 
-1. Create your player prefabs (as many as you need) and add them to the "Register Spawnable Prefabs" in your Network Manager, or add a single prefab to the player prefab field in the inspector.
-2. Send your message and register a player:
+1. Создайте ваши prefab'ы игроков (столько, сколько вам нужно) и добавьте их в "Register Spawnable Prefabs" в вашем Network Manager, или добавьте только один prefab в поле player prefab в инспекторе.
+2. Отправьте свое сообщение и зарегистрируйте игрока:
 
 ```csharp
 public class MMONetworkManager : NetworkManager
@@ -85,39 +85,39 @@ public class MMONetworkManager : NetworkManager
 }
 ```
 
-## Ready State <a href="#ready-state" id="ready-state"></a>
+## Состояние готовности <a href="#ready-state" id="ready-state"></a>
 
-In addition to players, client connections also have a “ready” state. The host sends clients that are ready information about spawned game objects and state synchronization updates; clients which are not ready are not sent these updates. When a client initially connects to a server, it is not ready. While in this non-ready state, the client can do things that don’t require real-time interactions with the game state on the server, such as loading Scenes, allowing the player to choose an avatar, or fill in log-in boxes. Once a client has completed all its pre-game work, and all its Assets are loaded, it can call `NetworkClient.Ready` to enter the “ready” state. The simple example above demonstrates implementation of ready states; because adding a player with `NetworkServer.AddPlayerForConnection` also puts the client into the ready state if it is not already in that state.
+В дополнение к плеерам, клиентские подключения также находятся в состоянии “готовности”. Хост отправляет клиентам, которые готовы, информацию о созданных игровых объектах и обновлениях синхронизации состояний; клиентам, которые не готовы, эти обновления не отправляются. Когда клиент изначально подключается к серверу, он еще не готов. Находясь в этом состоянии "неготовности", клиент может выполнять действия, которые не требуют взаимодействия в режиме реального времени с состоянием игры на сервере, такие как загрузка сцен, предоставление игроку возможности выбрать аватар или заполнить поля для входа в систему. Как только клиент завершит всю свою предигровую работу и все его ресурсы будут загружены и он сможет вызвать `NetworkClient.Ready` чтобы войти в состояние “готовности”. Приведенный выше простой пример демонстрирует реализацию состояний готовности; поскольку добавление игрока с помощью `NetworkServer.AddPlayerForConnection` также переводит клиента в состояние готовности, если он еще не находится в этом состоянии.
 
-Clients can send and receive network messages without being ready, which also means they can do so without having an active player game object. So a client at a menu or selection screen can connect to the game and interact with it, even though they have no player game object. See documentation on [Network Messages](../communications/network-messages.md) for more details about sending messages without using commands and RPC calls.
+Клиенты могут отправлять и получать network messages без состояния готовности, что также означает, что они могут делать это, не имея активного игрового объекта игрока. Таким образом, клиент в меню или на экране выбора может подключиться к игре и взаимодействовать с ней, даже если у него нет игрового объекта игрока. Смотрите документацию о [Network Messages](../communications/network-messages.md) для получения более подробной информации об отправке сообщений без вызовов без command и RPC.
 
-## Switching Players <a href="#switching-players" id="switching-players"></a>
+## Смена игроков <a href="#switching-players" id="switching-players"></a>
 
-To replace the player game object for a connection, use `NetworkServer.ReplacePlayerForConnection`. This is useful for restricting the commands that players can issue at certain times, such as in a pregame room screen. This function takes the same arguments as `AddPlayerForConnection`, but allows there to already be a player for that connection. The old player game object does not have to be destroyed. The `NetworkRoomManager` uses this technique to switch from the `NetworkRoomPlayer` game object to a game play player game object when all the players in the room are ready.
+Чтобы заменить игровой объект игрока для клиента, используйте `NetworkServer.ReplacePlayerForConnection`. Это полезно для ограничения команд, которые игроки могут отдавать в определенное время, например, на экране предыгровой комнаты. Эта функция принимает те же аргументы, что и `AddPlayerForConnection`, но позволяет уже иметь объект игрока для этого клиента. Старый игровой объект игрока не обязательно уничтожать. `NetworkRoomManager` использует этот прием для переключения с игрового объекта `NetworkRoomPlayer` к игровому объекту игрока в самой игре, когда все игроки в комнате будут готовы.
 
-You can also use `ReplacePlayerForConnection` to respawn a player or change the object that represents the player. In some cases it is better to just disable a game object and reset its game attributes on respawn. The following code sample demonstrates how to actually replace the player game object with a new game object:
+Вы также можете использовать `ReplacePlayerForConnection` чтобы возродить игрока или изменить объект, представляющий игрока. В некоторых случаях лучше просто отключить игровой объект и сбросить его игровые атрибуты при возрождении. Следующий пример кода демонстрирует, как на самом деле заменить игровой объект player новым игровым объектом:
 
 ```csharp
 public class MyNetworkManager : NetworkManager
 {
     public void ReplacePlayer(NetworkConnectionToClient conn, GameObject newPrefab)
     {
-        // Cache a reference to the current player object
+        // Кэшировать ссылку на текущий объект игрока
         GameObject oldPlayer = conn.identity.gameObject;
 
-        // Instantiate the new player object and broadcast to clients
-        // Include true for keepAuthority paramater to prevent ownership change
+        // Instantiate новый объект игрока и рассказать об этом клиентам
+        // Включить значение true для параметра keepAuthority чтобы предотвратить смену владельца
         NetworkServer.ReplacePlayerForConnection(conn, Instantiate(newPrefab), true);
 
-        // Remove the previous player object that's now been replaced
-        // Delay is required to allow replacement to complete.
+        // Удалите предыдущий объект игрока, который теперь был заменен
+        // Для завершения замены требуется задержка.
         Destroy(oldPlayer, 0.1f);
     }
 }
 ```
 
-If the player game object for a connection is destroyed, then that client cannot execute Commands. They can, however, still send network messages.
+Если игровой объект игрока для подключения уничтожен, то этот клиент не может выполнять Command. Однако они по-прежнему могут отправлять Network Messages.
 
-To use `ReplacePlayerForConnection` you must have the `NetworkConnection` game object for the player’s client to establish the relationship between the game object and the client. This is usually the property `connectionToClient` on the `NetworkBehaviour` class, but if the old player has already been destroyed, then that might not be readily available.
+Чтобы использовать `ReplacePlayerForConnection` вы должны иметь `NetworkConnection`  для игрового объекта и клиента игрока, чтобы установить связь между игровым объектом и клиентом. Обычно это свойство `connectionToClient` в классе `NetworkBehaviour`, но если старый объект игрока уже был уничтожен, то это может быть недоступно.
 
-To find the connection, there are some lists available. If using the `NetworkRoomManager`, then the room players are available in `roomSlots`. The `NetworkServer` also has lists of `connections`.
+Чтобы найти соединение, доступно несколько списков. При использовании `NetworkRoomManager`, игроки комнаты будут доступны в `roomSlots`. `NetworkServer` также имеет список из `connections`.
