@@ -1,68 +1,68 @@
-# NetworkBehaviour Callbacks
+# Обратные вызовы NetworkBehaviour
 
-## NetworkBehaviour Callbacks <a href="#networkbehaviour-callbacks" id="networkbehaviour-callbacks"></a>
+## Обратные вызовы NetworkBehaviour <a href="#networkbehaviour-callbacks" id="networkbehaviour-callbacks"></a>
 
 {% hint style="info" %}
-See also [NetworkBehaviour](https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html) in the API Reference.
+Смотрите также [NetworkBehaviour](https://mirror-networking.com/docs/api/Mirror.NetworkBehaviour.html) в API Reference.
 {% endhint %}
 
-There are a number of events relating to network behaviours that can occur over the course of a normal multiplayer game. These include events such as the host starting up, a player joining, or a player leaving. Each of these possible events has an associated callback that you can implement in your own code to take action when the event occurs.
+Существует ряд событий, которые могут произойти в ходе обычной работы многопользовательской игры, таких как запуск хоста, присоединение игрока или уход игрока. Каждое из этих возможных событий имеет связанный с ним обратный вызов, который вы можете реализовать в своем собственном коде, чтобы предпринять действие при возникновении события.
 
-When you create a script which inherits from `NetworkBehaviour`, you can write your own implementation of what should happen when these events occur. To do this, you override the virtual methods on the `NetworkBehaviour` class with your own implementation of what should happen when the given event occurs.
+Когда вы создаете скрипт, который наследуется от `NetworkBehaviour`, вы можете написать свою собственную реализацию того, что должно произойти, когда произойдут эти события. Чтобы сделать это, вы переопределяете виртуальные методы в классе, наследованном от `NetworkBehaviour` с вашей собственной реализацией того, что должно произойти, когда произойдет какое то событие.
 
-This is a full list of virtual methods (callbacks) that you can implement on `NetworkBehaviour`, and where they are called
+Это полный список виртуальных методов (обратных вызовов), которые вы можете реализовать в `NetworkBehaviour`, и где они вызываются
 
-### Server Only <a href="#server-only" id="server-only"></a>
+### Только сервер <a href="#server-only" id="server-only"></a>
 
 * OnStartServer
-  * called when behaviour is spawned on server
+  * вызывается когда объект спавнится на сервере
 * OnStopServer
-  * called when behaviour is destroyed or unspawned on server
+  * вызывается когда объект уничтожается или деспавнится на сервере
 * OnSerialize
-  * called when behaviour is serialize before it is sent to client, when overriding make sure to call `base.OnSerialize`
+  * вызывается, когда класс сериализуется перед отправкой клиенту, при переопределении обязательно вызывается `base.OnSerialize`
 
-### Client only <a href="#client-only" id="client-only"></a>
+### Только клиент <a href="#client-only" id="client-only"></a>
 
 * OnStartClient
-  * called when behaviour is spawned on client
+  * вызывается когда объект спавнится на клиенте
 * OnStartAuthority
-  * called when behaviour has authority when it is spawned (eg local player)
-  * called when behaviour is given authority by the sever
+  * вызывается когда клиент имеет контроль при спавне объекта (к примеру локальный игрок)
+  * вызывается когда сервер даёт клиенту контроль над объектом
 * OnStartLocalPlayer
-  * called when the behaviour is on the local player object
+  * вызывается когда объект относится к локальному игроку
 * OnStopAuthority
-  * called when authority is taken from the object (eg local player is replaced but not destroyed)
+  * вызывается когда у клиента отобрали контроль над объектом (к примеру когда локальный игрок был заменён, но объект не уничтожен)
 * OnStopClient
-  * called when object is destroyed on client by the `ObjectDestroyMessage` or `ObjectHideMessage` messages
+  * вызывается когда объект уничтожается на клиенте с помощью сообщений `ObjectDestroyMessage` или `ObjectHideMessage`
 
 ## Example flows <a href="#example-flows" id="example-flows"></a>
 
-Below is some example call order for different modes
+Ниже приведен пример порядка вызова для различных режимов
 
-> NOTE: `Start` is called by unity before the first frame, while normally this happens after Mirror's callbacks. But if you dont call `NetworkServer.Spawn` the same frame as `instantiate` then start may be called first
+> ПРИМЕЧАНИЕ: `Start` вызывается unity перед первым кадром, в то время как обычно это происходит после обратных вызовов Mirror. Но если вы не вызовите `NetworkServer.Spawn` в кадре вместе с `instantiate`, тогда start может быть вызван первее
 
-> Note: `OnRebuildObservers` and `OnSetHostVisibility` is now on `NetworkVisibility` instead of `NetworkBehaviour`
+> ПРИМЕЧАНИЕ: `OnRebuildObservers` и `OnSetHostVisibility` сейчас находятся в `NetworkVisibility` вместо `NetworkBehaviour`
 
-### Server mode <a href="#server-mode" id="server-mode"></a>
+### Режим сервера <a href="#server-mode" id="server-mode"></a>
 
-When a NetworkServer.Spawn is called (eg when new client connections and a player is created)
+Когда вызывается NetworkServer.Spawn (например, при подключении нового клиента и создании объекта игрока)
 
 * `OnStartServer`
 * `OnRebuildObservers`
 * `Start`
 
-### Client mode <a href="#client-mode" id="client-mode"></a>
+### Режим клиента <a href="#client-mode" id="client-mode"></a>
 
-When local player is spawned for client
+Когда локальный игрок был заспавнен для клиента
 
 * `OnStartAuthority`
 * `OnStartClient`
 * `OnStartLocalPlayer`
 * `Start`
 
-### Host mode <a href="#host-mode" id="host-mode"></a>
+### Режим хоста <a href="#host-mode" id="host-mode"></a>
 
-These are only called on the **Player Game Objects** when a client connects:
+Они вызываются только на **игровом объекте игрока** когда клиент подключен:
 
 * `OnStartServer`
 * `OnRebuildObservers`

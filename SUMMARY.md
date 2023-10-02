@@ -93,7 +93,7 @@
   * [Взаимодействие](manual/guides/communications/README.md)
     * [Удаленные действия](manual/guides/communications/remote-actions.md)
     * [Обратные вызовы NetworkManager](manual/guides/communications/networkmanager-callbacks.md)
-    * [NetworkBehaviour Callbacks](manual/guides/communications/networkbehaviour-callbacks.md)
+    * [Обратные вызовы NetworkBehaviour](manual/guides/communications/networkbehaviour-callbacks.md)
     * [Network Messages](manual/guides/communications/network-messages.md)
   * [GameObjects](manual/guides/gameobjects/README.md)
     * [Player Game Objects](manual/guides/gameobjects/player-gameobjects.md)
