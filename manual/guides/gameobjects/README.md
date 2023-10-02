@@ -1,17 +1,17 @@
-# GameObjects
+# GameObject
 
-Networked **GameObjects** are game objects which are controlled and synchronized by Mirror’s networking system. Using synchronized networked game objects, you can create a shared experience for all the players who are playing an instance of your game. They see and hear the same events and actions - even though that may be from their own unique viewpoints within your game.
+Сетевые **GameObjects** это игровые объекты, которые управляются и синхронизируются сетевой системой Mirror. Используя синхронизированные сетевые игровые объекты, вы можете создать общий опыт для всех игроков, которые играют в экземпляр вашей игры. Они видят и слышат одни и те же события и действия - даже если это может быть с их собственной уникальной точки зрения в вашей игре.
 
-Multiplayer games in Mirror are typically built using Scenes that contain a mix of networked game objects and regular (non-networked) game objects. The networked game objects are those which move or change during gameplay in a way that needs to be synchronized across all users who are playing the game together. Non-networked game objects are those which either don’t move or change at all during gameplay (for example, static obstacles like rocks or fences), or game objects which have movement or changes that don’t need to be synchronized across players (for example, a gently swaying tree or clouds passing by in the background of your game).
+Многопользовательские игры в Mirror обычно создаются с использованием сцен, содержащих сочетание сетевых игровых объектов и обычных (несетевых) игровых объектов. Сетевые игровые объекты - это те, которые перемещаются или изменяются во время игрового процесса таким образом, что их необходимо синхронизировать между всеми пользователями, которые играют в игру вместе. Несетевые игровые объекты - это те, которые либо не перемещаются, либо вообще изменяются во время игрового процесса (например, статичные препятствия, такие как камни или заборы), либо игровые объекты, которые имеют движение или изменения, которые не нужно синхронизировать между игроками (например, мягко покачивающееся дерево или облака, проплывающие мимо в предыстория вашей игры).
 
-A networked game object is one which has a Network Identity component attached. However, a Network Identity component alone is not enough for your game object to be functional and active in your multiplayer game. The Network Identity component is the starting point for synchronization, and it allows the Network Manager to synchronize the creation and destruction of the game object, but other than that, it does not specify _which properties_ of your game object should be synchronized.
+Сетевой игровой объект - это объект, который имеет компонент Network Identity. Однако, одного компонента Network Identity недостаточно для того, чтобы ваш игровой объект был функциональным и активным в вашей многопользовательской игре. Компонент Network Identity является отправной точкой для синхронизации, и он позволяет Network Manager'у синхронизировать создание и уничтожение игрового объекта, но, кроме этого, он не указывает, какие свойства вашего игрового объекта должны быть синхронизированы.
 
-What exactly should be synchronized on each networked game object depends on the type of game you are making, and what each game object’s purpose is. Some examples of what you might want to synchronize are:
+Что именно должно быть синхронизировано с каждым сетевым игровым объектом, зависит от типа игры, которую вы создаете, и от назначения каждого игрового объекта. Вот некоторые примеры того, что вы, возможно, захотите синхронизировать::
 
-* The position and rotation of moving game objects such as the players and non-player characters.
-* The animation state of an animated game object
-* The value of a variable, for example how much time is left in the current round of a game, or how much energy a player has.
+* Положение и поворот движущихся игровых объектов, таких как игроки и неигровые персонажи.
+* Состояние анимации анимированного игрового объекта
+* Значение переменной, например, сколько времени осталось в текущем раунде игры или сколько энергии есть у игрока.
 
-Some of these things can be automatically synchronized by Mirror. The synchronized creation and destruction of networked game objects is managed by the NetworkManager, and is known as Spawning. You can use the Network Transform component to synchronize the position and rotation of a game object, and you can use the Network Animator component to synchronize the animation of a game object.
+Некоторые из этих вещей могут быть автоматически синхронизированы с помощью зеркала. Синхронизированное создание и уничтожение сетевых игровых объектов управляется NetworkManager и называется Спавном. Вы можете использовать компонент Network Transform для синхронизации положения и поворота игрового объекта, а также вы можете использовать компонент Network Animator для синхронизации анимации игрового объекта.
 
-To synchronize other properties of a networked game object, you need to use scripting. See State Synchronization for more information about this.
+Чтобы синхронизировать другие свойства сетевого игрового объекта, вам необходимо использовать скрипты. Дополнительные сведения об этом см. в разделе Синхронизация состояний.
