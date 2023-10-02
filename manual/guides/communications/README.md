@@ -1,20 +1,20 @@
-# Communications
+# Взаимодействие
 
-When you are making a multiplayer game, In addition to synchronizing the properties of networked game objects, you are likely to need to send, receive, and react to other pieces of information - such as when the match starts, when a player joins or leaves the match, or other information specific to your type of game, for example a notification to all players that a flag has been captured in a “capture-the-flag” style game.
+Когда вы создаете многопользовательскую игру, в дополнение к синхронизации свойств сетевых игровых объектов, вам, вероятно, потребуется отправлять, получать и реагировать на другие фрагменты информации - например, когда начинается матч, когда игрок присоединяется к матчу или покидает его, или другую информацию, специфичную для вашего типа игры, например, уведомление всех игроков о том, что флаг был захвачен в игре в стиле “захват флага”..
 
-Within the Mirror networking High-Level API there are three main ways to communicate this type of information.
+В рамках высокоуровневого API сети Mirror существует три основных способа передачи такого рода информации.
 
-## Remote Actions <a href="#remote-actions" id="remote-actions"></a>
+## Удаленные действия <a href="#remote-actions" id="remote-actions"></a>
 
-Remote actions allow you to call a method in your script across the network. You can make the server call methods on all clients or individual clients specifically. You can also make clients call methods on the server. Using remote actions, you can pass data as parameters to your methods in a very similar way to how you call methods in local (non-multiplayer) projects.
+Удаленные действия позволяют вам вызывать метод в вашем скрипте по сети. Вы можете заставить сервер вызывать методы для всех клиентов или конкретно для отдельных клиентов. Вы также можете заставить клиентов вызывать методы на сервере. Используя удаленные действия, вы можете передавать данные в качестве параметров своим методам очень похожим образом на то, как вы вызываете методы в локальных (не многопользовательских) проектах.
 
-## Networking Callbacks <a href="#networking-callbacks" id="networking-callbacks"></a>
+## Сетевые обратные вызовы <a href="#networking-callbacks" id="networking-callbacks"></a>
 
-Networking callbacks allow you to hook into built-in Mirror events which occur during the course of the game, such as when players join or leave, when game objects are created or destroyed, or when a new Scene is loaded. There are two types of networking callbacks that you can implement:
+Сетевые обратные вызовы позволяют подключаться к встроенным событиям Mirror, которые происходят в ходе игры, например, когда игроки присоединяются или уходят, когда создаются или уничтожаются игровые объекты или когда загружается новая сцена. Существует два типа сетевых обратных вызовов, которые вы можете реализовать:
 
-* Network manager callbacks, for callbacks relating to the network manager itself (such as when clients connect or disconnect)
-* Network behaviour callbacks, for callbacks relating to individual networked game objects (such as when its Start function is called, or what this particular game object should do if a new player joins the game)
+* Обратные вызовы Network Manager'a, для обратных вызовов, относящихся к самому Network Manager'у (например, при подключении или отключении клиентов)
+* Обратные вызовы Network behaviour, для обратных вызовов, относящихся к отдельным сетевым игровым объектам (например, когда вызывается его функция запуска или что должен делать этот конкретный игровой объект, если к игре присоединяется новый игрок)
 
 ## Network Messages <a href="#network-messages" id="network-messages"></a>
 
-Network messages are a “lower level” approach to sending messages (although they are still classed as part of the networking “High level API”). They allow you to send data directly between clients and the server using scripting. You can send basic types of data (int, string, etc) as well as most common Unity types (such as Vector3). Since you implement this yourself, these messages are not associated directly with any particular game objects or Unity events - it is up to you do decide their purpose and implement them!
+Network messages являются “низкоуровневым” подходом к отправке сообщений (хотя они по-прежнему классифицируются как часть сетевого “высокоуровневого API”). Они позволяют отправлять данные непосредственно между клиентами и сервером с помощью сценариев. Вы можете отправлять базовые типы данных (int, string и т.д.), а также наиболее распространенные типы Unity (такие как Vector3). Поскольку вы реализуете это самостоятельно, эти сообщения не связаны напрямую с какими-либо конкретными игровыми объектами или событиями Unity - вам решать, для чего они предназначены, и реализовывать их!

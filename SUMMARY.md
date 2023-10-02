@@ -90,7 +90,7 @@
     * [SyncDictionary](manual/guides/synchronization/syncdictionary.md)
     * [SyncHashSet](manual/guides/synchronization/synchashset.md)
     * [SyncSortedSet](manual/guides/synchronization/syncsortedset.md)
-  * [Communications](manual/guides/communications/README.md)
+  * [Взаимодействие](manual/guides/communications/README.md)
     * [Remote Actions](manual/guides/communications/remote-actions.md)
     * [NetworkManager Callbacks](manual/guides/communications/networkmanager-callbacks.md)
     * [NetworkBehaviour Callbacks](manual/guides/communications/networkbehaviour-callbacks.md)
