@@ -1,23 +1,23 @@
-# Remote Actions
+# Удаленные действия
 
-The network system has ways to perform actions across the network. These type of actions are sometimes called Remote Procedure Calls. There are two types of RPCs in the network system, Commands - which are called from the client and run on the server; and ClientRpc calls - which are called on the server and run on clients.
+Сетевая система имеет способы выполнения действий по всей сети. Действия такого типа иногда называются удаленными вызовами процедур. В сетевой системе существует два типа RPC: Command, которые вызываются с клиента и выполняются на сервере; и вызовы ClientRpc, которые вызываются на сервере и выполняются на клиентах.
 
-The diagram below shows the directions that remote actions take:
+На диаграмме ниже показаны направления, в которых выполняются удаленные действия:
 
 ![](<../../../.gitbook/assets/image (6) (1).png>)
 
-## Commands <a href="#commands" id="commands"></a>
+## Command <a href="#commands" id="commands"></a>
 
-Commands are sent from player objects on the client to player objects on the server. For security, Commands can only be sent from YOUR player object by default, so you cannot control the objects of other players. You can bypass the authority check using `[Command(requiresAuthority = false)]`.
+Command отправляются от объектов player на клиенте к объектам player на сервере. В целях безопасности Command по умолчанию могут отправляться только с вашего объекта player, поэтому вы не можете управлять объектами других игроков. Вы можете обойти проверку контроля над объектом, используя `[Command(requiresAuthority = false)]`.
 
-To make a function into a command, add the \[Command] custom attribute to it, and optionally add the “Cmd” prefix for naming convention. This function will now be run on the server when it is called on the client. Any parameters of [allowed data type](../data-types.md) will be automatically passed to the server with the command.
+Чтобы превратить функцию в Command, добавьте к ней пользовательский атрибут \[Command] и необязательно добавьте префикс “Cmd” для соглашения об именовании. Теперь эта функция будет запускаться на сервере при ее вызове на клиенте. Любые параметры [поддерживаемого типа данных](../data-types.md) будут автоматически переданы на сервер с помощью Command.
 
-Commands functions should have the prefix “Cmd” and cannot be static. This is a hint when reading code that calls the command - this function is special and is not invoked locally like a normal function.
+Функции Command должны иметь префикс “Cmd” и не могут быть статическими. Это подсказка при чтении кода, вызывающего Command - эта функция является специальной и не вызывается локально, как обычная функция.
 
 ```csharp
 public class Player : NetworkBehaviour
 {
-    // assigned in inspector
+    // будет назначен в инспекторе
     public GameObject cubePrefab;
 
     void Update()
@@ -42,19 +42,19 @@ public class Player : NetworkBehaviour
 }
 ```
 
-Be careful of sending commands from the client every frame! This can cause a lot of network traffic.
+Будьте осторожны при отправке Command от клиента в каждом кадре! Это может привести к большому объему сетевого трафика.
 
-### Bypassing Authority
+### Обход проверки контроля
 
-It is possible to invoke commands on non-player objects if any of the following are true:
+Можно вызывать команды для объектов, не являющихся игроками, если верно любое из следующих условий:
 
-* The object was spawned with client authority
-* The object has client authority set with `NetworkIdentity.AssignClientAuthority`
-* the Command has the `requiresAuthority` option set false.
-  * You can include an optional `NetworkConnectionToClient sender = null` parameter in the Command method signature and Mirror will fill in the sending client for you.
-  * Do not try to set a value for this optional parameter...it will be ignored.
+* Объект был создан с правами клиента
+* Объект имеет контроль клиента, установленный с помощью `NetworkIdentity.AssignClientAuthority`
+* Command имеет опцию `requiresAuthority` стоящую на false.
+  * Вы можете включить необязательный параметр `NetworkConnectionToClient sender = null` в методе Command, где Mirror передаст данный параметр за вас.
+  * Не пытайтесь передать этот необязательный параметр сами... Эта попытка будет проигнорирована.
 
-Commands sent from these objects are run on the server instance of the object, not on the associated player object for the client.
+Command будут выполняться для экземпляра объекта именно на сервере, а не для экземпляра объекта на клиенте.
 
 ```csharp
 public enum DoorState : byte
@@ -96,11 +96,11 @@ public class Door : NetworkBehaviour
 }
 ```
 
-## ClientRpc Calls <a href="#clientrpc-calls" id="clientrpc-calls"></a>
+## ClientRpc <a href="#clientrpc-calls" id="clientrpc-calls"></a>
 
-ClientRpc calls are sent from objects on the server to objects on clients. They can be sent from any server object with a NetworkIdentity that has been spawned. Since the server has authority, then there no security issues with server objects being able to send these calls. To make a function into a ClientRpc call, add the \[ClientRpc] custom attribute to it, and optionally add the “Rpc” prefix for naming convention. This function will now be run on clients when it is called on the server. Any parameters of [allowed data type](../data-types.md) will automatically be passed to the clients with the ClientRpc call..
+ClientRpc отправляются от объектов на сервере к объектам на клиентах. Они могут быть отправлены с любого серверного объекта с созданным NetworkIdentity. Поскольку сервер обладает контролем над всеми, то нет никаких проблем с безопасностью, связанных с тем, что серверные объекты могут отправлять эти вызовы. Чтобы преобразовать функцию в вызов ClientRpc, добавьте к ней пользовательский атрибут \[ClientRpc] и необязательно добавьте префикс “Rpc” для соглашения об именовании. Теперь эта функция будет запускаться на клиентах при ее вызове на сервере. Любые параметры [поддерживаемого типа данных](../data-types.md) будут автоматически переданы клиентам с вызовом ClientRpc..
 
-ClientRpc functions should have the prefix “Rpc” and cannot be static. This is a hint when reading code that calls the method - this function is special and is not invoked locally like a normal function.
+Функция ClientRpc должна иметь префикс “Rpc” и не может быть статичной. Это подсказка при чтении кода, вызывающего метод - эта функция является специальной и не вызывается локально, как обычная функция.
 
 ```csharp
 public class Player : NetworkBehaviour
@@ -123,22 +123,22 @@ public class Player : NetworkBehaviour
 }
 ```
 
-When running a game as a host with a local client, ClientRpc calls will be invoked on the local client even though it is in the same process as the server. So the behaviours of local and remote clients are the same for ClientRpc calls.
+При запуске игры от имени хоста с локальным клиентом вызовы ClientRpc будут вызываться на локальном клиенте, даже если он находится в том же процессе, что и сервер. Таким образом, поведение локальных и удаленных клиентов одинаково для вызовов ClientRpc.
 
 ### Excluding Owner
 
-ClientRpc messages are only sent to observers of an object according to its [Network Visibility](../../interest-management/). Player objects are always observers of themselves. In some cases, you may want to exclude the owner client when calling a ClientRpc. This is done with the `includeOwner` option: `[ClientRpc(includeOwner = false)]`.
+Сообщения ClientRpc отправляются только наблюдателям объекта в соответствии с его [Network Visibility](../../interest-management/). Объекты игрока всегда являются наблюдателями самих себя. В некоторых случаях вы можете захотеть исключить клиента-владельца при вызове ClientRpc. Это делается с помощью `includeOwner` и опции: `[ClientRpc(includeOwner = false)]`.
 
-## TargetRpc Calls <a href="#targetrpc-calls" id="targetrpc-calls"></a>
+## TargetRpc <a href="#targetrpc-calls" id="targetrpc-calls"></a>
 
-TargetRpc functions are called by user code on the server, and then invoked on the corresponding client object on the client of the specified `NetworkConnection`. The arguments to the RPC call are serialized across the network, so that the client function is invoked with the same values as the function on the server. These functions should begin with the prefix "Target" for naming convention and cannot be static.
+Функции TargetRpc вызываются вашим кодом на сервере, а затем вызываются для соответствующего клиентского объекта на клиенте указанного как `NetworkConnection`. Аргументы для вызова RPC сериализуются по сети, так что клиентская функция вызывается с теми же значениями, что и функция на сервере. Эти функции должны начинаться с префикса "Target" в соответствии с соглашением об именовании и не могут быть статическими.
 
-**Context Matters:**
+**Важен контекст:**
 
-* If the first parameter of your TargetRpc method is a `NetworkConnection` then that's the connection that will receive the message regardless of context.
-* If the first parameter is any other type, then the owner client of the object with the script containing your TargetRpc will receive the message.
+* Если первым параметров вашего метода TargetRpc является `NetworkConnection`, тогда именно этот клиент выполнит данный метод
+* Если первый параметр любого другого типа, то данный метод выполнит клиент, в скрипте которого и создан данный метод.
 
-This example shows how a client can use a Command to make a request to the server (`CmdMagic`) by including another Player's `connectionToClient` as one of the parameters of the TargetRpc invoked directly from that Command:
+В этом примере показано, как клиент может использовать Command для отправки запроса серверу (`CmdMagic`) путем включения данных другого игрока `connectionToClient` в качестве одного из параметров TargetRpc, вызываемого непосредственно из этого Command метода:
 
 ```csharp
 public class Player : NetworkBehaviour
@@ -157,11 +157,11 @@ public class Player : NetworkBehaviour
     [TargetRpc]
     public void TargetDoMagic(NetworkConnectionToClient target, int damage)
     {
-        // This will appear on the opponent's client, not the attacking player's
+        // Это появится на клиенте соперника, а не на клиенте атакующего игрока
         Debug.Log($"Magic Damage = {damage}");
     }
 
-    // Heal thyself
+    // Исцелить самого себя
     [Command]
     public void CmdHealMe()
     {
@@ -172,14 +172,14 @@ public class Player : NetworkBehaviour
     [TargetRpc]
     public void TargetHealed(int amount)
     {
-        // No NetworkConnection parameter, so it goes to owner
+        // Нет параметра NetworkConnection, поэтому метод передается владельцу скрипта
         Debug.Log($"Health increased by {amount}");
     }
 }
 ```
 
-## Arguments to Remote Actions <a href="#arguments-to-remote-actions" id="arguments-to-remote-actions"></a>
+## Аргументы удаленных действий <a href="#arguments-to-remote-actions" id="arguments-to-remote-actions"></a>
 
-The arguments passed to commands and ClientRpc calls are serialized and sent over the network. You can use any [supported mirror type](../data-types.md).
+Аргументы, передаваемые в Command и ClientRpc, сериализуются и отправляются по сети. Вы можете использовать любой [поддерживаемый тип Mirror](../data-types.md).
 
-Arguments to remote actions cannot be sub-components of game objects, such as script instances or Transforms.
+Аргументы для удаленных действий не могут быть подкомпонентами игровых объектов, таких как экземпляры скриптов или Transform.

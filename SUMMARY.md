@@ -91,7 +91,7 @@
     * [SyncHashSet](manual/guides/synchronization/synchashset.md)
     * [SyncSortedSet](manual/guides/synchronization/syncsortedset.md)
   * [Взаимодействие](manual/guides/communications/README.md)
-    * [Remote Actions](manual/guides/communications/remote-actions.md)
+    * [Удаленные действия](manual/guides/communications/remote-actions.md)
     * [NetworkManager Callbacks](manual/guides/communications/networkmanager-callbacks.md)
     * [NetworkBehaviour Callbacks](manual/guides/communications/networkbehaviour-callbacks.md)
     * [Network Messages](manual/guides/communications/network-messages.md)
