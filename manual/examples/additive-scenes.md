@@ -1,27 +1,27 @@
 # Additive Scenes
 
-IMPORTANT: Make sure you have a layer in project settings called Player for this example to work well.
+ВАЖНО: Убедитесь, что в настройках проекта у вас есть слой под названием Player, чтобы этот пример хорошо работал.
 
-In Build Settings, remove all scenes and add all of the scenes from the Scenes folder in the following order:
+В Build Settings, удалите все сцены и добавьте все сцены из папки Scenes в следующем порядке:
 
 * MainScene
 * SubScene
 
-Open the MainScene in the Editor and make sure the Sub Scenes list in the Network Manager component on the Network scene object contains the SubScene scene. This is already setup by default, but if the MainScene was opened and saved before putting the scenes in the Build Settings list, the Sub Scenes list may be cleared accidentally.
+Откройте MainScene в редакторе и убедитесь что список подсцен в компоненте Network Manager на Network scene имеет сцену SubScene. Это уже настроено по умолчанию, но если MainScene была открыта и сохранена перед помещением сцен в список Build Settings, список подсцен может быть случайно удален.
 
 File -> Build and Run
 
-Start up to 3 built instances: These will all be client players.
+Запустите до 3 созданных экземпляров: все они будут клиентскими игроками.
 
-Press Play in the Editor and click Host (Server + Client) in the HUD
+Нажмите "Воспроизвести" и выберите "Хост" (Server + Client) в HUD
 
-* This will be the host and the 1st player of up to 4. You can also use Server Only if you prefer.
+* Это будет хост и 1-й игрок из числа до 4 человек. Вы также можете использовать сервер только по своему усмотрению.
 
-Click Client in the built instances.
+Щелкните по Клиенту в созданных экземплярах.
 
-* WASDQE keys to move & turn your player capsule.
-* There are objects in the corners of the scene hidden by Proximity Checkers.
-* The big area in the middle is where the subscene will be loaded when you get near the shelter.
-* There are also networked objects inside the subscene, also with Proximity Checkers.
-* Since subscenes are only loaded for individual clients, other clients that are outside the middle Zone won't see what those in the subscene can see.
-* If you play a built instance as Host or Server and play as client in the editor, you'll see the subscene content load and unload in the hierarchy as you move in and out of the middle Zone.
+* WASDQE предназначены для перемещения и поворота капсулы игрока.
+* В углах сцены есть объекты, скрытые при помощи Proximity Checkers.
+* Большая область посередине - это место, куда будет загружена подсцена, когда вы приблизитесь к убежищу.
+* Внутри подсети также есть сетевые объекты, также с Proximity Checkers.
+* Поскольку подсцены загружаются только для отдельных клиентов, другие клиенты, находящиеся за пределами средней зоны, не увидят того, что могут видеть те, кто находится в подсцене.
+* Если вы играете в созданный экземпляр как хост или сервер и играете как клиент в редакторе, вы увидите, как содержимое подписки загружается и выгружается в иерархии по мере того, как вы входите в среднюю зону и выходите из нее.
