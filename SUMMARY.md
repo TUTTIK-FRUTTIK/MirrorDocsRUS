@@ -101,7 +101,7 @@
     * [Пользовательские функции спавна](manual/guides/gameobjects/custom-spawnfunctions.md)
     * [Объекты на сцене](manual/guides/gameobjects/scene-gameobjects.md)
     * [Поднятие, Бросание, и дочерние объекты](manual/guides/gameobjects/pickups-drops-and-child-objects.md)
-* [Examples](manual/examples/README.md)
+* [Примеры](manual/examples/README.md)
   * [Additive Levels](manual/examples/additive-levels.md)
   * [Additive Scenes](manual/examples/additive-scenes.md)
   * [Basic](manual/examples/basic.md)
