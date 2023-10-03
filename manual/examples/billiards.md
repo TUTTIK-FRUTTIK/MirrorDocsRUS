@@ -2,19 +2,17 @@
 
 <figure><img src="../../.gitbook/assets/2023-08-12 - Prediction demo.png" alt=""><figcaption></figcaption></figure>
 
-**Mirror** comes with simple multiplayer **Billiards** demo.&#x20;
+**Mirror** поставляется с простой мультиплеерной демонстрацией **Billiards**.
 
-Mouse drag the white ball to apply force.
+Перетащите белый шар мышью, чтобы применить силу.
 
-Billiards is surprisingly easy to implement, which makes this a great demo for beginners!
+Бильярд на удивление прост в реализации, что делает эту демонстрацию отличной для начинающих!
 
-Additionally, this demo will allow us to test `Client Side Prediction` & Reconciliation:
+Кроме того, эта демонстрация позволит нам протестировать `Client Side Prediction` и Reconciliation:
 
-* currently, CmdApplyForce is sent to server, and clients see the effect a bit later (latency)
-* in the future, prediction will show the effect immediately with (ideally) very little corrections
+* В данный момент, CmdApplyForce отправляется на сервер, а клиенты видят эффект немного позже (задержка)
+* в будущем прогнозирование покажет эффект немедленно с (в идеале) очень небольшими корректировками
 
+Демонстрация намеренно сделана предельно простой, без каких-либо правил или поворотов.
 
-
-The demo is intentionally kept extremely simple without any rules or turns.
-
-This way we can apply force and test physics without much wait time.
+Таким образом, мы можем применить силу и протестировать физику без особого времени ожидания.
