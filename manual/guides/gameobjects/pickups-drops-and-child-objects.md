@@ -1,29 +1,29 @@
-# Pickups, Drops, and Child Objects
+# Поднятие, Бросание, и дочерние объекты
 
-Frequently the question comes up about how to handle objects that are attached as children of the player prefab that all clients need to know about and synchronize, such as which weapon is equipped, picking up networked scene objects, and players dropping objects into the scene.
+Часто возникает вопрос о том, как обращаться с объектами, которые прикреплены в качестве дочерних элементов Prefab'a игрока, о которых все клиенты должны знать и синхронизировать, например, какое оружие оснащено, сбор объектов сетевой сцены и игроки, бросающие объекты в сцене.
 
 {% hint style="warning" %}
-Mirror cannot support multiple Network Identity components within an object hierarchy. Since the Player object must have a Network Identity, none of its descendant objects can have one.
+Mirror не поддерживает сразу несколько компонентов Network Identity в одной иерархии объекта. Поскольку объект игрока должен иметь Network Identity, ни один из его дочерних объектов не может его иметь.
 {% endhint %}
 
-## Child Objects <a href="#child-objects" id="child-objects"></a>
+## Дочерние объекты <a href="#child-objects" id="child-objects"></a>
 
-Let's start with the simple case of a single attachment point that is somewhere down the hierarchy of our Player, such as a hand at the end of an arm. In a script that inherits from NetworkBehaviour on the Player Prefab, we'd have a `GameObject` reference where the attachment point can be assigned in the inspector, a SyncVar enum with various choices of what the player is holding, and and a Hook for the SyncVar to swap out the art of the held item based on the new value.
+Давайте начнем с простого случая с единственной точкой прикрепления, которая находится где-то внизу иерархии нашего игрока, например, с кистью на конце руки. В сценарии, который наследуется от NetworkBehaviour в Prefab'e игрока, у нас была бы ссылка на `GameObject`, где точка прикрепления может быть назначена в инспекторе, перечисление SyncVar с различными вариантами того, что держит игрок, и hook у SyncVar для отображения удерживаемого элемента на основе нового значения.
 
-In the image below, Kyle has an empty game object, `RightHand`, added to the wrist, and some prefabs to be equipped (Ball, Box, Cylinder), and a Player Equip script to handle them.
+На изображении ниже у Кайла есть пустой игровой объект, `RightHand`, добавленный к запястью, а также несколько готовых элементов для экипировки (мяч, коробка, цилиндр) и сценарий экипировки игрока для работы с ними.
 
 {% hint style="info" %}
-**NOTE**: The item prefabs are _art only_...they have no scripts, and they _must not_ have networking components. They can have monobehaviour-based scripts, of course, which can be referenced and called from ClientRpc's on the player prefab.
+**ПРИМЕЧАНИЕ**: Prefab'ы предметов это _только визуальная часть_... у них нет скриптов, и у них _не должно_ быть сетевых компонентов. Конечно, у них могут быть скрипты, основанные на monobehaviour, на которые можно ссылаться и вызывать из ClientRpc в Prefab'e игрока.
 {% endhint %}
 
-The inspector shows `RightHand` assigned in 2 places, the Player Equip script, as well as the target of the Network Transform Child component, so we could adjust the relative position of the attachment point (not the art) for all clients as needed.
+Инспектор показывает `RightHand` расположенный в 2 местах, скрипт оснащения игрока, а также цель дочернего компонента Network Transform, чтобы мы могли при необходимости корректировать относительное положение точки подключения (не визуально) для всех клиентов.
 
 ![](<../../../.gitbook/assets/image (114).png>)
 
-Below is the Player Equip script to handle the changing of the equipped item, and some notes for consideration:
+Ниже приведен сценарий экипировки игрока для обработки смены экипированного предмета, а также некоторые примечания для рассмотрения:
 
-* While we could just have all the art items attached at design time and just enable / disable them based on the enum, this doesn't scale well to a lot of items and if they have scripts on them for how they behave in the game, such as animations, special effects, etc. it could get ugly pretty fast, so this example locally instantiates and destroys instead as a design choice.
-* The example makes no effort to deal with position offset between the item and the attach point, e.g. having the grip or handle of an item align with the hand. This is best dealt with in a monobehaviour script on the item that has public fields for the local position and rotation that can be set in the designer and a bit of code in Start to apply those values in local coordinates relative to the parent attach point.
+* Хотя мы могли бы просто прикрепить все визуальные элементы во время разработки и просто включать / отключать их на основе перечисления, это бы не очень хорошо масштабировалось для многих элементов, и если на них есть скрипты для того, как они будут вести себя в игре, к примеру для анимации, спецэффектов и т.д. это может стать уродливым довольно быстро, поэтому этот пример локально создает экземпляры и уничтожает их вместо этого в качестве выбора визуализации.
+* В примере не предпринимается никаких усилий для устранения смещения положения между предметом и точкой крепления, например, для выравнивания захвата или рукоятки предмета по руке. С этим лучше всего справиться в сценарии monobehaviour для элемента, который имеет общедоступные поля для локального положения и поворота, которые можно задать в конструкторе, и немного кода в Start, чтобы применить эти значения в локальных координатах относительно родительской точки присоединения.
 
 ```csharp
 using UnityEngine;
@@ -102,11 +102,11 @@ public class PlayerEquip : NetworkBehaviour
 }
 ```
 
-## Dropping Items <a href="#dropping-items" id="dropping-items"></a>
+## Выбрасывание предметов <a href="#dropping-items" id="dropping-items"></a>
 
-Now that we can equip the items, we need a way to drop the current item into the world as a networked item. Remember that, as child art, the item prefabs have no networking components on them at all.
+Теперь, когда мы можем экипировать предметы, нам нужен способ отправить текущий предмет в мир как сетевой предмет. Помните, что, как дочерний объект визуализации, Prefab'ы вообще не содержат сетевых компонентов.
 
-First, let's add one more Input to the Update method above, and a `CmdDropItem` method:
+Во-первых, давайте добавим ввод в методе Update и метод `CmdDropItem`:
 
 ```csharp
     void Update()
@@ -155,7 +155,7 @@ First, let's add one more Input to the Update method above, and a `CmdDropItem` 
     }
 ```
 
-In the image above, there's a `sceneObjectPrefab` field that is assigned to a prefab that will act as a container for our item prefabs. The SceneObject prefab has a SceneObject script with a SyncVar like the Player Equip script, and a SetEquippedItem method that takes the shared enum value as a parameter.
+На изображении выше есть поле `sceneObjectPrefab` которое присваивается Prefab'у, который будет выступать в качестве контейнера для наших Prefab'ов. В Prefab'e SceneObject есть скрипт SceneObject с SyncVar, подобный скрипту Player Equipped, и метод SetEquippedItem, который принимает общее значение enum в качестве параметра.
 
 ```csharp
 using UnityEngine;
@@ -210,17 +210,17 @@ public class SceneObject : NetworkBehaviour
 }
 ```
 
-In the run-time image below, the Ball(Clone) is attached to the `RightHand` object, and the Box(Clone) is attached to the SceneObject(Clone), which is shown in the inspector.
+На приведенном ниже изображении во время выполнения Ball(Clone) прикреплен к объекту `RightHand`, и Box(Clone) прикреплена к SceneObject(Clolne), который показан в инспекторе.
 
 {% hint style="info" %}
-The art prefabs have simple colliders on them (sphere, box, capsule). If your art item has a mesh collider, it must be marked as Convex to work with the RigidBody on the SceneObject container.
+На визуальных Prefab'ax есть простые коллайдеры (сфера, коробка, капсула). Если в вашем визуальном Prefab'e есть mesh коллайдер, он должен быть помечен как Convex, чтобы работать с Rigidbody в контейнере SceneObject.
 {% endhint %}
 
 ![](<../../../.gitbook/assets/image (124).png>)
 
-## Pickup Items <a href="#pickup-items" id="pickup-items"></a>
+## Поднятие предметов <a href="#pickup-items" id="pickup-items"></a>
 
-Now that we have a box dropped in the scene, we need to pick it up again. To do that, a `CmdPickupItem` method is added to the Player Equip script:
+Теперь, когда у нас в сцене упала коробка, нам нужно поднять ее снова. Чтобы сделать это, необходимо добавить метод `CmdPickupItem` в скрипт Equip:
 
 ```csharp
     // CmdPickupItem is public because it's called from a script on the SceneObject
@@ -235,7 +235,7 @@ Now that we have a box dropped in the scene, we need to pick it up again. To do 
     }
 ```
 
-This method is simply called from `OnMouseDown` in the Scene Object script:
+Данный метод будет просто вызываться по событию `OnMouseDown` в скрипте объекта:
 
 ```csharp
     void OnMouseDown()
@@ -244,6 +244,6 @@ This method is simply called from `OnMouseDown` in the Scene Object script:
     }
 ```
 
-Since the SceneObject(Clone) is networked, we can pass it directly through to `CmdPickupItem` on the player object to set the equipped item SyncVar and destroy the scene object.
+Теперь, когда SceneObject(Clone) сетевой, мы можем передать его непосредственно в `CmdPickupItem` на объекте игрока установить SyncVar снаряженного предмета и уничтожить объект сцены.
 
-For this entire example, the only prefab that needs to be registered with Network Manager besides the Player is the SceneObject prefab.
+Для всего этого примера единственный Prefab, который необходимо зарегистрировать в Network Manager кроме того, игрок является Prefab'ом SceneObject.

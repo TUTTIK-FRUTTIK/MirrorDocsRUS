@@ -100,7 +100,7 @@
     * [Пользовательский спавн персонажа](manual/guides/gameobjects/custom-character-spawning.md)
     * [Пользовательские функции спавна](manual/guides/gameobjects/custom-spawnfunctions.md)
     * [Объекты на сцене](manual/guides/gameobjects/scene-gameobjects.md)
-    * [Pickups, Drops, and Child Objects](manual/guides/gameobjects/pickups-drops-and-child-objects.md)
+    * [Поднятие, Бросание, и дочерние объекты](manual/guides/gameobjects/pickups-drops-and-child-objects.md)
 * [Examples](manual/examples/README.md)
   * [Additive Levels](manual/examples/additive-levels.md)
   * [Additive Scenes](manual/examples/additive-scenes.md)
