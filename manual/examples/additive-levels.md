@@ -1,16 +1,16 @@
 # Additive Levels
 
-The Additive Levels example demonstrates the following:
+Пример дополнительных уровней демонстрирует следующее:
 
-* Using Additive Scenes with Scene Interest Management
-* Teleporting between levels via portals and respawning
-* Custom Scene Loading with Fade In / Out transition
+* Использование дополнительных сцен с Scene Interest Management
+* Телепортация между уровнями через порталы и респавн
+* Пользовательская загрузка сцены с Fade In / Out transition
 
-## Setting Up
+## Перед началом
 
-For this example to work correctly, some setup is required.
+Для корректной работы этого примера требуется некоторая настройка.
 
-First, add all the scenes to Build Settings:
+Сначала добавьте все сцены в Build Settings:
 
 <div align="left">
 
@@ -18,18 +18,18 @@ First, add all the scenes to Build Settings:
 
 </div>
 
-Next, add a Player and Portal Layer to Project Settings under Tags and Layers:
+Затем добавьте слои игрока и портала в Project Settings под Tags и Layers:
 
 <img src="../../.gitbook/assets/image (56).png" alt="" data-size="original">
 
-... and in Physics settings set the matrix so that Portal only collides with Player:
+... и в настройках Physics установите матрицу так, чтобы портал сталкивался только с игроком:
 
 <img src="../../.gitbook/assets/image (46).png" alt="" data-size="original">
 
-Finally, open the Offline scene, and click Play in the editor, and click Host in the HUD.
+Наконец, откройте оффлайн сцену и нажмите "Воспроизвести" в редакторе, а затем "Хост" в HUD.
 
-* Player controls are WASD+QE to move and turn.
-* Move into the Portal in the corner with a scene label over it.  Your player will be changed to the other level scene.
-* Move into the Portal in the corner of the 2nd scene, and your player will be changed back to the first scene
+* Игрок управляется по кнопкам WASD+QE для движения и поворота.
+* Перейдите к порталу в углу с надписью сцены над ним. Ваш игрок будет переведен на сцену другого уровня.
+* Войдите в портал в углу 2-й сцены, и ваш игрок вернется к первой сцене
 
-If you make a build and start two or more instances (one as Host or Server, the other(s) as clients, and move each one, you'll see that only players in the same level can see and collide with each other.
+Если вы создадите сборку и запустите два или более экземпляра (один как хост или сервер, другие как клиенты) и переместите каждый из них, вы увидите, что только игроки одного уровня могут видеть друг друга и сталкиваться друг с другом.
