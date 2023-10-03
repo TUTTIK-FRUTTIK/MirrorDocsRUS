@@ -98,7 +98,7 @@
   * [GameObject](manual/guides/gameobjects/README.md)
     * [Game Object игрока](manual/guides/gameobjects/player-gameobjects.md)
     * [Пользовательский спавн персонажа](manual/guides/gameobjects/custom-character-spawning.md)
-    * [Custom Spawn Functions](manual/guides/gameobjects/custom-spawnfunctions.md)
+    * [Пользовательские функции спавна](manual/guides/gameobjects/custom-spawnfunctions.md)
     * [Scene GameObjects](manual/guides/gameobjects/scene-gameobjects.md)
     * [Pickups, Drops, and Child Objects](manual/guides/gameobjects/pickups-drops-and-child-objects.md)
 * [Examples](manual/examples/README.md)

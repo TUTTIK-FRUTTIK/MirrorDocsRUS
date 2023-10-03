@@ -1,26 +1,26 @@
-# Custom Spawn Functions
+# Пользовательские функции спавна
 
-You can use spawn handler functions to customize the default behavior when creating spawned game objects on the client. Spawn handler functions ensure you have full control of how you spawn the game object, as well as how you destroy it.
+Вы можете использовать функции обработчика спавна, чтобы настроить поведение объектов при спавне созданных игровых объектов на клиенте. Функции обработчика спавна гарантируют, что у вас есть полный контроль над тем, как вы создаете игровой объект, а также как вы его уничтожаете.
 
-Use `NetworkClient.RegisterSpawnHandler` or `NetworkClient.RegisterPrefab` to register functions to spawn and destroy client game objects. The server creates game objects directly, and then spawns them on the clients through this functionality. This functions takes either the asset ID or a prefab and two function delegates: one to handle creating game objects on the client, and one to handle destroying game objects on the client. The asset ID can be a dynamic one, or just the asset ID found on the prefab game object you want to spawn.
+Используйте `NetworkClient.RegisterSpawnHandler` или `NetworkClient.RegisterPrefab` чтобы регистрировать функции для спавна и уничтожения игровых объектов на клиенте. Сервер спавнит игровые объекты напрямую, а затем спавнит их на клиентах с помощью этой функции. Эти функции принимает либо asset ID, либо prefab и две функции делегата: одна обрабатывает создание объекта на клиенте, и одна обрабатывает уничтожение объекта на клиенте. Asset ID может быть динамичным, или просто найденным на prefab'е игрового объекта который вы хотите заспавнить.
 
-The Spawn / Unspawn delegates will look something like this:
+Делегаты Spawn / Unspawn будут выглядеть примерно так:
 
 **Spawn Handler**
 
 ```csharp
 GameObject SpawnDelegate(Vector3 position, System.Guid assetId) 
 {
-    // do stuff here
+    // делайте что-нибудь здесь
 }
 ```
 
-or
+или
 
 ```csharp
 GameObject SpawnDelegate(SpawnMessage msg) 
 {
-    // do stuff here
+    // делайте что-нибудь здесь
 }
 ```
 
@@ -29,37 +29,37 @@ GameObject SpawnDelegate(SpawnMessage msg)
 ```csharp
 void UnSpawnDelegate(GameObject spawned) 
 {
-    // do stuff here
+    // делайте что-нибудь здесь
 }
 ```
 
-When a prefab is saved its `assetId` field will be automatically set. If you want to create prefabs at runtime you will have to generate a new GUID.
+Когда prefab сохраняется, его поле `assetId` будет назначено автоматически. Если вы хотите создавать prefab'ы во время выполнения, вам придется сгенерировать новый GUID.
 
-### **Generate Prefab At Runtime**
+### **Генерация Prefab'а в реальном времени**
 
 ```csharp
-// generate a new unique assetId 
+// генерация нового уникального assetId 
 System.Guid creatureAssetId = System.Guid.NewGuid();
 
-// register handlers for the new assetId
+// регистрация обработчика для нового assetId
 NetworkClient.RegisterSpawnHandler(creatureAssetId, SpawnCreature, UnSpawnCreature);
 ```
 
-**Use existing prefab**
+**Использование существующего prefab'а**
 
 ```csharp
-// register prefab you'd like to custom spawn and pass in handlers
+// зарегистрируйте prefab у которого будет пользовательский спавн и передайте в обработчик
 NetworkClient.RegisterPrefab(coinAssetId, SpawnCoin, UnSpawnCoin);
 ```
 
 **Spawn on Server**
 
 ```csharp
-// spawn a coin - SpawnCoin is called on client
+// спавн монеты - SpawnCoin вызывается на клиенте
 NetworkServer.Spawn(gameObject, coinAssetId);
 ```
 
-The spawn functions themselves are implemented with the delegate signature. Here is the coin spawner. The `SpawnCreature` would look the same, but have different spawn logic:
+Сами функции спавна реализуются с помощью подписки делегата. Вот это спавнер монет. The `SpawnCreature` would look the same, but have different spawn logic:
 
 ```csharp
 public GameObject SpawnCoin(SpawnMessage msg)
@@ -73,17 +73,17 @@ public void UnSpawnCoin(GameObject spawned)
 }
 ```
 
-When using custom spawn functions, it is sometimes useful to be able to unspawn game objects without destroying them. This can be done by calling `NetworkServer.UnSpawn`. This causes the object to be `Reset` on the server and sends a `ObjectDestroyMessage` to clients. The `ObjectDestroyMessage` will cause the custom unspawn function to be called on the clients. If there is no unspawn function the object will instead be `Destroy`
+При использовании пользовательских функций спавна иногда полезно иметь возможность отменять спавн игровых объектов, не уничтожая их. Это можно сделать, вызвав `NetworkServer.UnSpawn`. Это приводит к тому, что объект становится `Reset` на сервере и отправляет `ObjectDestroyMessage` клиентам. `ObjectDestroyMessage` приведет к вызову пользовательской функции unspawn на клиентах. Если нет функции unspawn, то вместо этого объект будет уничтожаться (`Destroy`)
 
-Note that on the host, game objects are not spawned for the local client, because they already exist on the server. This also means that no spawn or unspawn handler functions are called.
+Обратите внимание, что на хосте игровые объекты не создаются для локального клиента, поскольку они уже существуют на сервере. Это также означает, что никакие функции spawn или unspawn-обработчика не будут вызываться.
 
-### Pooling Game Objects
+### [Pooling Game Objects](https://ru.wikipedia.org/wiki/%D0%9E%D0%B1%D1%8A%D0%B5%D0%BA%D1%82%D0%BD%D1%8B%D0%B9\_%D0%BF%D1%83%D0%BB)
 
-To avoid Instantiating & Destroying heavily used GameObjects, it can be useful to pool them instead.
+Чтобы избежать таких методов как Instantiate и Destroy часто используя GameObjects, вместо этого может быть полезно отправить их в пул.
 
 ![](../../../.gitbook/assets/2022-04-04\_20-21-49@2x.png)
 
-Here is an example of how you might set up a simple game object pooling system with custom spawn handlers. Spawning and unspawning then puts game objects in or out of the pool.
+Вот пример того, как вы могли бы настроить простую систему пула игровых объектов с пользовательскими обработчиками появления. При появлении и отмене появления игровые объекты помещаются в пул или извлекаются из него.
 
 ```csharp
 using UnityEngine;
@@ -92,7 +92,7 @@ namespace Mirror.Examples
 {
     public class PrefabPool : MonoBehaviour
     {
-        // singleton for easier access from other scripts
+        // singleton для облегчения доступа из других скриптов
         public static PrefabPool singleton;
 
         [Header("Settings")]
@@ -109,10 +109,10 @@ namespace Mirror.Examples
             NetworkClient.RegisterPrefab(prefab, SpawnHandler, UnspawnHandler);
         }
 
-        // used by NetworkClient.RegisterPrefab
+        // используется при помощи NetworkClient.RegisterPrefab
         GameObject SpawnHandler(SpawnMessage msg) => Get(msg.position, msg.rotation);
 
-        // used by NetworkClient.RegisterPrefab
+        // используется при помощи NetworkClient.RegisterPrefab
         void UnspawnHandler(GameObject spawned) => Return(spawned);
 
         void OnDestroy()
@@ -122,13 +122,13 @@ namespace Mirror.Examples
 
         void InitializePool()
         {
-            // create pool with generator function
+            // создайте пул с функцией генерации
             pool = new Pool<GameObject>(CreateNew, 5);
         }
 
         GameObject CreateNew()
         {
-            // use this object as parent so that objects dont crowd hierarchy
+            // используйте этот объект в качестве родительского, чтобы объекты не загромождали иерархию
             GameObject next = Instantiate(prefab, transform);
             next.name = $"{prefab.name}_pooled_{currentCount}";
             next.SetActive(false);
@@ -136,29 +136,29 @@ namespace Mirror.Examples
             return next;
         }
 
-        // Used to take Object from Pool.
-        // Should be used on server to get the next Object
-        // Used on client by NetworkClient to spawn objects
+        // Используется для извлечения объекта из пула.
+        // Должен использоваться на сервере для получения следующего объекта
+        // Используется на клиенте NetworkClient для создания объектов
         public GameObject Get(Vector3 position, Quaternion rotation)
         {
             GameObject next = pool.Get();
 
-            // set position/rotation and set active
+            // установите положение /поворот и установите объект активным
             next.transform.position = position;
             next.transform.rotation = rotation;
             next.SetActive(true);
             return next;
         }
 
-        // Used to put object back into pool so they can b
-        // Should be used on server after unspawning an object
-        // Used on client by NetworkClient to unspawn objects
+        // Используется для помещения объекта обратно в пул
+        // Должен использоваться на сервере после деспавна объекта
+        // Используется на клиенте NetworkClient для деспавна объекта
         public void Return(GameObject spawned)
         {
-            // disable object
+            // выключить объект
             spawned.SetActive(false);
 
-            // add back to pool
+            // добавить обратно в пул
             pool.Return(spawned);
         }
     }
@@ -166,15 +166,15 @@ namespace Mirror.Examples
 
 ```
 
-To use this pool, add the `PrefabPool` component (code above) to the NetworkManager. Next, drag a prefab you want to spawn multiple times to the Prefab field.
+Чтобы использовать пул, добавьте компонент `PrefabPool` (приведенный выше код) к NetworkManager'у. Затем перетащите prefab, который вы хотите создать несколько раз, в поле Prefab.
 
 {% hint style="warning" %}
-Make sure to remove the prefab from NetworkManager's spawnable prefabs list. There should only be one way to spawn it. Otherwise Mirror show a warning.
+Убедитесь что вы удалили Prefab из списка NetworkManager'а spawnable prefabs. Должен быть только один способ заспавнить его. В противном случае Mirror выдаст предупреждение.
 {% endhint %}
 
-We can modify our Tanks example to showcase the Pooling system.
+Мы можем модифицировать наш пример Tanks чтобы продемонстрировать вам систему пулинга.
 
-Open Tank.cs and find the CmdFire function:
+Откройте Tank.cs и найдите функцию CmdFire:
 
 ```csharp
 [Command]
@@ -186,7 +186,7 @@ void CmdFire()
 }
 ```
 
-Instead of Instantiating, grab a Prefab from the Pool:
+Вместо функции Instantiate, вытащите Prefab из пула:
 
 ```csharp
 [Command]
@@ -198,7 +198,7 @@ void CmdFire()
 }
 ```
 
-Projectile.cs currently destroys itself via GameObject.Destroy:
+Projectile.cs в данный момент самоуничтожаются посредством GameObject.Destroy:
 
 ```csharp
 [Server]
@@ -208,18 +208,18 @@ void DestroySelf()
 }
 ```
 
-Instead, we simply Unspawn it and return it to the pool:
+Вместо этого мы можем просто задеспанить объект, вернув его в наш пул:
 
 ```csharp
 [Server]
 void DestroySelf()
 {
-    // return to prefab pool
+    // возвращает prefab в пул
     NetworkServer.UnSpawn(gameObject);
     PrefabPool.singleton.Return(gameObject);
 }
 ```
 
-Press Play and fire some projectiles. Notice how nothing is instantiated. Instead, NetworkManager has a pool of children which are disabled until they are needed.
+Нажмите кнопку "играть" и выпустите несколько снарядов. Обратите внимание, что ничего не создается (Instantiate). Вместо этого, NetworkManager имеет пул отключенных объектов-детей, которые он использует когда они нужны.
 
 ![](../../../.gitbook/assets/2022-04-04\_20-22-58@2x.png)
