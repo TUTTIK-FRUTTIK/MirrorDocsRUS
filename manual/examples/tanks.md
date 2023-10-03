@@ -1,11 +1,9 @@
 ---
 description: >-
-  You can find this example already in your Mirror Project, location: 
+  Вы можете найти готовы пример в проекте Mirror, расположенный в: 
   Assets/Mirror/Examples/Tank
 ---
 
 # Tanks
 
-
-
-This is a simple scene with animated tanks, networked rigidbody projectiles, and NavMesh movement.
+это простая сцена с анимированными танками, networked rigidbody projectiles, и передвижением посредством NavMesh.
