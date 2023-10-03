@@ -1,24 +1,24 @@
-# Scene GameObjects
+# Объекты на сцене
 
-There are two types of networked game objects in Mirror’s multiplayer system:
+В многопользовательской системе Mirror есть два типа сетевых игровых объектов:
 
-* Those that are created dynamically at runtime
-* Those that are saved as part of a Scene
+* Те, которые создаются динамически во время выполнения
+* Те, которые сохраняются как часть сцены
 
-Game objects that are created dynamically at runtime use the multiplayer Spawning system, and the prefabs they are instantiated from must be registered in the Network Manager’s list of networked game object prefabs.
+Игровые объекты, которые создаются динамически во время выполнения, используют многопользовательскую систему создания, и Prefab'ы, из которых они создаются, должны быть зарегистрированы в списке Spawnable Prefabs в Network Manager.
 
-However, networked game objects that you save as part of a Scene (and therefore already exist in the Scene when it is loaded) are handled differently. These game objects are loaded as part of the Scene on both the client and server, and exist at runtime before any spawn messages are sent by the multiplayer system.
+Однако сетевые игровые объекты, которые вы сохраняете как часть сцены (и, следовательно, уже существуют в сцене при ее загрузке), обрабатываются по-другому. Эти игровые объекты загружаются как часть сцены как на клиенте, так и на сервере и существуют во время выполнения до отправки многопользовательской системой каких-либо сообщений о появлении.
 
-When the Scene is loaded, all networked game objects in the Scene are disabled on both the client and the server. Then, when the Scene is fully loaded, the Network Manager automatically processes the Scene’s networked game objects, registering them all (and therefore causing them to be synchronized across clients), and enabling them, as if they were spawned at runtime. Networked game objects will not be enabled until a client has requested a Player object.
+Когда сцена загружена, все сетевые игровые объекты в сцене отключаются как на клиенте, так и на сервере. Затем, когда сцена полностью загружена, Network Manager автоматически обрабатывает сетевые игровые объекты сцены, регистрируя их все (и, следовательно, заставляя их синхронизироваться между клиентами) и активируя их, как если бы они были созданы во время выполнения. Сетевые игровые объекты не будут включены до тех пор, пока клиент не запросит для себя игровой объект.
 
-Saving networked game objects in your Scene (rather than dynamically spawning them after the scene has loaded) has some benefits:
+Сохранение сетевых игровых объектов в вашей сцене (вместо того, чтобы динамически создавать их после загрузки сцены) имеет некоторые преимущества:
 
-* They are loaded with the level, so there will be no pause at runtime.
-* They can have specific modifications that differ from prefabs
-* Other game object instances in the Scene can reference them, which can avoid you having to use code to finding the game objects and make references to them up at runtime.
+* Они загружаются вместе с уровнем, поэтому паузы во время выполнения не будет.
+* Они могут иметь определенные модификации, отличающиеся от Prefab'ов
+* Другие экземпляры игровых объектов в сцене могут ссылаться на них, что позволяет избежать необходимости использовать код для поиска игровых объектов и создания ссылок на них во время выполнения.
 
-When the Network Manager spawns the networked Scene game objects, those game objects behave like dynamically spawned game objects. Mirror sends them updates and ClientRPC calls.
+Когда Network Manager спавнит игровые объекты сцены, эти игровые объекты ведут себя как динамически создаваемые игровые объекты. Mirror отправляет им обновления и вызывает ClientRpc.
 
-If a Scene game object is destroyed on the server before a client joins the game, then it is never enabled on new clients that join.
+Если игровой объект сцены уничтожается на сервере до того, как клиент присоединяется к игре, то он никогда не включится на новых клиентах, которые присоединяются.
 
-When a client connects, the client is sent an ObjectSpawnScene spawn message for each of the Scene game objects that exist on the server, that are visible to that client. This message causes the game object on the client to be enabled, and has the latest state of that game object from the server in it. This means that only game objects that are visible to the client, and not destroyed on the server, are activated on the client. Like regular non-Scene game objects, these Scene game objects are started with the latest state when the client joins the game.
+Когда клиент подключается, клиенту отправляется сообщение о появлении ObjectSpawnScene для каждого из игровых объектов сцены, существующих на сервере и видимых этому клиенту. Это сообщение приводит к включению игрового объекта на клиенте и содержит в себе последнее состояние этого игрового объекта с сервера. Это означает, что на клиенте активируются только те игровые объекты, которые видны клиенту и не уничтожены на сервере. Как и обычные игровые объекты, не относящиеся к сцене, эти игровые объекты сцены запускаются с последним состоянием, когда клиент присоединяется к игре.
