@@ -1,35 +1,35 @@
 # Multiple Additive Scenes
 
-In Build Settings, remove all scenes and add both of the scenes from the Scenes folder in the following order:
+В Build Settings, удалите все сцены и добавьте эти обе сцены из папки со сценами:
 
 * Main
 * Game
 
-Open the Main scene in the Editor and make sure the Game Scene field in the MultiScene Network Manager on the Network scene object contains the Game scene. This is already setup by default, but if the Main scene was opened and saved before putting the scenes in the Build Settings list, the Game Scene field may be cleared accidentally.
+Откройте Main scene в редакторе и убедитесь что поле Game Scene в MultiScene Network Manager'e на сетевом объекте с сцене хранит в себе сцену Game. Это уже настроено по умолчанию, но если сцена Main была открыта и сохранена перед назначением её в Build Settings list, поле сцены Game может быть случайно очищено.
 
 ## MultiScene Network Manager <a href="#multiscene-network-manager" id="multiscene-network-manager"></a>
 
-The MultiScene Network Manager is derived from the base Network Manager and is responsible for additively loading the subscene instances and placing the players in their respective subscene instances and initializing player SyncVars. It has a Game Scene field where the Game subscene is assigned, and an Instances field to set how many instances are loaded on the server.
+Сетевой менеджер MultiScene является производным от базового сетевого менеджера и отвечает за дополнительную загрузку экземпляров subscene и размещение игроков в их соответствующих экземплярах subscene, а также инициализацию SyncVar игроков. В нем есть поле сцены Game, где назначается игровая подписка, и поле экземпляров, чтобы указать, сколько экземпляров загружается на сервер.
 
-Additionally, the `NetworkManager` object has the [Scene Interest Management](../interest-management/) component.
+Дополнительно, объект `NetworkManager` должен содержать в себе компонент [Scene Interest Management](../interest-management/).
 
-In this example, the subscene instances are additively loaded on the server with `localPhysicsMode = LocalPhysicsMode.Physics3D`. Physics subscenes do not auto-simulate, so each scene has a game object with a generic `PhysicsSimulator` script on it. This script does nothing on the client, only on the server.
+В этом примере экземпляры subscene дополнительно загружаются на сервер с помощью `localPhysicsMode = LocalPhysicsMode.Physics3D`. Физические субсцены не моделируются автоматически, поэтому в каждой сцене есть игровой объект с общим скриптом [`PhysicsSimulator`](https://github.com/MirrorNetworking/Mirror/blob/master/Assets/Mirror/Examples/MultipleAdditiveScenes/Scripts/PhysicsSimulator.cs) висящем на нём же. Этот скрипт ничего не делает на клиенте, только на сервере.
 
-Clients only ever have one instance of the subscene additively loaded (without `localPhysicsMode`), while server has them all.
+Клиенты всегда имеют только один экземпляр субсцены, загружаемый дополнительно (без `localPhysicsMode`), в то время как на сервере есть все эти субсцены.
 
 ## Playing in the Instances <a href="#playing-in-the-instances" id="playing-in-the-instances"></a>
 
 File -> Build and Run
 
-Start at least 3 built instances: These will all be client players.
+Запустите как минимум 3 экземпляра игры: Все они будут игроками-клиентами.
 
-Press Play in the Editor and click Host (Server + Client) in the HUD - This will be the host and the 1st player. You can also use Server Only if you prefer.
+Нажмите Play в редакторе и нажмите Host (Сервер + Клиент) в HUD - это будет хост и 1-й игрок. Вы также можете использовать Server only по своему усмотрению.
 
-Click Client in the built instances.
+Щелкните Client в созданных экземплярах.
 
-* WASDQE keys to move & turn your player capsule, Space to jump.
-* Colliding with the small colored spheres scores points base on their color.
-* Colliding with the larger tumblers sends them rolling around...they're server-side non-kinematic rigidbodies.
-* Only scores for the players in the same subscene are shown at the top of the game window.
+* WASDQE клавиши для перемещения и поворота капсулы плеера, пробел для прыжка.
+* Столкновение с маленькими цветными шарами приносит очки в зависимости от их цвета.
+* Столкновение с большими тумблерами заставляет их вращаться... На стороне сервера они с Rigidbody non-kinematic.
+* В верхней части игрового окна отображаются только результаты игроков в одной и той же субсцене.
 
 ![](<../../.gitbook/assets/image (90).png>)
