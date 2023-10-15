@@ -1,31 +1,31 @@
 # Pong
 
-A simple example for "How to built a multiplayer game with Mirror" is Pong, which is included in the AssetStore package of Mirror. It illustrates the usage of NetworkManager, NetworkManagerHUD, NetworkBehaviour, NetworkIdentity, NetworkTransform, NetworkStartPosition and NetworkingAttributes.
+Простой пример по тому "Как создать многопользовательскую игру с Mirror" является Pong, которые выключен в пакет AssetStore от Mirror. Он отображает пример использования NetworkManager, NetworkManagerHUD, NetworkBehaviour, NetworkIdentity, NetworkTransform, NetworkStartPosition и NetworkingAttributes.
 
 ![](<../../.gitbook/assets/image (81).png>)
 
-## Setting the number of players <a href="#setting-the-number-of-players" id="setting-the-number-of-players"></a>
+## Установка количества игроков <a href="#setting-the-number-of-players" id="setting-the-number-of-players"></a>
 
-First of all, let's have a look at the NetworkManager object in the main scene. When adding the NetworkManager component to a gameobject, a few default settings are already set (**Don't destroy on Load**, **Run in Background**, ...) For playing Pong the maximum number of players is 2, so the setting **Network Info/Max connections** will also be 2. As there are no other scenes (room, online or offline scene) in this sample the properties for **Offline Scene** and **Online Scene** will stay empty.
+Прежде всего, давайте взглянем на объект NetworkManager в main сцене. При добавлении компонента NetworkManager на объект, несколько настроек по умолчанию уже установлены (**Don't destroy on Load**, **Run in Background**, ...) Для игры в Pong максимальное количество игроков равно 2, поэтому настройка **Network Info/Max connections** будет тоже равняться 2. Поскольку других сцен нет (room, online or offline scene) в этом примере поля для **Offline Scene** и **Online Scene** останутся пустыми.
 
-## Creating the player <a href="#creating-the-player" id="creating-the-player"></a>
+## Создание игрока <a href="#creating-the-player" id="creating-the-player"></a>
 
-Furthermore every player needs a racket to play with. Each player who joins the game will have his own controllable object, which represents him within the game. This gameobject is called _PlayerObject_. For spawning the _PlayerObject_ a prefab has to be created, containing at least a NetworkIdentity component with **Local Player Authority** checked. The **Local Player Authority** allows the player to control and modify the gameobjects properties (e.g. for movement). The NetworkManager needs a reference to this prefab, which is located in **Spawn Info/Player Prefab**. To have the player movement synchronized over the network, the player prefab also contains a NetworkTransform.
+Кроме того, каждому игроку нужна ракетка для игры. У каждого игрока, который присоединится к игре, будет свой собственный управляемый объект, который представляет его в игре. Этот самый объект называется _PlayerObject_. Для спавна Prefab'a _PlayerObject_ должен быть создан и хранить в себе компонент NetworkIdentity с галочкой **Local Player Authority**. **Local Player Authority** позволяет игроку управлять свойствами игровых объектов и изменять их (к примеру передвижение). NetworkManager'у нужна ссылка на этот Prefab, который будет расположен в **Spawn Info/Player Prefab**. Чтобы синхронизировать движение игрока по сети, сборный Prefab также должен иметь NetworkTransform.
 
 ![](<../../.gitbook/assets/image (58).png>)
 
-## Player start position <a href="#player-start-position" id="player-start-position"></a>
+## Начальная позиция игрока <a href="#player-start-position" id="player-start-position"></a>
 
-The main scene contains 2 gameobjects with only a NetworkStartPosition component (gameobjects RacketSpawnLeft, RacketSpawnRight in the scene). These transforms will be automatically registered by the NetworkManager as spawning positions.
+Основная сцена содержит 2 игровых объекта, в которых есть только компонент NetworkStartPosition (объекты RacketSpawnLeft, RacketSpawnRight). Эти transform'ы будут автоматически зарегистрированы в NetworkManager как позиции для спавна.
 
 ![](<../../.gitbook/assets/image (34).png>)
 
-## Setting up the network <a href="#setting-up-the-network" id="setting-up-the-network"></a>
+## Настройка сети <a href="#setting-up-the-network" id="setting-up-the-network"></a>
 
-A very convenient component for establish/testing connections is the [Network Manager HUD](../components/network-manager-hud.md). It provides basic functionality for start a game as Client, Server, or Host (Client and Server at the same time). It requires the Network Manager component.
+Очень удобным компонентом для установления/тестирования соединений является [Network Manager HUD](../components/network-manager-hud.md). Он предоставляет базовую функциональность для запуска игры в качестве клиента, сервера или хоста (клиент и сервер одновременно). Ему требуется компонент Network Manager.
 
 <figure><img src="../../.gitbook/assets/image (35) (1).png" alt=""><figcaption><p>Network Manager HUD</p></figcaption></figure>
 
-## The ball of Pong <a href="#the-ball-of-pong" id="the-ball-of-pong"></a>
+## Мяч для понга <a href="#the-ball-of-pong" id="the-ball-of-pong"></a>
 
-The ball is the main focus of Pong, as this is the object needed to score points. Its NetworkIdentity component has neither **Server Only** nor **Local Player Authority** checked, as it's moved by the server physics engine and can be influenced by the players. As with the _PlayerObject_ the position is synchronized via NetworkTransform. When having multiple scenes, the ball can be spawned by the NetworkManager, but to keep this sample simple, it's placed directly within the main scene.
+Мяч является основным объектом внимания в Pong, так как это объект, необходимый для набора очков. Его компонент NetworkIdentity не имеет ни **Server Only** ни **Local Player Authority** галочек, поскольку он управляется физическим движком сервера и может подвергаться влиянию игроков. Как и в случае с _PlayerObject_ позиция синхронизируется через NetworkTransform. При наличии нескольких сцен мяч может спанитьсяNetworkManager'ом, но для простоты этого примера он помещен непосредственно в основную сцену.
