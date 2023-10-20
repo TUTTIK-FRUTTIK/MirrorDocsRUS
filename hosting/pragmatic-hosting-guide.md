@@ -1,123 +1,123 @@
 ---
-description: Confused by all the hosting options? Welcome to our pragmatic hosting guide.
+description: >-
+  Запутаны с вариантами хостинга? Добро пожаловать в наше практичное руководство
+  по хостингу.
 ---
 
-# The Pragmatic Hosting Guide
+# Практичное руководство по хостингу
 
-Mirror takes care of your multiplayer game code. \
-However, we still need to talk about hosting!
+Mirror заботится о коде вашей многопользовательской игры.\
+Однако нам также нужно поговорить о хостинге!
 
 {% hint style="success" %}
-This guide is for those who want to focus on **making games**.\
-Hacking commands into ssh terminals may be fun, but life is short.\
-The **#1 priority** for this guide is **ease of use**, for we must ship our projects!
+Это руководство предназначено для тех, кто хочет сосредоточиться на создании игр.\
+Команды для взлома на ssh-терминалах может быть и весело, но жизнь коротка.\
+**Приоритет №1** для данного руководства это **доступность в использовании**, потому что мы должны публиковать наши проекты!
 {% endhint %}
 
-With a near infinite amount of providers & hosting technologies, Linux distributions and locations, it's easy to get confused about what's best for you game.
+С почти бесконечным количеством провайдеров и технологий хостинга, дистрибутивов Linux и местоположений легко запутаться в том, что лучше для вашей игры.
 
-This guide will give you a basic overview. The next chapters serve as in-depth guides for the different hosting methods, depending on which you choose.
+Это руководство даст вам общий обзор. Следующие главы служат подробными руководствами по различным методам размещения, в зависимости от того, какой из них вы выберете.
 
-## The Pragmatic Hosting Guide
+## Практичное руководство по хостингу
 
-Here is a brief overview of different hosting technologies, which games they are for, and which providers you could choose from.
+Вот краткий обзор различных технологий хостинга, для каких игр они предназначены и каких провайдеров вы могли бы выбрать.
 
-### **1.) Hosting on your own Computer**
+### **1.)** Хостинг на вашем собственном компьютере
 
-After building your game, you could technically host it on your own machine, or let players host it on their machines. However, this comes with several major issues:
+После создания вашей игры вы могли бы технически разместить ее на своем собственном компьютере или позволить игрокам разместить ее на своих компьютерах. Однако это сопряжено с несколькими серьезными проблемами:
 
-1. **Uptime**: your computer would have to run 24/7.
-2. **Security**: what if someone finds an exploit, and gets access to your private data?
-3. **Performance**: your Computer / Bandwidth / latency may not be good enough.
-4. **Latency**: unlike with professionally hosted servers in data centers, Player to Player connections usually come with quite some latency.
-5. **Connectivity**: other players usually won't find your game behind your router, firewall, etc. player to player connections are always difficult.
+1. **Uptime**: ваш компьютер должен работать 24/7.
+2. **Безопасность**: что, если кто-то обнаружит эксплойт и получит доступ к вашим личным данным?
+3. **Performance**: возможно, ваш компьютер / пропускная способность / задержка недостаточно хороши.
+4. **Задержка**: в отличие от профессионально размещенных серверов в центрах обработки данных, подключение от игрока к игроку обычно происходит с некоторой задержкой.
+5. **Связь**: другие игроки могут не зайти в вашу игру из за вашего маршрутизатора, брандмауэра и т.д.. Связи между игроками всегда сложны.
 
 {% hint style="warning" %}
-This method is not recommended.\
-_... except for LAN parties, if you still remember those._&#x20;
+Этот метод не рекомендуется использовать.\
+_..._за исключением локальных вечеринок, если вы все еще помните об этом_._
 {% endhint %}
 
-### **2.) Player Hosted + Relay / NAT Punchthrough**
+### **2.)** Хост-игрок + ретрансляция / NAT
 
 <img src="../.gitbook/assets/image (52).png" alt="" data-size="original">
 
-Still, letting players host their own games can be useful. You will save money on server hosting costs and players will create their servers on demand. We just need to solve the connectivity issue. For that, we can combine two tools:
+Тем не менее, разрешение игрокам проводить свои собственные игры может быть полезным. Вы сэкономите деньги на размещении серверов, а игроки будут создавать свои серверы по запросу. Нам просто нужно решить проблему с подключением. Для этого мы можем объединить два инструмента:
 
-* **NAT Punchthrough**: a hacky technique to 'punch a whole' through your router / firewall so that others can connect to your game. This requires one central server for players to connect to **once**. After the initial connect to the central server, your router / firewall will most likely allow outside packets from other players directly. This works about **70% of the time**.&#x20;
-* **Relay**: to avoid headaches, you can offer your own (or rent) a Relay server, which basically forwards traffic between players. Instead of talking to each other, your players all talk through a central Relay. This solves our router + firewall issues 100% of the time. However, you'll usually have to pay for bandwidth.
+* **NAT**: хитрый способ "пробить все" через ваш маршрутизатор / брандмауэр, чтобы другие могли подключиться к вашей игре. Для этого игрокам требуется один центральный сервер, к которому они могут подключиться один раз. После первоначального подключения к центральному серверу ваш маршрутизатор / брандмауэр, скорее всего, будет разрешать внешние пакеты от других игроков напрямую. Это работает примерно **70% всего времени**.
+* **Relay**: чтобы избежать головной боли, вы можете предложить свой собственный (или арендовать) ретрансляционный сервер, который в основном пересылает трафик между игроками. Вместо того чтобы разговаривать друг с другом, все ваши игроки общаются через центральный ретранслятор. Это решает наши проблемы с маршрутизатором и брандмауэром в 100% случаев. Однако обычно вам придется платить за пропускную способность.
 
-Note that **Uptime, Security and Latency** are still not solved here. However, a decent Relay may reduce your latency to be good enough.
+Обратите внимание, что Uptime, безопасность и задержка здесь все еще не решены. Однако приличный ретранслятор может уменьшить вашу задержку настолько, чтобы она была достаточно хорошей.
 
 {% hint style="success" %}
-**Edgegap**'s [Distributed Relay](https://edgegap.com/en/platform/distributed-relay) will give you the best latency (paid).\
-[**Epic Relay**](https://github.com/FakeByte/EpicOnlineTransport) is free, but with higher latency and a pretty bad C# API.
+**Edgegap** как раз является[ Ретранлятором](https://edgegap.com/en/platform/distributed-relay) который может дать вам отличный уровень задержки (платно).\
+[**Epic Relay**](https://github.com/FakeByte/EpicOnlineTransport) является бесплатным, но с более высокой задержкой и довольно плохим C# API.
 {% endhint %}
 
-### **3.) Dedicated Servers**
+### **3.) Выделенные сервера**
 
 ![](../.gitbook/assets/hetzner.png)
 
-This is the old school way of hosting, and probably what most people consider at first.
+Это старый способ хостинга, и, вероятно, именно на это поначалу обращает внимание большинство людей.
 
-You sign a contract for a physical dedicated server in some datacenter, install your favorite Linux distribution, SSH into it via Terminal, configure it, then launch your server binary and maintain it over time.
+Вы подписываете контракт на физический выделенный сервер в каком-нибудь центре обработки данных, устанавливаете свой любимый дистрибутив Linux, подключаетесь к нему по SSH через терминал, настраиваете его, затем запускаете двоичный файл вашего сервера и поддерживаете его в течение определенного времени.
 
-Dedicated servers **work for all games**. However, they aren't ideal for all games.
+Выделенные сервера **работают для всех игр**. Однако они не идеальны для всех игр.
 
-It's cumbersome to sign & cancel contracts for every extra server. And you still need to pay while you don't use it.
+Подписывать и отменять контракты для каждого дополнительного сервера довольно громоздко. И вам все равно нужно платить, пока вы им не пользуетесь.
 
-**This is best for persistent worlds**: Minecraft, MMORPGs like World of Warcraft and so on.
+**Это лучше всего подходит для целых миров**: Minecraft, MMORPG по типу World of Warcraft и другие.
 
 {% hint style="success" %}
-**Hetzner** is most often recommended. They have great prices and great hardware.\
-**Namecheap** is good too.
+**Hetzner** рекомендуется чаще всего. У них отличные цены и отличное оборудование.\
+**Namecheap** тоже неплох.
 {% endhint %}
 
-### **4.) Cloud Hosting**
+### **4.) Облачный хостинг**
 
 ![](../.gitbook/assets/google.png)
 
-You may have heard about Amazon AWS, Google Cloud, Microsoft Azure, etc. They offer virtual servers, which you can spin up and remove with just a few clicks without manually signing contracts & canceling them every time.
+Возможно, вы слышали об Amazon AWS, Google Cloud, Microsoft Azure и т.д. Они предлагают виртуальные серверы, которые вы можете запускать и удалять всего несколькими щелчками мыши, не подписывая контракты вручную и не отменяя их каждый раз.
 
-Usage is generally similar to dedicated servers: you configure your machine, pick your Linux distro, upload your server executable and maintain it yourself.
+Использование в целом аналогично использованию выделенных серверов: вы настраиваете свой компьютер, выбираете дистрибутив Linux, загружаете исполняемый файл вашего сервера и самостоятельно поддерживаете его.
 
-However, Cloud Hosting is **significantly more convenient**. You can rent new servers and remove old servers from a UI with just a few clicks. At the end of the month, you are billed for the resources which you have used.&#x20;
+Однако облачный хостинг значительно удобнее. Вы можете арендовать новые серверы и удалить старые серверы из пользовательского интерфейса всего несколькими щелчками мыши. В конце месяца вам выставляется счет за использованные ресурсы.
 
-You could even configure your server once, and then spin up additional servers based on the same image with just a few clicks.
+Вы даже можете настроить свой сервер один раз, а затем запустить дополнительные серверы на основе того же образа всего несколькими щелчками мыши.
 
-Cloud hosting **works for all games** as well. However, keep in mind that:
+Облачный хостинг также работает для всех игр. Однако имейте в виду, что:
 
-* Virtual CPUs are \~20% slower than dedicated CPUs.
-* Pricing is noticeably higher than for dedicated servers.
+* Виртуальные процессоры работают на \~20% медленнее, чем выделенные процессоры.
+* Цены заметно выше, чем на выделенные серверы.
 
-You essentially pay more for extra **convenience**. New servers can be set up with just a few clicks, and once you don't need them anymore you can simply remove them. There's no need to sign contracts & wait for support all the time.
+По сути, вы платите больше за дополнительное удобство. Новые серверы можно настроить всего несколькими щелчками мыши, и как только они вам больше не понадобятся, вы можете просто удалить их. Нет необходимости подписывать контракты и все время ждать поддержки.
 
-If you value convenience, then Cloud Hosting is a good choice over dedicated servers.
+Если вы цените удобство, то облачный хостинг - хороший выбор по сравнению с выделенными серверами.
 
 {% hint style="success" %}
-**Google Cloud**, **Amazon AWS** and **Microsoft Azure** are the most popular choices.\
-You will find hosting guides for each one in our documentation.\
-At Mirror we use Google Cloud for our CCU tests & Discord Bots.
+**Google Cloud**, **Amazon AWS** и **Microsoft Azure** это самый популярный выбор.\
+Руководства по размещению для каждого из них вы найдете в нашей документации. В Mirror мы используем Google Cloud для наших тестов CCU и ботов Discord.
 {% endhint %}
 
-## **5.) Orchestration**
+## **5.) Оркестровка**
 
 ![](../.gitbook/assets/edgegap.png)
 
-Orchestration aims to automate hosting for session based games, on demand.
+Оркестровка нацелен на автоматизацию хостинга сессионных игр.
 
-If your game suddenly becomes popular, you may need hundreds or thousands of servers at a time. Setting this up manually with dedicated servers is basically impossible, and even with Cloud Hosting it would still require quite a lot of headaches & time, which is probably better spent on your game itself.
+Если ваша игра внезапно станет популярной, вам могут понадобиться сотни или тысячи серверов одновременно. Настроить это вручную с помощью выделенных серверов в принципе невозможно, и даже при облачном хостинге это все равно потребовало бы довольно много головной боли и времени, которое, вероятно, лучше потратить на саму вашу игру.
 
-Well, good news: orchestration is the future of multiplayer game hosting. In simple terms:
+Что ж, хорошие новости: оркестровка - это будущее хостинга многопользовательских игр. Простыми словами:
 
-1. You **create a lightweight Docker** image: configure a text file (".Dockerfile") with your Linux distribution, packages, open ports, etc. and then compile your whole project into a "Docker Image". If you aren't familiar with Docker, fear not. It makes your life a **lot** easier. Just learn it once, you'll wind up using it for all your hosting afterwards. No more manually setting up Linux servers, no more apt-get, no more maintenance etc.
-2. **Upload your image** to the Orchestration Service.
-3. **Configure** your orchestration in a web UI. They will ask you how many servers you want to spawn, when to spawn more, when to remove old servers, etc.
+1. Вы создаете облегченный образ Docker: настраиваете текстовый файл (".Dockerfile") с вашим дистрибутивом Linux, пакетами, открытыми портами и т.д., а затем компилируете весь ваш проект в "Образ Docker". Если вы не знакомы с Docker, не бойтесь. Это намного облегчает вашу жизнь. Просто выучите его один раз, и впоследствии вы будете использовать его для всего своего хостинга. Больше никакой ручной настройки серверов Linux, никакого apt-get, никакого обслуживания и т.д..
+2. Загрузите свой образ в службу оркестровки.
+3. Настройте свою оркестровку в веб-интерфейсе. Они спросят вас, сколько серверов вы хотите создать, когда создать еще, когда удалить старые серверы и т.д.
 
-This is the new, modern way to host game servers. Docker & Orchestration may sound complicated at first, but we wouldn't mention it here if it wouldn't make our life easier.&#x20;
+Это новый, современный способ размещения игровых серверов. На первый взгляд Docker и оркестровка может показаться сложным, но мы бы не упоминали об этом здесь, если бы это не облегчало нашу жизнь.
 
-Again, I don't want to worry about hosting. I want to upload my server image, and let the orchestration service worry about all the scaling, maintenance, etc. **Convenience is key.**
+Опять же, я не хочу беспокоиться о хостинге. Я хочу загрузить образ своего сервера и позволить службе оркестровки позаботиться обо всем масштабировании, обслуживании и т.д. Удобство - это ключ к успеху**.**
 
 {% hint style="success" %}
-**Multiplay**, **Edgegap** and **AWS Gamelift** are popular choices.\
-We use EdgeGap because it's the [easiest to use](https://docs.edgegap.com/docs/sample-projects/mirror-on-edgegap) with the most [advanced network](https://en.wikipedia.org/wiki/Edge\_computing).
+**Multiplay**, **Edgegap** и **AWS Gamelift** довольно популярны.\
+Мы используем EdgeGap потому что это [довольно легко в использовании](https://docs.edgegap.com/docs/sample-projects/mirror-on-edgegap) с самой [передовой сетью](https://en.wikipedia.org/wiki/Edge\_computing).
 {% endhint %}
-

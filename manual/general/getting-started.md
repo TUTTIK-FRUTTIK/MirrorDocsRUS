@@ -4,7 +4,7 @@
 
 ## Видео туториалы <a href="#video-tutorials" id="video-tutorials"></a>
 
-Посмотрите эти [потрясающие видеоролики](../../community-guides/video-tutorials.md)  показывающие как начать работу с Mirror.
+Посмотрите эти [потрясающие видеоролики](../../gaidy-ot-kommyuniti/video-tutorials.md)  показывающие как начать работу с Mirror.
 
 ## Шаблоны скриптов
 

@@ -3,11 +3,11 @@
 * [Mirror Networking](README.md)
 * [API Reference](https://storage.googleapis.com/mirror-api-docs/html/df/d6f/class\_mirror\_1\_1\_network\_client.html)
 
-## Development Blog <a href="#trivia" id="trivia"></a>
+## ДевЛог <a href="#trivia" id="trivia"></a>
 
 * [Краткая история Mirror](trivia/a-history-of-mirror.md)
 
-## User Manual <a href="#manual" id="manual"></a>
+## Руководство пользователя <a href="#manual" id="manual"></a>
 
 * [Общее](manual/general/README.md)
   * [Приступая к работе](manual/general/getting-started.md)
@@ -111,31 +111,31 @@
   * [Room](manual/examples/room.md)
   * [Tanks](manual/examples/tanks.md)
 
-## Server Hosting <a href="#hosting" id="hosting"></a>
+## Хостинг <a href="#hosting" id="hosting"></a>
 
-* [The Pragmatic Hosting Guide](hosting/pragmatic-hosting-guide.md)
+* [Практичное руководство по хостингу](hosting/pragmatic-hosting-guide.md)
 * [Cloud Hosting Guides](hosting/server-hosting/README.md)
   * [AWS](hosting/server-hosting/aws.md)
   * [Google Cloud](hosting/server-hosting/google-cloud.md)
   * [Oracle Free Tier](hosting/server-hosting/oracle-free-tier.md)
 * [Hosting with a Remote Desktop](hosting/hosting-with-a-remote-desktop.md)
 
-## Security
+## Безопасность
 
-* [Security Overview](security/security-overview.md)
-* [Cheat Protection Stages](security/cheat-protection-stages.md)
-* [Cheats & Anticheats](security/cheating.md)
+* [Security Overview](bezopasnost/security-overview.md)
+* [Cheat Protection Stages](bezopasnost/cheat-protection-stages.md)
+* [Cheats & Anticheats](bezopasnost/cheating.md)
 
-## Community Guides
+## Гайды от Коммьюнити
 
-* [Video Tutorials](community-guides/video-tutorials.md)
-* [Resources](community-guides/resources.md)
-* [Mirror Quick Start Project](community-guides/quick-start-guide.md)
-* [Unity for MMORPGs](community-guides/unity-for-mmorpgs.md)
-* [Unity Canvas HUD](community-guides/unity-canvas-hud-guide.md)
-* [Ready Up And Die!](community-guides/ready-up-and-die.md)
-* [iOS AppStore UDP](community-guides/ios-appstore-udp.md)
-* [Mirror Docker Guide](community-guides/mirror-docker-guide.md)
-* [Gitbook Guide](community-guides/gitbook-guide.md)
-* [Mirror Branding](community-guides/mirror-branding.md)
-* [Contributors Agreement](community-guides/contributors-agreement.md)
+* [Video Tutorials](gaidy-ot-kommyuniti/video-tutorials.md)
+* [Resources](gaidy-ot-kommyuniti/resources.md)
+* [Mirror Quick Start Project](gaidy-ot-kommyuniti/quick-start-guide.md)
+* [Unity for MMORPGs](gaidy-ot-kommyuniti/unity-for-mmorpgs.md)
+* [Unity Canvas HUD](gaidy-ot-kommyuniti/unity-canvas-hud-guide.md)
+* [Ready Up And Die!](gaidy-ot-kommyuniti/ready-up-and-die.md)
+* [iOS AppStore UDP](gaidy-ot-kommyuniti/ios-appstore-udp.md)
+* [Mirror Docker Guide](gaidy-ot-kommyuniti/mirror-docker-guide.md)
+* [Gitbook Guide](gaidy-ot-kommyuniti/gitbook-guide.md)
+* [Mirror Branding](gaidy-ot-kommyuniti/mirror-branding.md)
+* [Contributors Agreement](gaidy-ot-kommyuniti/contributors-agreement.md)
