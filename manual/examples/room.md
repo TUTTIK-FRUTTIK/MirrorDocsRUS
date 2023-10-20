@@ -1,56 +1,56 @@
 ---
-description: Room example that demonstrates Mirror's built-in Room system.
+description: Пример Room демонстрирует встроенную систему комнат от Mirror.
 ---
 
 # Room
 
 {% hint style="success" %}
-The hotel staff gets annoyed if you party in the Lobby, they'll tell you to get a **Room**!
+Персонал отеля будет раздражен, если вы устроите вечеринку в вестибюле, они скажут вам снять **комнату**!
 {% endhint %}
 
-Mirror's Room system is intended to be the "next step" after a separate Lobby service, typically a master server with match making and game server launching features.
+Система комнат в Mirror предназначен для того, чтобы стать "следующим шагом" после разделения лобби, обычно это делается для master (главного) сервера, который будет обладать функциями подбора игроков и запуска других игровых серверов.
 
 {% hint style="warning" %}
-Note that Mirror's Room system is not designed to allow late joiners / spectators once the game has started.  If you need these features, you're better off making your game based on Additive Scenes instead.
+Обратите внимание, что система комнат Mirror не предназначена для того, чтобы допускать опоздавших участников / зрителей после начала игры. Если вам нужны эти функции, вам лучше вместо этого создавать свою игру на основе дополнительных сцен.
 {% endhint %}
 
-## Initial Setup
+## Первоначальная настройка
 
-The typical setup involves 3 scenes:
+Типичная настройка включает в себя 3 сцены:
 
-* Offline scene, generally where a Lobby might be shown from a separate service
-* Room scene, generally where players of a game instance assemble and ready-up before play starts
-* Game scene, where the game play actually takes place
+* Оффлайн сцена, как правило, там, где может быть показано лобби&#x20;
+* Сцена Room, как правило, там, где игроки собираются и готовятся к началу игры
+* Сцена Game, где на самом деле происходит игра
 
 {% hint style="info" %}
-To make your own game with the Room system, we have [Script Templates](../general/script-templates.md) to get you started.
+Чтобы создать свою собственную игру с системой комнат, у нас есть [шаблоны скриптов](../general/script-templates.md).
 {% endhint %}
 
-1. Create 3 empty scenes: Offline, Room, Game.  You can use your own game scene for Game scene if you already have one.
-2. In both the Offline and Room scenes, delete the Directional Light, and change the Clear Flags setting in the Main Camera to Solid Color (to make the default UI easier to see).
-3. From the Script Templates, create your own Network Room Manager and Network Room Player scripts.
-4. In the Offline scene, create an empty game object called `RoomPlayer` and attach the Network Room Player script you just created, then make a prefab of this object and delete it from the scene.
-5. In the Offline scene, create an empty game object called `RoomManager`, and add the Network Room Manager script you just created, and a Network Manager HUD component from the Add Component menu.
-6. In the Network Room Manager inspector, assign the following:
-   * Offline scene to the Offline Scene field
-   * Room scene to **both** the Online Scene and Room Scene fields
-   * Game scene to the Gameplay scene field
-   * `RoomPlayer` prefab to the Room Player Prefab field
-   * Your own player prefab to the Player Prefab field
-7. Compare your assignments and settings with the inspectors shown in the images below.
-8. Add all 3 scenes to Build Settings with Offline scene being first, and build the project.
-9. With the Offline scene open, click Play, and then Host button in the HUD
-10. Start one or more built clients and click Client in the HUD for each one.
-11. When all clients have clicked their respective Ready buttons, the Game scene will be loaded for everyone.
-12. In the Game scene, the Host client will see a Return to Room button that will take everyone back to the Room scene to start another game with the same players.  Room Player objects do nothing in the Game scene, but are not destroyed so that when returning to the Room scene they'll be intact.
+1. Создайте 3 пустые сцены: Оффлайн, Room, Game. Вы можете использовать свою собственную игровую сцену для Game, если она у вас уже есть.
+2. В обеих сцена Offline и Room, удалите Directional Light и измените настройку Clear Flags в Main Camera на Solid Color (чтобы упростить просмотр UI по умолчанию).
+3. Из шаблонов скриптов создайте свои собственные скрипты Network Room Manager и Network Room Player.
+4. В оффлайн сцене создайте пустой игровой объект именуемый `RoomPlayer` и перетащите скрипт Network Room Player на только что созданный объект, затем создайте prefab из этого объекта и уберите его со сцены.
+5. В оффлайн сцене создайте пустой объект именуемый `RoomManager` и добавьте на него скрипт Network Room Manager, а также добавьте на него компонент Network Manager HUD.
+6. В инспекторе у компонента Network Room Manager, назначьте следующее:
+   * Оффлайн сцену в поле Offline Scene
+   * сцену Room в **оба** поля Online Scene и Room Scene
+   * Сцену Game в поле Gameplay scene
+   * prefab `RoomPlayer` в поле Room Player Prefab
+   * Ваш текущий prefab игрока в поле Player Prefab
+7. Сравните свои настройки с настройками в инспекторе, показанными на изображениях ниже.
+8. Добавьте все 3 сцены в Build Settings, где оффлайн сцена будет первой и билдите проект.
+9. В открытой оффлайн сцене кликните Play и затем на кнопку Host в HUD
+10. Запустите насколько экземпляров игры в виде клиентов и кликните на кнопку Client в HUD в каждом из них.
+11. Когда все клиенты нажмут на свои кнопки Ready, сцена Game будет загружена для всех.
+12. В сцене Game клиент хост увидит кнопку Возврата в комнату, которая вернет всех обратно в сцену Room, чтобы начать другую игру с теми же игроками. Объекты игрока в комнате ничего не делают в игровой сцене, но не уничтожаются, так что при возвращении в комнату они будут целыми.
 
-## Next Steps
+## Следующие шаги
 
-Review the stubbed out overrides in the Network Room Manager and Network Room Player scripts you created from the templates.  They're heavily commented on what they're to be used for.
+Просмотрите переопределения в скриптах Network Room Manager и Network Room Player, которые вы создали на основе шаблонов. В них много комментариев о том, для чего они будут использоваться.
 
-You can turn off the default UI in the Network Room Manager and Network Room Player inspectors by unchecking the Show Room UI checkbox, and then make your own UI for the Room scene.
+Вы можете отключить UI по умолчанию в инспекторе Network Room Manager и Network Room Player, сняв флажок Show Room UI, а затем создать свой собственный UI для сцены комнаты.
 
-* Suggest looking at how the [Basic example](basic.md) is done for the Player UI to see how to make a scene canvas and inject locally instantiated UI parts for each player.
+* Предлагаю посмотреть на то [базовый пример](basic.md) сделанный для того, чтобы увидеть, как создать canvas сцены и внедрить локально созданные части пользовательского интерфейса для каждого игрока.
 
 ![](<../../.gitbook/assets/image (86).png>)
 
