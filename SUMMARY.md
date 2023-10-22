@@ -122,7 +122,7 @@
 
 ## Безопасность
 
-* [Security Overview](bezopasnost/security-overview.md)
+* [Обзор системы безопасности](bezopasnost/security-overview.md)
 * [Cheat Protection Stages](bezopasnost/cheat-protection-stages.md)
 * [Cheats & Anticheats](bezopasnost/cheating.md)
 
