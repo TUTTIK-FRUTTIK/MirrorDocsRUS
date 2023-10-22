@@ -1,56 +1,49 @@
 ---
 description: >-
-  Another post about cheat protection, copied from the Unity forums for future
-  reference.
+  Еще один пост о защите от читов, скопированный с форумов Unity для дальнейшего
+  использования.
 ---
 
-# Cheat Protection Stages
+# Этапы защиты от читов
 
-**Source:** [https://forum.unity.com/threads/help-me-choose-networking-solution-for-formation-tactics-game.1340309/](https://forum.unity.com/threads/help-me-choose-networking-solution-for-formation-tactics-game.1340309/)
+**Источник:** [https://forum.unity.com/threads/help-me-choose-networking-solution-for-formation-tactics-game.1340309/](https://forum.unity.com/threads/help-me-choose-networking-solution-for-formation-tactics-game.1340309/)
 
-
-
-\[Cheat Protection] is a broad topic, with different stages of protections that you should be aware of.
+\[Защита от читов] - это обширная тема с различными этапами защиты, о которых вам следует знать.
 
 ### **Server Authority**
 
 \
-It would be wise to implement almost all game logic with **server authority** first, before worrying about client sided anti cheat.\
+Было бы разумно сначала реализовать почти всю игровую логику с упором на авторитарный сервер, прежде чем беспокоиться о клиентском античите.\
 \
-For example, if a player's **health** is client authoritative then no amount of client sided anti cheat will protect you from hackers attaining god mode. Where as with server authority, you would not ever ask the client about the current health. Instead, the server would tell the client about its health and make all decisions related to health, and validate all of the client's requests related to health. For example, when requesting to use a potion, always ensure the player actually owns that potion, is not dead, etc.\
+Например, если **здоровье** игрока зависит от клиента, то никакие клиентские античиты не защитят вас от хакеров, включающих режим бога. Где, как и в случае с авторитарным сервером, вы никогда не стали бы спрашивать клиента о текущем состоянии здоровья. Вместо этого сервер сообщал бы клиенту о его здоровье и принимал бы все решения, связанные со здоровьем, а также проверял бы все запросы клиента, связанные со здоровьем. Например, при запросе на использование зелья всегда убедитесь, что игрок действительно владеет этим зельем, не мертв и т.д.\
 \
-This essential makes health unhackable, unless you are able to access the server machine.\
+Это существенно повышает защиту игры, если только кто то не сможете получить доступ к серверной машине.\
 \
-However, certain aspects like **movement** can be quite hard to make both responsive and secure.\
-It's certainly possible to implement all of your game state with server authority. Even for movement, where you might move the client immediately, send the movement to the server, validate if the move was legal, and then accept / reject it.
+Однако некоторые аспекты, такие как **перемещение**, может быть довольно сложно сделать одновременно отзывчивыми и безопасными. Безусловно, возможно реализовать все ваше игровое состояние с помощью авторитарного сервера. Даже для перемещения, когда вы можете переместить клиента немедленно, отправьте перемещение на сервер, проверьте, было ли перемещение законным, а затем примите / отклоните его.
 
-### **Minimizing client information**
-
-\
-That being said, clients may still gain advantages by simply reading state from memory without manipulating it.\
-For example, if your tactics game accidentally keeps all of the enemy's positions in memory, then hackers may attempt to extract it for their advantage.\
-\
-In this case, it would help to only send **relevant information** to the client. For example, many netlibs provide customizable interest management. You could implement Raycasting with some tolerance in order to check if a player sees another player's units. Otherwise, don't even send it to the player at all (in which case it can't be extracted from memory).
-
-### &#x20;**Client sided anti-cheat**
+### **Минимизация клиентского информирования**
 
 \
-Lastly, even if your game is server authoritative and minimizes information sent to the client, there may still be cheats. For example, auto clicks, farm bots, aim bots and such.\
+Тем не менее, клиенты все равно могут получить преимущества, просто считывая состояние из памяти, не манипулируя им.\
+Например, если ваша тактическая игра случайно сохранит в памяти все позиции противника, то хакеры могут попытаться извлечь их в своих интересах.\
 \
-This is when you should start worrying about client sided anti cheat.\
-But keep in mind that this is a catch & mouse game that you will not win, only delay.\
-Reverse engineers have sophisticated tools to circumvent client sided anti cheats, and you will most likely not be able to compete with them all on your own.\
-\
-It gets so bad that some popular games need to move their anti cheat software out of userspace into the kernel, where it's harder for hackers to circumvent it. If your game is popular enough, it will be circumvented eventually.\
-\
-This is a very broad topic and there are lots of things you can do that I haven't mentioned, like obfuscation, virtualization, etc. But as mentioned, it would be wise to start with server authority & minimizing information sent to the client ![:)](https://forum.unity.com/styles/default/xenforo/clear.png)\
-\
-On a side note, imho attempting to protect client sided hacks isn't ideal.\
-Instead you should try to silently detect hacks, and then ban hackers after random amounts of time. This way a hacker would not know which particular action was detected.\
+В этом случае было бы полезно отправить клиенту только **необходимую информацию**. Например, многие сетевые библиотеки предоставляют настраиваемое управление интересами (Interest Management). Вы могли бы реализовать подобное у себя, используя Raycasting, чтобы проверить, видит ли игрок другого игрока. В противном случае даже не отправляйте его игроку вообще (в этом случае он не может быть извлечен из памяти)..
 
-
-### &#x20;**Anti Cheat with Mirror**
+### **Античит на стороне клиента**
 
 \
-Note that Mirror is server authoritative by default.\
-Interest Management & SyncMode may be used to minimize information sent to clients.
+Наконец, даже если ваша игра является авторитарной на сервере и сводит к минимуму информацию, отправляемую клиенту, для игры все равно могут быть читы. Например, авто-клики, фарм боты, аим боты и тому подобное.\
+\
+Именно тогда вам следует начать беспокоиться о клиентском античите. Но имейте в виду, что это игра в догонялки с хакерами, в которой вы не выиграете, а только задержите их на какое то время. У реверс-инженеров есть сложные инструменты для обхода клиентских античитов, и вы, скорее всего, не сможете конкурировать со всеми ними в одиночку.\
+\
+Дело доходит до того, что некоторым популярным играм приходится переносить свое античит-программное обеспечение из пользовательского пространства в ядро, где хакерам сложнее его обойти. Если ваша игра достаточно популярна, в конце концов, её читы обойдут.\
+\
+Это очень широкая тема, и есть много вещей, которые вы можете сделать, о которых я не упоминал, таких как обфускация, виртуализация и т.д. Но, как уже упоминалось, было бы разумно начать с авторитарного сервера и свести к минимуму информацию, отправляемую клиенту ![:)](https://forum.unity.com/styles/default/xenforo/clear.png)\
+\
+С другой стороны, имхо, попытка защитить клиентские хаки не идеальна. Вместо этого вам следует попытаться незаметно обнаруживать взломы, а затем банить хакеров через произвольное количество времени. Таким образом, хакер не будет знать, какое конкретное действие было обнаружено.\\
+
+### **Античит с Mirror**
+
+\
+Обратите внимание, что Mirror по умолчанию является серверо-авторитарным.\
+Interest Management и SyncMode для минимизации количества информации, отправляемой клиентам.
