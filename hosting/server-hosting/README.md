@@ -1,50 +1,50 @@
-# Cloud Hosting Guides
+# Гайд по облачному хостингу
 
-During this guide we will set up a dedicated server and place the server build of our project on the dedicated server.
+В ходе этого руководства мы настроим выделенный сервер и разместим серверную сборку нашего проекта на выделенном сервере.
 
-**IMPORTANT:** Before we begin, there are some potential problems you may face, as no server is truly 'free':
+**ВАЖНО:** Прежде чем мы начнем, есть некоторые потенциальные проблемы, с которыми вы можете столкнуться, поскольку ни один сервер не является по-настоящему "бесплатным":
 
-1. Service providers are NOT free.
-2. Most of the time you can start with free trials for a limited time, after x amount of time or x amount of used resources the trial will end and you might incur payment.
-3. Always read the providers free trial limitations.
-4. Some providers require a payment method for using a Windows instance, however as long as you do not go over the limitations the provider should not bill you.
+1. Поставщики услуг НЕ предоставляют услуги бесплатно.
+2. В большинстве случаев вы можете начать с бесплатных пробных версий в течение ограниченного времени, по истечении x времени или x количества использованных ресурсов пробная версия завершится, и вам может потребоваться оплата.
+3. Всегда ознакомляйтесь с ограничениями бесплатной пробной версии провайдеров.
+4. Некоторые провайдеры требуют указать способ оплаты за использование экземпляра Windows, однако до тех пор, пока вы не нарушите ограничения, провайдер не должен выставлять вам счет.
 
-> **NOTE**: Mirror is not affiliated and can not be held responsible for any charges or fees associated with service providers like [AWS](https://aws.amazon.com/), [Microsoft Azure](https://azure.microsoft.com/en-us/free/), [Google Compute Engine](https://cloud.google.com/compute/) and others...
+> **ПРИМЕЧАНИЕ**: Mirror не является аффилированным лицом и не может нести ответственность за любые сборы, связанные с поставщиками услуг, такими как [AWS](https://aws.amazon.com/), [Microsoft Azure](https://azure.microsoft.com/en-us/free/), [Google Compute Engine](https://cloud.google.com/compute/) и остальными...
 
-## Introduction <a href="#introduction" id="introduction"></a>
+## Вступление <a href="#introduction" id="introduction"></a>
 
-During your development with Mirror you will need to test your project as a client and as a server. There are a few possible ways to test your project:
+Во время разработки с помощью Mirror вам нужно будет протестировать свой проект как клиентский, так и серверный. Есть несколько возможных способов протестировать ваш проект:
 
-1. Default build: Host/client as one and connecting with another build/editor to the host locally on 1 computer.
-2. Server build: Server is a separate executable. You can place it on your computer run it and connect to it as a client.
-3. Dedicated Server: Same as the server build but placed on an external machine, you connect to it with the server's external ip.
+1. Билд по умолчанию: хост /клиент как единое целое и подключение с помощью другой сборки/ редактора к хосту локально на 1 компьютере.
+2. Серверный билд: Сервер - это отдельный исполняемый файл. Вы можете разместить его на своем компьютере, запустить и подключиться к нему в качестве клиента.
+3. Выделенный сервер: Аналогично серверному билду, но размещенному на внешнем компьютере, вы подключаетесь к нему с помощью внешнего IP-адреса сервера.
 
-This guide will focus on the "Dedicated Server" option. There are multiple providers and even self hosted dedicated machines. All possibilities still go through the same process to ensure connectivity to clients. A few requirements for a dedicated server:
+В этом руководстве основное внимание будет уделено опции "Выделенный сервер". Существует множество провайдеров и даже выделенные машины с самостоятельным размещением. Все возможности по-прежнему проходят через один и тот же процесс для обеспечения подключения к клиентам. Несколько требований к выделенному серверу:
 
-1. Port forwarding (Not strictly necessary but makes everything a lot easier without needing NAT punchthrough)
-2. Firewall exceptions
-3. Computer/machine that stays online and accessible whenever you need it.
+1. Переадресация портов (не является строго необходимой, но значительно упрощает все без необходимости пробивки NAT)
+2. Исключения брандмауэра
+3. Компьютер / машина, которая остается в сети и доступна всякий раз, когда вам это нужно.
 
-In the upcoming sections we will go through setting up a provider with the free tier.
+В следующих разделах мы рассмотрим настройку провайдера с бесплатным уровнем.
 
 {% hint style="info" %}
-Always double check that you do not select a paid feature as this is purely meant as a short term period to test out basic functionality during development of your project.
+Всегда перепроверяйте, не выбираете ли вы платную функцию, поскольку это исключительно краткосрочный период для тестирования базовой функциональности во время разработки вашего проекта.
 {% endhint %}
 
 ### Microsoft Azure <a href="#microsoft-azure" id="microsoft-azure"></a>
 
-Microsoft Azure (as of time of writing) allows setting up a windows instance during the free trial without an active payment method.
+Microsoft Azure (на момент написания статьи) позволяет настроить экземпляр Windows во время бесплатной пробной версии без активного способа оплаты.
 
-**To be added**
+**Будет добавлено**
 
 ### Google Compute Engine <a href="#google-compute-engine" id="google-compute-engine"></a>
 
-Google Compute Engine (as of time of writing) does not allow setting up a windows instance during the free trial without an active payment method.
+Google Compute Engine (на момент написания статьи) не позволяет настроить экземпляр Windows во время бесплатной пробной версии без активного способа оплаты.
 
-**To be added**
+**Будет добавлено**
 
-### Self Hosted Dedicated Server <a href="#self-hosted-dedicated-server" id="self-hosted-dedicated-server"></a>
+### Самостоятельный хост выделенного сервера <a href="#self-hosted-dedicated-server" id="self-hosted-dedicated-server"></a>
 
-A self hosted dedicated server is the same as the other providers but you provide the hardware, internet connection and costs for running the computer. Most of the time this is the cheapest option during development if you already have an extra machine. Preferably you would put the machine on a different network (to simulate the conditions as the other providers). This would mean you could connect to the machine and put your server build on whenever you need and have access to the router and security settings of the machine for port forwarding and firewall exceptions.
+Выделенный сервер с самостоятельным размещением - это то же самое, что и у других провайдеров, но вы предоставляете оборудование, подключение к Интернету и расходы на эксплуатацию компьютера. В большинстве случаев это самый дешевый вариант на этапе разработки, если у вас уже есть дополнительная машина. Предпочтительно, чтобы вы подключили компьютер к другой сети (чтобы имитировать условия, как у других провайдеров). Это означало бы, что вы могли бы подключиться к компьютеру и включить билд вашего сервера в любое время, когда вам нужно, и иметь доступ к маршрутизатору и настройкам безопасности компьютера для переадресации портов и исключений из брандмауэра.
 
-In essence, this is the simplest set up but does require extra hardware.
+По сути, это самая простая настройка, но для нее требуется дополнительное оборудование.
