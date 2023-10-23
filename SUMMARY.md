@@ -128,7 +128,7 @@
 
 ## Гайды от Коммьюнити
 
-* [Video Tutorials](gaidy-ot-kommyuniti/video-tutorials.md)
+* [Видео туториалы](gaidy-ot-kommyuniti/video-tutorials.md)
 * [Resources](gaidy-ot-kommyuniti/resources.md)
 * [Mirror Quick Start Project](gaidy-ot-kommyuniti/quick-start-guide.md)
 * [Unity for MMORPGs](gaidy-ot-kommyuniti/unity-for-mmorpgs.md)
