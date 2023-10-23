@@ -1,14 +1,14 @@
-# Resources
+# Источники
 
-This page has a collection of links for learning and using Mirror.
+На этой странице есть коллекция ссылок для изучения и использования Mirror.
 
-Some things this page includes
+Некоторые вещи, которые включает в себя эта страница:
 
-* Video tutorials
-* Other guides
-* Example scripts
+* Видео туториалы
+* Остальные гайды
+* Примеры скриптов
 
-Anything to add to this list? Please make a PR or ask in the discord.
+Хотите что-нибудь добавить к этому списку? Пожалуйста, сделайте Pull Request или попросите в discord.
 
 ## Object Pooling <a href="#object-pooling" id="object-pooling"></a>
 
