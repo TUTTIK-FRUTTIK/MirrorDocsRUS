@@ -1,64 +1,64 @@
 ---
-description: by mischa
+description: от Миши
 ---
 
-# Cheats & Anticheats
+# Читы и античиты
 
-### Introduction
+### Вступление
 
-Back in 2009-2015 Before working on Mirror & uMMORPG, I tried to learn about MMOs by reverse engineering them and selling Bots to make a living. I will share some of the lessons learned based on questions in our Discord. This article is **incomplete**, intended to give a brief introduction into the most frequently asked topics in our discord. If you want to know more, let me know.
+Еще в 2009-2015 годах, до работы над Mirror & mmorpg, я пытался узнать о ММО, занимаясь их реверс-инжинирингом и продавая ботов, чтобы зарабатывать на жизнь. Я поделюсь некоторыми уроками, извлеченными на основе вопросов в нашем Discord. Эта статья является **неполной** и предназначена для краткого ознакомления с наиболее часто задаваемыми темами в нашем discord. Если вы хотите узнать больше, дайте мне знать.
 
-At first we will understand Server Authority & Client Authority, which is the first major attack vector. We will also talk about authority-independent attacks and how to protect against them.
+Сначала мы разберемся с Server Authority и Client Authority, что является первым крупным вектором атаки. Мы также поговорим об атаках, не зависящих от Authority (авторитета), и о том, как защититься от них.
 
 {% hint style="info" %}
-As rule of thumb, never trust the client!
+Как правило, никогда не доверяйте клиенту!
 {% endhint %}
 
-### Server Authority vs. Client Authority
+### Server Authority vs Client Authority
 
-First things first. Mirror is server authoritative by default. In other words, the server makes the all decisions. Cheaters usually modify the client to exploit games where the client is trusted with some decisions (aka client authority).
+Сначала о главном. Зеркало по умолчанию является серверо-авторитарным. Другими словами, сервер принимает все решения. Мошенники обычно модифицируют клиент, чтобы использовать игры, в которых клиенту доверяют принятие некоторых решений (aka client authority).
 
-In other words, as long as you use full server authority you are fine until someone physically hacks your server machine. If you use client authority for parts of your game (like movement), then those are the parts you need to worry about.
+Другими словами, пока вы используете полные полномочия сервера, с вами все в порядке, пока кто-то физически не взломает ваш серверный компьютер. Если вы используете авторитарность клиента для некоторых частей своей игры (например, для перемещения), то это те части, о которых вам нужно беспокоиться.
 
-Just to be clear, here is the difference between server & client authority explained by using a health potion
+Просто для ясности, вот разница между авторитарным сервером и авторитарным клиентом, объясненная на примере использования зелья здоровья
 
-| Server Authority                | Client Authority                                 |
-| ------------------------------- | ------------------------------------------------ |
-| Client: may I use this potion?  | Client: I use this potion. My new health is 100! |
-| Server: verifying...            | Server: ¯\\\_(ツ)\_/¯                             |
-| Server: your new health is 100! |                                                  |
+| Server Authority                       | Client Authority                                         |
+| -------------------------------------- | -------------------------------------------------------- |
+| Клиент: могу я использовать это зелье? | Клиент: Я использую это зелье. Мое новое здоровье - 100! |
+| Сервер: проверка...                    | Сервер: ¯\\\_(ツ)\_/¯                                     |
+| Сервер: ваше новое здоровье равно 100! |                                                          |
 
-In practice, you need to validate any client input in `[Commands]`. Here is an [actual video](https://www.youtube.com/watch?v=C0txZCB9ZXc) of someone exploiting a game made with Mirror where the devs didn't verify client input. The game _probably_ has a `CmdSellItem` function like this:
+На практике вам необходимо проверять любой ввод данных клиентом в `[Command]`. Вот пример [видео](https://www.youtube.com/watch?v=C0txZCB9ZXc) о том, как кто-то использовал игру, созданную с помощью Mirror, где разработчики не проверяли вводимые клиентом данные. В игре, _вероятно_, есть функция `CmdSellItem` по типу этой:
 
 ```csharp
 [Command]
 void CmdSellItem(int slot, int amount)
 {
-    // get player's item at inventory slot
+    // получаем предмет игрока в слоте инвентаря
     Item item = player.inventory[slot];
     
-    // sell to npc
+    // продаём npc
     item.amount -= amount;
     player.gold += item.price * amount;
 }
 ```
 
-Notice how we blindly trust the client to send the correct amount. There is no check whatsoever. If the player only has one item, but an attacker sends 'amount = 100', we would still trust it and sell 100 items. Instead, we need to **validate any input**:
+Обратите внимание, как мы слепо доверяем клиенту отправку правильной суммы. Никакой проверки вообще нет. Если у игрока есть только один предмет, но хакер отправляет 'amount = 100', игра бы всё равно ему поверила и продала 100 предметов. Вместо этого нам нужно **проверять любой ввод**:
 
 ```csharp
 [Command]
 void CmdSellItem(int slot, int amount)
 {
-    // valid slot?
+    // допустимый слот?
     if (0 <= slot && slot <= player.inventory.Count)
     {
-        // get player's item at inventory slot
+        // получаем предмет игрока в слоте инвентаря
         Item item = player.inventory[slot];
         
-        // valid amount?
+        // действительная сумма?
         if (0 < amount && amount <= item.amount)
         {
-            // sell to npc
+            // продаём npc
             item.amount -= amount;
             player.gold += item.price * amount;
         }
@@ -66,67 +66,67 @@ void CmdSellItem(int slot, int amount)
 }
 ```
 
-### Client Authority - the root of all Evil
+### Авторитарный клиент - корень всего зла
 
-#### Trusting the Client for Movement
+#### Доверие клиенту в перемещении
 
-If Mirror is fully server authoritative by default and client authority allows for cheating, then why would anyone use client authority?&#x20;
+Если зеркало по умолчанию полностью использует авторитарность сервера, а Client Authority допускают мошенничество, то зачем кому-либо использовать Client Authority?
 
-Because it's easy. A lot of games use client authority for movement at first, or forever. In server authority, the client would have to ask the server before every move. This introduces a lot of latency between pressing the key and seeing the actual movement. It's not fun at all.
+Потому что это легко. Многие игры используют авторитарность клиента для его перемещения. При использовании авторитарного сервера в этом деле, клиент должен был бы запрашивать сервер перед каждым перемещением. Это приводит к большой задержке между нажатием клавиши и просмотром фактического движения. Это совсем не весело.
 
-In client authority mode, the player moves as soon as the key is pressed. **Instead of asking** the server to move, it tells the server that it moved. This feels great, but also introduces cheaters to **tell the server** whatever they like, e.g. "I moved here twice as fast".
+В режиме client authority, игрок перемещается, как только нажимается клавиша. **Вместо того чтобы попросить** сервер переместить его, он сообщает серверу, что он переместился. Это здорово, но также позволяет читерам **сообщать серверу** все, что им заблагорассудится, например: "Я переехал сюда в два раза быстрее".
 
-Networked movement is difficult. It's possible to have fast movement that is also server authoritative (rubberbanding / prediction / etc.), but many opt not to do it at first in order to save months of development time.
+Сетевое перемещение это трудно. Быстрое перемещение, которое также является серверо-авторитарным на самом деле возможно (rubberbanding / прогнозирование / и т.д.), Но многие предпочитают не делать этого сначала, чтобы сэкономить месяцы времени на разработку.
 
-#### Trusting the Client for Input
+#### Доверие клиенту в вводимых данных
 
-In some genres like First Person Shooters, trusting the client with some parts of the game is inevitable. In this case, aiming. Whenever we trust the client, that trust can be exploited by hackers. In FPS games, an **Aim Bot** can pretend to move the cursor onto another player more quickly. And since the server trusts the client with moving the cursor, it opens up for cheating with no easy solution.
-
-{% hint style="info" %}
-To summarize, we may _want or need to_ trust the client with some parts of our game. Those are the parts we need to protect against cheating.
-{% endhint %}
-
-### Server Authority "Cheats"
-
-Just to be clear, even for 100% server authoritative games like MMOs, there are still attack vectors. The point of this article is to worry about the most **obvious** attacks on client authority first. Even if the server does not trust the client, there is still room for Bots which technically don't cheat, except for automating tasks that the player is supposed to do manually.&#x20;
-
-**Bots** are tools that analyze the game state and generate input to **automatically** farm gold or kill monsters while the player isn't around. This can go to extremes where some players use hundreds of Bots to farm and then sell in-game gold for real money.&#x20;
+В некоторых жанрах, таких как шутеры от первого лица, доверять клиенту некоторые части игры всё таки придется. В данном случае это прицеливание. Всякий раз, когда мы доверяем клиенту, этим доверием могут воспользоваться хакеры. В играх жанра FPS **Aim-бот** может притворяться, что быстрее наводит курсор на другого игрока. И поскольку сервер доверяет клиенту перемещать курсор, это открывает возможности для обмана, не имеющего простого решения.
 
 {% hint style="info" %}
-Keep in mind that server authoritative cheats are a **luxury problem**. If your MMO becomes so successful that people develop Bots, then you pretty much made it.&#x20;
+Подводя итог, можно сказать, что мы можем захотеть или _нуждаться_ в том, чтобы доверить клиенту некоторые части нашей игры. Это те части, которые нам нужно защитить от читеров.
 {% endhint %}
 
-Protecting against server authoritative "cheats" goes beyond the scope of inital development. There will be plenty of time to deal with those after releasing. Someone running a Bot in his basement is not a serious threat until your game, unless it gets out of hand.
+### "читы" в Server Authority&#x20;
 
-And just to be clear, it's possible to **detect Bots** both on the client side and on the server side. But worry about it 5 years from now when the problem arises, not today.
+Просто для ясности, даже для 100% серверных игр, таких как MMO, все еще существуют читы. Смысл этой статьи в том, чтобы в первую очередь побеспокоиться о наиболее **очевидных** атаках на авторитарном клиенте. Даже если сервер не доверяет клиенту, все равно остается место для ботов, которые технически не мошенничают, за исключением автоматизации задач, которые игрок должен выполнять вручную.
 
-### How Cheats are Made
+**Боты** - это инструменты, которые анализируют состояние игры и генерируют инпут для автоматической добычи золота или убийства монстров, пока игрока нет рядом. Это может доходить до крайностей, когда некоторые игроки используют сотни ботов для фарма, а затем продают внутриигровое золото за реальные деньги.
 
-Let's do a quick dive into how cheats are actually made.&#x20;
+{% hint style="info" %}
+Имейте в виду, что серверо авторитарные читы - это **проблема роскоши**. Если ваша MMO становится настолько успешной, что люди разрабатывают ботов, значит, вы в значительной степени добились успеха.
+{% endhint %}
 
-Your game stores a whole lot of relevant information in its memory. For example: the local player's location, other player's locations, monster locations, health, names, etc.
+Защита от серверо-авторитарных "читов" выходит за рамки первоначальной разработки. У нас будет достаточно времени, чтобы разобраться с ними после релиза. Кто-то, кто запускает бота в своем подвале, не представляет серьезной угрозы до тех пор, пока ваша игра не выйдет из-под контроля.
 
-#### Finding Memory Locations
+И просто для ясности, **обнаружить ботов** можно как на стороне клиента, так и на стороне сервера. Но беспокойтесь об этом через 5 лет, когда возникнет проблема, а не сегодня.
 
-The majority of cheats need to read some of that information out of your game's memory. Tools like **Cheat Engine** allow you to search the game's memory for specific values. For example, if you have 100 health then you search for "100" and may find 10,000 places in memory with the value "100". But if you take a potion and increase your health to 200, then you can likely narrow it down to a handful of values that previous were "100" and now changed to "200". If you do this a couple of times, then you can usually narrow it down to one place in memory. For example, the local player's health might be stored at the memory address `0xAABBCCDD`.
+### Как создаются читы
 
-But there is one **problem**: next time we start the game, the game will set up the world again and your player's health is most certainly not at the same memory address anymore. Tools like Cheat Engine allow you to **"find what accesses..."** that memory location by setting breakpoints. Use a potion again, the breakpoint fires and now you know which part of your game accesses that memory location.
+Давайте кратко рассмотрим, как на самом деле создаются читы.
 
-Instead of just `Health`, you now have `Player->Health` (this is a simplification, in practice you go from `0xAABBCCDD` to a pointer with an offset like `[0x00FF00FF+0x8]` where 0x00FF00FF is the location of your player object in memory, and `0x8` is the offset for `Player->Health`. It's likely that `Player->Mana` would be at `+0x12`, or at the next place in memory. This process can be repeated until you have `Game->Player->Health`where `Game` is finally an address relative to the program's entry point.
+Ваша игра хранит в своей памяти огромное количество важной информации. Например: местоположение местного игрока, местоположение других игроков, местоположение монстров, здоровье, имена и т.д.
 
-In other words, we can now always read the Player's health even after restarting the game.
+#### Поиск ячеек памяти
 
-This process can be repeated for inventory, skills, monsters, positions, etc. The more information we can find, the easier it is to write cheats.
+Большинству читов необходимо считывать часть этой информации из памяти вашей игры. Такие инструменты, как **Cheat Engine**, позволяют вам искать в памяти игры определенные значения. Например, если у вас 100 единиц здоровья, то вы выполняете поиск по "100" и можете найти 10 000 мест в памяти со значением "100". Но если вы примете зелье и увеличите свое здоровье до 200, то, скорее всего, сможете сузить его до нескольких значений, которые раньше были "100", а теперь изменены на "200". Если вы сделаете это пару раз, то обычно сможете сузить поиск до одного места в памяти. Например, состояние здоровья локального игрока может храниться по адресу памяти `0xAABBCCDD`.
 
-If our game uses **client authority** then we can actually modify the Player's Health in memory! If we use server authority, then we can still modify it in memory but the change is only visible on this client. The server doesn't trust the client with health, and the next time it syncs the new health to the client, the value in memory will be overwritten again.
+Но есть одна **проблема**: в следующий раз, когда мы запустим игру, игра снова настроит мир, и здоровье вашего игрока, скорее всего, больше не будет находиться по тому же адресу памяти. Такие инструменты, как Cheat Engine, позволяют вам "**найти то, что обращается...**" к этой ячейке памяти, установив точки останова. Снова используйте зелье, сработает точка останова, и теперь вы знаете, какая часть вашей игры обращается к этой ячейке памяти.
+
+Вместо простого `Health`, у вас может быть `Player->Health` (это упрощение, на практике вы переходите от `0xAABBCCDD` к указателю со смещением, подобным `[0x00FF00FF+0x8]` где 0x00FF00FF находится местоположение вашего объекта player в памяти, и `0x8` является смещением для `Player->Health`. Вполне вероятно, что `Player->Mana` был бы на `+0x12`, или в следующем месте в памяти. Этот процесс можно повторять до тех пор, пока у вас не будет `Game->Player->Health` где `Game` наконец, это адрес относительно точки входа в программу.
+
+Другими словами, теперь мы всегда можем узнать состояние здоровья игрока даже после перезапуска игры.
+
+Этот процесс можно повторить для инвентаря, навыков, монстров, позиций и т.д. Чем больше информации мы сможем найти, тем легче будет писать читы.
+
+Если ваша игра использует **client authority,** тогда мы действительно сможем изменить здоровье игрока в памяти! Если мы используем Server Authority, то мы все еще можем изменить его в памяти, но изменение будет видно только на этом клиенте. Сервер не доверяет клиенту здоровье, и в следующий раз, когда он синхронизирует новый уровень здоровья с клиентом, значение в памяти будет перезаписано снова.
 
 {% hint style="success" %}
-This is how Mirror's **\[SyncVar]** works! You can modify them in Cheat Engine, but nobody cares because they are server authoritative.
+Это то, как работает **\[SyncVar]** в Mirror! Вы можете изменить их в Cheat Engine, но никого это не волнует, потому что они являются авторитетными для сервера.
 {% endhint %}
 
-#### Making it harder to find Memory Locations
+#### Затрудняем поиск ячеек памяти
 
-The process of finding memory locations via pointers & offsets is cumbersome. Whenever the game changes, the offsets change too. For example, if previously we had
+Процесс поиска ячеек памяти с помощью указателей и смещений является громоздким. Всякий раз, когда игра меняется, меняются и смещения. Например, если ранее у нас было
 
 ```csharp
 class Player
@@ -137,7 +137,7 @@ class Player
 }
 ```
 
-And the game is changed to:
+И игра меняет их на:
 
 ```csharp
 class Player
@@ -149,15 +149,15 @@ class Player
 }
 ```
 
-Then the cheat developer would have to manually search for all offsets in memory again. This is somewhat painful to deal with.&#x20;
+Тогда разработчику чита пришлось бы снова вручную искать все смещения в памяти. С этим трудно иметь дело.
 
 {% hint style="success" %}
-Messing with the memory layout occasionally is a nice way to make reverse engineering more difficult. Protecting against reverse engineering is a function of **return vs. effort**. Nobody will spend 10 hours a day reverse engineering if the hack only ends up making $10/month. The harder we make it, the less it'll be worth it.
+Время от времени возиться с расположением памяти - хороший способ усложнить реверс-инжиниринг. Защита от реверс инжиниринга является функцией **return vs. effort**. Никто не будет тратить 10 часов в день на реверс-инжиниринг, если взлом в итоге принесет всего 10 долларов в месяц. Чем усерднее мы будем это делать, тем меньше это будет стоить.
 {% endhint %}
 
-#### Projecting Memory Values
+#### Проецирование значений памяти
 
-Here is a fun little technique that can actually be done in any game, without much risk. Instead of storing Health directly, we could store a projected value like:
+Вот небольшая забавная техника, которую на самом деле можно использовать в любой игре без особого риска. Вместо непосредственного сохранения здоровья мы могли бы сохранить прогнозируемое значение, например:
 
 ```csharp
 struct AntiCheatInt
@@ -171,35 +171,35 @@ struct AntiCheatInt
 }
 ```
 
-This is a simplified example, but the idea is to not store our "100" health directly in memory. Instead we store the value modified by one, or by more complex projections. This already makes the whole **Cheat Engine** initial finding process really depressing while adding virtually no risk. Nothing can really go wrong if you do this in Unity.&#x20;
+Это упрощенный пример, но идея заключается в том, чтобы не сохранять наше "100-процентное" здоровье непосредственно в памяти. Вместо этого мы сохраняем значение, измененное на единицу или на более сложные проекции. Это уже делает весь процесс первоначального поиска **Cheat Engine** действительно удручающим, при этом практически не добавляя риска. На самом деле ничего не может пойти не так, если вы сделаете это в Unity.
 
 {% hint style="success" %}
-Projecting Memory values is an easy way to make cheat development more annoying. Note that there is a minor performance impact and note that this is only useful if you use IL2CPP in Unity.&#x20;
+Проецирование значений памяти - это простой способ сделать разработку читов более раздражающей. Обратите внимание, что это незначительно влияет на производительность, и обратите внимание, что это полезно только в том случае, если вы используете IL2CPP в Unity.
 {% endhint %}
 
 {% hint style="info" %}
-When protecting against cheats, there is a **fine balance** between making cheater's life harder while not annoying honest players. Some techniques like UPX packing (see below) have a high probability of annoying everyone. Other techniques like Projecting Memory have a low probability of annoying anyone.
+При защите от читов существует **прекрасный баланс** между тем, чтобы усложнить жизнь читеру и в то же время не раздражать честных игроков. Некоторые методы, такие как упаковка UPX (см. ниже), с высокой вероятностью вызовут раздражение у всех. Другие методы, такие как проецирование памяти, имеют низкую вероятность вызвать у кого-либо раздражение.
 {% endhint %}
 
-#### Making it harder to access Memory
+#### Затрудняем доступ к памяти
 
-There are various techniques to make reverse engineering more painful to begin with. For example:
+Существуют различные методы, позволяющие сделать реверс-инжиниринг более болезненным с самого начала. Например:
 
-* **Fake entry points** that change dynamically, e.g. with exe packing like **UPX packer**. Those aren't too hard to unpack, but it adds difficulty.
-  * _Note that UPX packed executables are often flagged as viruses._
-* **Detecting Debuggers** like Cheat Engine/MHS via **IsDebuggerPresent**. Note that this is pretty easy to work around because everyone knows IsDebuggerPresent arleady. More advanced techniques might involve tricks like measuring time between instructions. For example, if we measure a simple integer multiplication with a **StopWatch at runtime** and it ends up taking several milliseconds, then someone is most likely stepping through this code with a debugger.
-* **Virtualization** with tools like **Themida** or **Enigma Packer** is the holy grail when it comes to protecting against reverse engineering. If finding memory locations in regular processes is hard, then finding them in processes inside of virtual machines is orders of magnitude harder. Back when we used to reverse engineer games, we would never touch virtualized processes simply because the effort vs. reward would not ever be worth it. Nobody is going to spend half a year analyzing your virtual machine instructions, unless your game is as huge as World of Warcraft.
-  * _Note that virtualized executables are often flagged as viruses. You would need a custom virtualization engine that is not flagged as a virus._
+* **Поддельные точки входа**, которые динамически изменяются, например, с помощью exe-упаковки, такой как **UPX packer**. Их не так уж сложно распаковать, но это добавляет сложностей.
+  * _Обратите внимание, что исполняемые файлы, упакованные в UPX, часто помечаются как вирусы._
+* **Обнаружение отладчиков**, таких как Cheat Engine/MHS, с помощью **IsDebuggerPresent**. Обратите внимание, что это довольно легко обойти, потому что все знают о IsDebugger. Более продвинутые методы могут включать в себя такие хитрости, как измерение времени между инструкциями. Например, если мы измеряем простое умножение целых чисел с помощью **StopWatch** во время выполнения и в итоге это занимает несколько миллисекунд, то кто-то, скорее всего, выполняет этот код с помощью отладчика.
+* **Виртуализация** с помощью таких инструментов как **Themida** или **Enigma Packer** это святой грааль, когда дело доходит до защиты от реверс инжиниринга. Если найти ячейки памяти в обычных процессах сложно, то найти их в процессах внутри виртуальных машин на порядки сложнее. Раньше, когда мы занимались реверс-инжинирингом игр, мы бы никогда не стали касаться виртуализированных процессов просто потому, что усилия по сравнению с наградой никогда не стоила бы того. Никто не собирается тратить полгода на анализ инструкций вашей виртуальной машины, если только ваша игра не такая масштабная, как World of Warcraft.
+  * _Обратите внимание, что виртуализированные исполняемые файлы часто помечаются как вирусы. Вам понадобится пользовательский движок виртуализации, который не помечен как вирус_.
 
 {% hint style="info" %}
-**Note** that many of those techniques can be risky in **Unity,** which already introduces several layers of complexity by going from **C#**->**IL**(->**IL2CPP**->**Assembly**). The probability of messed up entry points breaking something somewhere is high. As rule of thumb, use **IL2CPP** in any case, since it changes the game from IL to Assembly, which is way harder to reverse engineer already. If cheating becomes a serious problem, consider Virtualization.
+**Обратите внимание**, что многие из этих методов могут быть рискованными в Unity, которая уже вводит несколько уровней сложности, переходя от **C#**->**IL**(->**IL2CPP**->**Assembly**). Вероятность того, что перепутанные точки входа что-то где-то сломают, высока. Как эмпирическое правило, в любом случае используйте **IL2CPP**, поскольку это меняет игру с IL на Assembly, что уже намного сложнее для реинжиниринга. Если мошенничество становится серьезной проблемой, подумайте о виртуализации.
 {% endhint %}
 
-Now that we understand how cheats are developed, we can take a look at how some common cheats work and how to protect against them.
+Теперь, когда мы понимаем, как разрабатываются читы, мы можем взглянуть на то, как работают некоторые распространенные читы и как от них защититься.
 
 ### Ollydbg/IDA/Code Caves
 
-Let's say your game has a function like:
+Допустим, в вашей игре есть такая функция, как:
 
 ```csharp
 void SetHealth(int health)
@@ -208,37 +208,37 @@ void SetHealth(int health)
 }
 ```
 
-Which might produce _(simplified)_ assembly code like:
+Который мог бы создать _(упрощенный)_ ассемблерный код, подобный:
 
 ```csharp
 ...
-mov edi, eax // edi is this.health, eax is the new value
+mov edi, eax // edi это this.health, eax это новое значение
 ...
 ```
 
-Hackers can use advanced debugging tools to modify your game's assembly to:
+Хакеры могут использовать расширенные средства отладки, чтобы изменить сборку вашей игры таким образом, чтобы:
 
 ```csharp
 ...
-mov edi, 100 // always sets health to 100
+mov edi, 100 // всегда устанавливает здоровье на 100
 ...
 ```
 
-Instead of searching and modifying memory values with Cheat Engine, it's possible to **modify the game's own assembly** code directly.&#x20;
+Вместо поиска и изменения значений в памяти с помощью Cheat Engine, можно напрямую м**одифицировать собственный ассемблерный код игры**.
 
-Modifying the game's assembly can be extremely powerful for developing hacks. **Code Caves** are often used to inject custom functions into the game, for example:
+Модификация сборки игры может быть чрезвычайно полезной для разработки взломов. **Code Caves** часто используются для внедрения пользовательских функций в игру, например:
 
 ```csharp
 ...
-JMP 4 // jump to our custom code
+JMP 4 // переходим к нашему пользовательскому коду
 ...
-mov edi, eax // do the original thing
-... custom code ... // do whatever we want
-JMP 2 // jump back to the original function
+mov edi, eax // Делаем что нибудь своё
+... custom code ... // делаем все, что захотим
+JMP 2 // везвращаемся к исходной функции
 ...
 ```
 
-In C#, this would be equivalent to the user injecting his own code into our Health function like:
+В C#, это было бы эквивалентно вводу пользователем своего собственного кода в нашу функцию работоспособности, например:
 
 ```csharp
 void SetHealth(int health)
@@ -249,84 +249,84 @@ void SetHealth(int health)
 void CodeCave(int health)
 {
     this.health = health;
-    // do all kinds of magic here
-    // for example, if health==0 then call the code
-    // that clicks on the Respawn button to respawn
-    // automatically.
+    // творите здесь магию
+    // например, если health==0, то вызовите код
+    // который нажимает на кнопку возрождения, чтобы возродиться
+    // автоматически.
 }
 ```
 
-This is a simplified example, but a very common technique to know about. To protect against custom assembly, it might be smart to generate checksums of your exe files.
+Это упрощенный пример, но очень распространенный прием, о котором нужно знать. Для защиты от пользовательской сборки было бы разумно сгенерировать контрольные суммы ваших исполняемых файлов.
 
-### Wall Hacks / ESP
+### Wall Hack / ESP
 
-In first person shooters, wall hacks are one of the most common cheats. People can modify your executable to show players behind walls. This is reasonably easy to do and pretty common.&#x20;
+В шутерах от первого лица Wall hack'и являются одним из самых распространенных читов. Люди могут изменить ваш исполняемый файл, чтобы показать игроков за стенами. Это достаточно легко сделать и довольно распространено.
 
-To protect against it:
+Чтобы защититься от этого:
 
-* Make reverse engineering as difficult as possible (see above chapter)
-* Use Mirror's **Interest Management** to not display far away players. You could implement raycast based Interest Management where players are only sent to clients if they are actually seen.&#x20;
-  * _Note that you would want some kind of tolerance to send them early enough, e.g. send 1s before they are seen. This is not perfect, but it's better than allowing players to see all other players all the time. Interest Management is huge for this._
-* Detect Wall Hacks at runtime and ban cheaters using them.&#x20;
+* Максимально усложните реверс-инжиниринг (см. главу выше).
+* Используйте **Interest Management** чтобы не отображать удаленных игроков. Вы могли бы реализовать управление интересами на основе raycast, при котором игроки отправляются клиентам только в том случае, если их действительно видят.
+  * Обратите внимание, что вам нужен какой-то допуск, чтобы отправлять их достаточно рано, например, отправлять за 1 секунду до того, как они будут замечены. Это не идеально, но это лучше, чем позволять игрокам постоянно видеть всех других игроков. Interest Management имеет огромное значение для этого.
+* Обнаруживайте Wall hack'и во время выполнения и баньте читеров, использующих их.
 
-This is a hard problem, even popular games like Counter-Strike have a really hard time dealing with this. It's a constant battle.
+Это сложная проблема, даже таким популярным играм, как Counter-Strike, действительно трудно с этим справиться. Это постоянная битва.
 
-### **Speed Hacks**
+### **Speed Hack**
 
-If you made the choice to use client authoritative movement becuase it's easier, then you will most likely encounter speed hacks in your game eventually. Speed hacks can be implemented in various ways, ranging from simply modifying `Player.Speed` in memory, to messing with the computer's clock speed which is pretty hard to work around from Unity.&#x20;
+Если вы решили использовать клиент-авторитарное перемещение, потому что это проще, то, скорее всего, рано или поздно вы столкнетесь со спидхаками в своей игре. Спидхаки могут быть реализованы различными способами, начиная от простого изменения `Player.Speed` в памяти, до возни с тактовой частотой компьютера, с которой довольно сложно справиться в Unity.
 
-To protect against it:
+Чтобы защититься от этого:
 
-* Check the movement speed on the server. Allow for some tolerance for network conditions. Many games allow 10-15% tolerance, but anything higher than that is most likely a speed hack.
+* Проверьте скорость перемещения на сервере.Допускайте некоторое странное смещение по причинам неполадок в сети. Многие игры допускают смещение в 10-15%, но все, что выше этого, скорее всего, является speed hack'ом.
 
-### Bots
+### Боты
 
-As mentioned before, Bots are particularly evil since they don't requires any _real_ cheats or client authority. Additionally, they can mess up your game's economy and make it simply not fun to player if everyone around you is a Bot.
+Как упоминалось ранее, боты особенно опасны, поскольку они не требуют никаких реальных читов или полномочий клиента. Кроме того, они могут испортить экономику вашей игры и сделать ее просто неинтересной для игрока, если все вокруг вас - боты.
 
-To protect against it:
+Чтобы защититься от этого:
 
-* Make finding memory locations hard. See chapters above.
-* Adjust your memory layout occasionally. Add unnecessary values between `Player.Health` and `Player.Mana` sometimes.
-* Adjust your network protocol occasionally. The most advanced Bots don't even need to read your memory. They use work with your game's send/recv functions directly. Modify your NetworkMessage opcodes and layout occasionally and you will make reverse engineering really painful.
-* Detect known Bot.exe processes by checksum, name, etc.&#x20;
-  * _Note that this too often flags your game as a virus. Games shouldn't look for running processes._
-* Detect Bot **Patterns** on the server. This is how I would do it if Bots become a serious problem.
-  * In the simplest form, if someone is playing 24/7 for a week on end then it's probably a Bot, or in rare cases some guy in an internet cafe.
-  * If the player always uses the same path or levels at the same spot all the time, it's probably a Bot.
-* Add a **Report button** in your game. Look into reported players. Try to talk to them and see if they respond, etc.
-* Spawn **Honeypot Monsters** in places of high activity. If a certain area has a whole lot of monster kills over a period of time, spawn a obviously different looking but extremely strong monster in that area. Regular players would notice and move elsewhere for a while. Bots would hit it and die.&#x20;
+* Затрудняйте поиск ячеек памяти. Смотрите главы выше.
+* Время от времени корректируйте расположение своей памяти. Иногда добавляйте ненужные значения между `Player.Health` и `Player.Mana`.
+* Время от времени корректируйте свой сетевой протокол. Самым продвинутым ботам даже не нужно читать вашу память. Они напрямую работают с функциями отправки / восстановления вашей игры. Время от времени изменяйте коды операций и макет вашего NetworkMessage, и вы сделаете реверс-инжиниринг действительно болезненным.
+* Обнаруживайте известные Bot.exe обрабатывая по контрольной сумме, имени и т.д.
+  * _Обратите внимание, что это слишком часто помечает вашу игру как вирусную. Игры не должны искать запущенные процессы_.
+* Обнаруживайте **паттерны** ботов на сервере. Вот как я бы это сделал, если бы боты стали серьезной проблемой.
+  * В простейшей форме, если кто-то играет 24/7 в течение недели подряд, то это, вероятно, бот или, в редких случаях, какой-нибудь парень в интернет-кафе.
+  * Если игрок всегда использует один и тот же путь или постоянно проходит уровни в одном и том же месте, вероятно, это бот.
+* Добавьте **кнопку Report** в вашу игру. Изучите сообщения об игроках. Попробуйте поговорить с ними и посмотреть, ответят ли они и т.д.
+* Спавните **монстров-ханипотов** в местах повышенной активности. Если в определенной области за определенный период времени было убито много монстров, создайте в этой области монстра другого вида, чрезвычайно сильного монстра. Обычные игроки заметили бы это и на некоторое время переехали бы в другое место. Боты попадут в него и умрут.
 
-Again, those are simplified answers to a complex problem. If your game becomes successful, it will be a constant battle. Which is fine, as long as you know that you are even fighting a battle.
+Опять же, это упрощенные ответы на сложную проблему. Если ваша игра станет успешной, это будет постоянная битва. И это прекрасно, когда вы знаете, что вы вообще участвуете в битве.
 
-### Silent, Delayed Detection
+### Тихое, медленное обнаружение
 
-One of the biggest mistakes games make is to let the user know when a cheat or reverse engineering tool was detected. All it does is let the reverse engineer know where to look in the code in order to disable the checks.&#x20;
+Одна из самых больших ошибок, которые допускают игры, заключается в том, что они сообщают пользователю, когда был обнаружен чит или инструмент реверс инжиниринга. Все, что это делает, - сообщает реверс-инженеру, где искать проблему в коде, чтобы отключить проверки.
 
-If we go through all the work of detecting cheats and debuggers, we should keep quiet and use the information to our advantage. Instead of loudly announcing a cheat attempt, quietly send some info to the server. Flag the player in a database.&#x20;
+Если мы проделаем всю работу по обнаружению читов и отладчиков, нам следует хранить молчание и использовать полученную информацию в своих интересах. Вместо того чтобы громко объявлять о попытке обмана, тихо отправьте некоторую информацию на сервер. Отметьте игрока в базе данных.
 
-Do **not** immediately ban or kick anyone. It's smarter to wait a random amount of time.
+**Не** стоит сразу же никого банить или кикать. Разумнее подождать произвольное количество времени.
 
-* Users might try multiple cheats with different versions over the month.
-* Reverse Engineers might use different tools and modify the game in different ways.
+* Пользователи могут попробовать несколько читов с разными версиями в течение месяца.
+* Реверс-инженеры могут использовать разные инструменты и модифицировать игру по-разному.
 
-If we only ban people once a month, then it's not obvious at all what caused the ban. It will introduce **huge turnaround** times to test which cheats get detected and which don't.
+Если мы будем банить людей только раз в месяц, то совершенно не очевидно, что стало **причиной запрета**. Это потребует огромного времени на проверку того, какие читы обнаруживаются, а какие нет.
 
 {% hint style="success" %}
-Silent Detection is the most powerful tool we have to win the fight against cheaters. Use time and information to your advantage.
+Бесшумное обнаружение - это самый мощный инструмент, который у нас есть, чтобы выиграть борьбу с мошенниками. Используйте время и информацию с пользой для себя.
 {% endhint %}
 
-### Free to Play vs. Paid Games
+### Бесплатные vs платные игры
 
-Here is one final consideration which I'll most likely also do for my own game. While free 2 play games are great to attracts huge amounts of players, there might be value in paid games if you are just a small indie developer not ready to deal with hordes of fake accounts and hackers.
+Вот одно последнее соображение, которое я, скорее всего, также сделаю для своей собственной игры. В то время как бесплатные игры 2 хороши тем, что привлекают огромное количество игроков, в платных играх может быть польза, если вы всего лишь небольшой независимый разработчик, не готовый иметь дело с ордами поддельных аккаунтов и хакеров.
 
-People having to pay a one time price to play your multiplayer game introduces a huge hurdle where hackers and cheaters would have to buy your game again if they got banned. Additionally it adds some level of verification to make sure people can't just create accounts over and over again. You could ban credit cards etc. if needed.
+Люди, которым приходится платить единовременную плату за то, чтобы поиграть в вашу многопользовательскую игру, создают огромное препятствие, из-за которого хакерам и читерам придется покупать вашу игру снова, если их забанят. Кроме того, это добавляет некоторый уровень верификации, чтобы убедиться, что люди не могут просто создавать учетные записи снова и снова. При необходимости вы могли бы запретить использование кредитных карт и т.д.
 
-### Summary
+### Итог
 
-To summarize, cheating is a complex topic and there will never be a final solution. Imho make everything you can server authoritative. For movement, at least aim to make it server authoritative at some point, e.g. after releasing your game when you start seeing the first speed hacks or when you actually have some breathing room.&#x20;
+Подводя итог, можно сказать, что мошенничество - сложная тема, и окончательного решения никогда не будет. Имхо, сделайте все, что вы можете, авторитетным для сервера. Что касается движения, то, по крайней мере, стремитесь сделать его авторитетным сервером в какой-то момент, например, после выпуска вашей игры, когда вы начнете видеть первые быстрые взломы или когда у вас действительно появится некоторая передышка.
 
-Once your game becomes successful, probably someone to fight the battle. There's plenty you can do to make it harder.&#x20;
+Как только ваша игра станет успешной, вероятно, кто-то вступит в битву. Вы многое можете сделать, чтобы усложнить задачу.
 
-Ultimately, it's function of effort vs. reward. The more annoying you make it to cheat, the more likely it is that people won't bother or will just move to easier targets.
+В конечном счете, это зависит от приложенных усилий и получаемой награде. Чем более раздражающим вы делаете читинг, тем больше вероятность того, что люди не будут беспокоиться или просто перейдут к более легким целям.
 
-This topic could fill a whole book, but I hope you learned a few of the basics from this.
+Этой теме можно было бы посвятить целую книгу, но я надеюсь, что вы усвоили из нее несколько основ.

@@ -124,7 +124,7 @@
 
 * [Обзор системы безопасности](bezopasnost/security-overview.md)
 * [Этапы защиты от читов](bezopasnost/cheat-protection-stages.md)
-* [Cheats & Anticheats](bezopasnost/cheating.md)
+* [Читы и античиты](bezopasnost/cheating.md)
 
 ## Гайды от Коммьюнити
 
