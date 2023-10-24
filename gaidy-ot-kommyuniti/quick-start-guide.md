@@ -1,87 +1,87 @@
 ---
-description: Written by JesusLuvsYooh / StephenAllenGames.co.uk, edited by James Frowen
+description: Гайд от JesusLuvsYooh / StephenAllenGames.co.uk, редактирован James Frowen
 ---
 
 # Mirror Quick Start Project
 
-This guide currently shows you:
+В настоящее время это руководство расскажет вам о:
 
-* [Basic scene setup](quick-start-guide.md#part-1)
-* [Player movement](quick-start-guide.md#part-4)
-* [Names and colours](quick-start-guide.md#part-8)
-* [Scene script with canvas buttons](quick-start-guide.md#part-11)
-* [Weapon switching](quick-start-guide.md#part-12)
-* [Networked scene objects tweak](quick-start-guide.md#part-15)
-* [Menu and scene switching](quick-start-guide.md#part-16)
-* [Weapon firing](quick-start-guide.md#part-20)
+* [Базовая настройка сцены](quick-start-guide.md#part-1)
+* [Движение игрока](quick-start-guide.md#part-4)
+* [Именование и цвет](quick-start-guide.md#part-8)
+* [Скрипт для кнопок на канвасе](quick-start-guide.md#part-11)
+* [Смена оружия](quick-start-guide.md#part-12)
+* [Настройка сетевых объектов сцены](quick-start-guide.md#part-15)
+* [Переключение между меню и сценами](quick-start-guide.md#part-16)
+* [Стрельба из оружия](quick-start-guide.md#part-20)
 
-It is best to first make a mini practice game before converting your single player game, or creating your ideal brand new multiplayer.
+Лучше всего сначала создать мини-тренировочную игру, прежде чем переделать вашу одиночную или создавать свой новый идеальный мультиплеер.
 
-The Pre-made Mirror examples are great for using as reference, it is recommend to use them regarding connection setup, with ports and firewalls. This can be a huge topic that changes from person to person, and is not covered in this guide, here we will use localHost (multiple games on same PC).\
+Готовые примеры Mirror отлично подходят для использования в качестве справочников. Рекомендуется использовать их при настройке подключения с портами и брандмауэрами. Это может быть огромная тема, которая меняется от человека к человеку и не рассматривается в этом руководстве, здесь мы будем использовать localHost (несколько экземпляров игры на одном ПК).\
 \
-**End Result:**
+**Конечный результат:**
 
 ![](../.gitbook/assets/QS-image--036.jpg)
 
-### Part 1 <a href="#part-1" id="part-1"></a>
+### Часть 1 <a href="#part-1" id="part-1"></a>
 
-Blank Project, import Mirror from [Asset Store](https://assetstore.unity.com/packages/tools/network/mirror-129321).
+Создайте пустой проект, импортируйте Mirror из [Asset Store](https://assetstore.unity.com/packages/tools/network/mirror-129321).
 
-### Part 2 <a href="#part-2" id="part-2"></a>
+### Часть 2 <a href="#part-2" id="part-2"></a>
 
-* Create new scene, save it, and add it to build settings
-* Create a new GameObject, name it NetworkManager in the scene, and add these 3 components
+* Создайте новую сцену, сохраните ее и добавьте в настройки билда
+* Создайте новый игровой объект, назовите его NetworkManager в сцене и добавьте эти 3 компонента
   * NetworkManager
-  * KCPTransport (TelepathyTransport is older, you do not need KCP and Telepathy)
+  * KCPTransport (TelepathyTransport уже устарел, вам не нужно использовать сразу KCP и Telepathy)
   * NetworkManagerHUD
-* On the NetworkManager component, drag your Offline and Online scene into the slots, we have only one scene for now, so put your scene in both
-  * The scene must be in the build settings before dragging it to the field
+* В компоненте NetworkManager поместите ваши оффлайн и онлайн сцены в нужные слоты, пока у нас есть только одна сцена, так что вставьте свою сцену в оба слота
+  * Сцена должна быть в настройках билда, прежде чем перетаскивать ее в поле
 
 ![Note: KCP Transport has replaced Telepathy in newer versions](../.gitbook/assets/QS-image--000.jpg)
 
 ![](../.gitbook/assets/QS-image--001.jpg)
 
-### Part 3 <a href="#part-3" id="part-3"></a>
+### Часть 3 <a href="#part-3" id="part-3"></a>
 
-Setup the scene
+Настраиваем сцену
 
-* Add a simple Plane floor with:
-  * positions (0, -1, 0)
+* Добавьте простой Plane с такими настройками:
+  * position (0, -1, 0)
   * scale (2, 2, 2)
-* (optional) add a material to this, I added one called dirt that is used one of mirrors examples
-* Next we add a GameObject, name does not matter
-* Add `NetworkStartPosition` component to this GameObject
-* Duplicate the GameObject a few times, and scatter around your scene floor so that you have multiple spawn points. I did 4, one near each corner
+* (опционально) добавьте на него материал, я добавил грязь, используемую в других примерах Mirror
+* Далее мы добавляем ещё один игровой объект, название не имеет значения
+* Добавьте компонент `NetworkStartPosition` на этот GameObject
+* Продублируйте игровой объект несколько раз и разбросайте его по полу вашей сцены так, чтобы у вас было несколько точек возрождения. Я сделал 4, по одному возле каждого угла
 
 ![](../.gitbook/assets/QS-image--002.jpg)
 
-### Part 4 <a href="#part-4" id="part-4"></a>
+### Часть 4 <a href="#part-4" id="part-4"></a>
 
-Creating the player
+Создаём игрока
 
-* Create a capsule using the menus as shown in the image
-* Attached a NetworkTransform component, this will auto add a Network Identity
-* Tick Client Authority on the NetworkTransform
+* Создайте капсулу, используя меню, как показано на рисунке
+* Добавьте к нему компонент NetworkTransform, это автоматически добавит Network Identity
+* Включите Client Authority в NetworkTransform
 
-(Note: Newer Mirror versions use "Sync Direction" set this to "Client To Server".)
+(Примечание: Более новые версии Mirror вместо Client Authority используют "Sync Direction", так что уберите Client Authority и поставьте Sync Direction на "Client To Server".)
 
 ![](../.gitbook/assets/QS-image--003.jpg)
 
-* Rename that object Player
-* Add an empty PlayerScript
-* Drag into Project to create a prefab
-* Then delete Player from scene
+* Переименуйте объект игрока
+* Добавьте на него пустой скрипт
+* Переместите этот объект в Project для создания его prefab'a
+* А затем удалите объект игрока со сцены
 
 ![](../.gitbook/assets/QS-image--004.jpg)
 
-* Drag your player prefab into Network manager,
-* Set spawn method to Round Robin.
+* Переместите ваш объект игрока в Network manager,
+* Поставьте Player Spawn Method на Round Robin.
 
 ![](../.gitbook/assets/image--005.jpg)
 
-### Part 5 <a href="#part-5" id="part-5"></a>
+### Часть 5 <a href="#part-5" id="part-5"></a>
 
-Add the following to your PlayerScript.
+Добавьте следующий код в скрипт вашего игрока.
 
 ```csharp
 using Mirror;
@@ -111,34 +111,34 @@ namespace QuickStart
 }
 ```
 
-### Part 6 <a href="#part-6" id="part-6"></a>
+### Часть 6 <a href="#part-6" id="part-6"></a>
 
-Press play in Unity editor, and then Host (server + client) button in the game window. You should be able to move around with a first person view capsule.
+Нажмите play в редакторе Unity, а затем кнопку Host (сервер + клиент) в окне игры. Вы должны иметь возможность передвигаться в капсуле с видом от первого лица.
 
 ![](../.gitbook/assets/QS-image--006.jpg)
 
-### Part 7 <a href="#part-7" id="part-7"></a>
+### Часть 7 <a href="#part-7" id="part-7"></a>
 
-Build and run your scene, open it, host on one, and press the Client button on the other. Congrats you made a mini multiplayer game!
+Создайте и запустите свою сцену, откройте ее, разместите на одной и нажмите кнопку клиента на другой. Поздравляю, вы создали мини-многопользовательскую игру!
 
 ![](../.gitbook/assets/QS-image--007.jpg)
 
-### Part 8 <a href="#part-8" id="part-8"></a>
+### Часть 8 <a href="#part-8" id="part-8"></a>
 
-Player name above heads
+Добавляем имя игрока над головой
 
-* Inside your player Prefab, create an empty GameObject
-* name it something like `FloatingInfo`
+* Внутри вашего Prefab'a игрока создайте пустой GameObject
+* Переименуйте его в что то типо `FloatingInfo`
   * position Y to 1.5
   * scale X to -1
-* Inside that `FloatingInfo`, create a 3D text using Unity menu (GameObject - 3D Object - 3D Text),
-* Set it up as shown in the picture below
+* Внутри `FloatingInfo` создайте 3D текст используя Unity menu (GameObject - 3D Object - 3D Text),
+* Установите его, как показано на рисунке ниже
 
 ![](../.gitbook/assets/QS-image--008.jpg)
 
-### Part 9 <a href="#part-9" id="part-9"></a>
+### Часть 9 <a href="#part-9" id="part-9"></a>
 
-Update your PlayerScript.cs with this:
+Обновите ваш скрипт игрока в соответствии с кодом ниже:
 
 ```csharp
 using Mirror;
@@ -212,36 +212,36 @@ namespace QuickStart
 }
 ```
 
-### Part 10 <a href="#part-10" id="part-10"></a>
+### Часть 10 <a href="#part-10" id="part-10"></a>
 
-Add the `PlayerNameText` and `FloatingInfo` objects into the script on the player prefab, as shown below.
+Добавьте объекты `PlayerNameText` и `FloatingInfo` под скриптом игрока как показано ниже
 
 ![](../.gitbook/assets/QS-image--009.jpg)
 
-Now if you build and run, host on one, join on the other, you will see player names and colors synced across the network!
+Теперь, если вы создадите и запустите, разместите на одном сервере, присоединитесь на другом, вы увидите имена игроков и цвета, синхронизированные по сети!
 
-Well done, 5 stars to you!
+Молодец, 5 звезд тебе!
 
 ![](../.gitbook/assets/QS-image--010.jpg)
 
-### Part 11 <a href="#part-11" id="part-11"></a>
+### Часть 11 <a href="#part-11" id="part-11"></a>
 
-A scene networked object all can access and adjust.
+Сетевой объект сцены, к которому все могут получить доступ и настроить.
 
-Create a SceneScript.cs, add it onto an empty GameObject in the scene called SceneScript.
+Создайте SceneScript.cs, добавьте его на пустой GameObject в сцене именуемый как SceneScript.
 
-Then create a Canvas with text and button, similar to below.
+Затем создайте Canvas с текстом и кнопкой, аналогично приведенным ниже.
 
 ![](../.gitbook/assets/QS-image--011.jpg)
 
-Add the sceneScript variable, Awake function, and CmdSendPlayerMessage to PlayerScript.cs Also add the new playerName joined line to CmdSetupPlayer();
+Добавьте переменную в sceneScript, функцию Awake, и CmdSendPlayerMessage в PlayerScript.cs Также добавьте новую строку с именем игрока в CmdSetupPlayer();
 
 ```csharp
 private SceneScript sceneScript;
 
 void Awake()
 {
-    //allow all players to run this
+    //запускается на всех игроках
     sceneScript = GameObject.FindObjectOfType<SceneScript>();
 }
 
@@ -255,7 +255,7 @@ public void CmdSendPlayerMessage()
 [Command]
 public void CmdSetupPlayer(string _name, Color _col)
 {
-    //player info sent to server, then server updates sync vars which handles it on all clients
+    //информация об игроке отправляется на сервер, затем сервер обновляет sync var который обрабатывает это на всех клиентах
     playerName = _name;
     playerColor = _col;
     sceneScript.statusText = $"{playerName} joined.";
@@ -264,10 +264,10 @@ public void CmdSetupPlayer(string _name, Color _col)
 public override void OnStartLocalPlayer()
 {
     sceneScript.playerScript = this;
-    //. . . . ^ new line to add here
+    //. . . . ^ добавьте сюда новую строку
 ```
 
-Add this code to SceneScript.cs
+Добавьте данный код в скрипт SceneScript.cs
 
 ```csharp
 using Mirror;
@@ -286,7 +286,7 @@ namespace QuickStart
 
         void OnStatusTextChanged(string _Old, string _New)
         {
-            //called from sync var hook, to update info on screen for all players
+            //вызывается из sync var hook, чтобы обновить информацию об игроке на экране всех игроков
             canvasStatusText.text = statusText;
         }
 
@@ -299,28 +299,28 @@ namespace QuickStart
 }
 ```
 
-* Attach the ButtonSendMessage function to your Canvas Button.
-* Attach Canvas Scene Text to SceneScript variable.
-  * ignore SceneScript’s, playerScript variable, it automatically sets this!
-* Attach a NetworkIdentity component to the SceneScript gameobject, if it has not automatically done so.
+* Прикрепите функцию ButtonSendMessage в вашу кнопку Canvas.
+* Прикрепите текст на канвасе к переменной в SceneScript.
+  * игнорируйте переменные SceneScript и playerScript, они будут назначены автоматически!
+* Прикрепите компонент NetworkIdentity к объекту SceneScript, если это не было сделано автоматически.
 
 ![](https://mirror-networking.com/docs/Articles/CommunityGuides/MirrorQuickStartGuide/image--012.jpg) ![](../.gitbook/assets/QS-image--012.jpg) ![](../.gitbook/assets/image--013.jpg)
 
-Now if you build and run, host and join, you can send messages, and have a text log for actions!
+Теперь, если вы билдите и запускаете, хостите и присоединяетесь, вы можете отправлять сообщения и вести текстовый журнал действий!
 
-Wahooo!
+Яхууу!
 
 ![](../.gitbook/assets/image--014.jpg) ![](../.gitbook/assets/image--015.jpg)
 
-Experiment and adjust, have fun!
+Экспериментируйте и приспосабливайтесь, получайте удовольствие!
 
 ![](../.gitbook/assets/QS-image--016.jpg)
 
-### Part 12 <a href="#part-12" id="part-12"></a>
+### Часть 12 <a href="#part-12" id="part-12"></a>
 
-Weapon switching! The code bits.
+Смена оружия! Кусок кода.
 
-Add the following to your PlayerScript.cs
+Добавьте следующее в свой скрипт PlayerScript.cs
 
 ```csharp
 private int selectedWeaponLocal = 1;
@@ -331,13 +331,13 @@ public int activeWeaponSynced = 1;
 
 void OnWeaponChanged(int _Old, int _New)
 {
-    // disable old weapon
-    // in range and not null
+    // отключает прошлое оружие
+    // в диапазоне, не равное null
     if (0 < _Old && _Old < weaponArray.Length && weaponArray[_Old] != null)
         weaponArray[_Old].SetActive(false);
     
-    // enable new weapon
-    // in range and not null
+    // включает новое оружие
+    // в диапазоне, не равное null
     if (0 < _New && _New < weaponArray.Length && weaponArray[_New] != null)
         weaponArray[_New].SetActive(true);
 }
@@ -350,14 +350,14 @@ public void CmdChangeActiveWeapon(int newIndex)
 
 void Awake() 
 {
-    // disable all weapons
+    // отключает все оружия
     foreach (var item in weaponArray)
         if (item != null)
             item.SetActive(false); 
 }
 ```
 
-Add the weapon switch button in update. Only local player switches its own weapon, so it goes below the `!isLocalPlayer` check.
+Добавьте кнопку смены оружия в Update. Только локальный игрок может поменять своё оружие, это делается при помощи проверки на `!isLocalPlayer`.
 
 ```csharp
 void Update()
@@ -387,47 +387,47 @@ void Update()
 }
 ```
 
-### Part 13 <a href="#part-13" id="part-13"></a>
+### Часть 13 <a href="#part-13" id="part-13"></a>
 
-Weapon models
+Модели оружия
 
-Add the basic cube weapons first, change these later.
+Сначала добавьте простой куб для оружия, вы можете изменить это позже.
 
-* Double click your player prefab to enter it
-* Add a "WeaponsHolder" empty GameObject, with position and rotation at 0,0,0.
-* Inside that GameObject, create a cube from unity menu, (GameObject, 3D object, cube)- Remove the box colliders.
-* Rename this `Weapon1`, change position and scale to match the below pictures.
+* Кликните пару раз на prefab игрока чтобы войти в его настройки
+* Добавьте пустой GameObject "WeaponsHolder" с позицией и вращением на 0,0,0.
+* Внутри данного GameObject, создайте куб, (GameObject, 3D object, cube)- Удалите box коллайдер.
+* Переименуйте это на `Weapon1`, измените положение и масштаб в соответствии с приведенными ниже изображениями.
 
 ![](../.gitbook/assets/QS-image--017.jpg)
 
-Duplicate weapon 1 for a Weapon 2, and change its scale and position, now you should have 2 different looking ‘weapons’!
+Дублируйте Weapon 1 чтобы создать Weapon 2 и измените его масштаб и положение, теперь у вас должно получиться 2 разных вида ‘weapons’!
 
 ![](../.gitbook/assets/QS-image--018.jpg)
 
-### Part 14 <a href="#part-14" id="part-14"></a>
+### Часть 14 <a href="#part-14" id="part-14"></a>
 
-Weapon switch finale.
+Финал смены оружия.
 
-* Add these 2 GameObjects to your PlayerScript.cs weapons array.
-* Disable weapon 2, so only weapon 1 shows when spawning.
+* Добавьте эти 2 объекта в ваш массив оружий скрипта PlayerScript.cs.
+* Отключите второе ружье, чтобы при спавне в руках отображалось только 1 оружие.
 
 ![](../.gitbook/assets/QS-image--019.jpg)
 
 Build and run!
 
-You should see each player switching weapons, and whatever your player has equipped, will auto show on new joining players (sync var and hook magic!)
+Вы должны видеть, как каждый игрок меняет оружие, и все, чем оснащен ваш игрок, будет автоматически отображаться при появлении новых игроков (магия sync var и hook!)
 
 ![](../.gitbook/assets/QS-image--020.jpg)
 
-### Part 15 <a href="#part-15" id="part-15"></a>
+### Часть 15 <a href="#part-15" id="part-15"></a>
 
-Here we will make a small adjustment, as using a GameObject.Find() may not guarantee Network Identity scene objects are found. In the image below you can see our NetworkIdentity scene object gets disabled, as they are disabled until a player is in ‘ready’ status (ready status is usually set when player spawns).
+Здесь мы внесем небольшую корректировку, так как используем GameObject.Find(), данный способ не может гарантировать что найдет в сцене объект именно с Network Identity. На изображении ниже вы можете видеть, что наш объект сцены NetworkIdentity отключен, поскольку они отключены до тех пор, пока игрок не будет в состоянии "готов" (статус готовности обычно устанавливается при появлении игрока).
 
 ![](../.gitbook/assets/QS-image--021.jpg)
 
-So our chosen workaround is to have our GameObject.Find() get the non-networked scene object, which will have those Network Identity scene object as pre-set variables.
+Таким образом, выбранный нами обходной путь заключается в том, чтобы использовать GameObject.Find() для того чтобы найти не сетевой объект на сцене, у которого будет объект с Network Identity с предустановленными переменными.
 
-Create a new script called SceneReference.cs, and add this one variable.
+Создайте новый скрипт с названием SceneReference.cs и добавьте в него только одну переменную.
 
 ```csharp
 using UnityEngine;
@@ -441,31 +441,31 @@ namespace QuickStart
 }
 ```
 
-Open up SceneScript.cs and add the following variable.
+Откройте SceneScript.cs и добавьте следующую переменную.
 
 ```csharp
 public SceneReference sceneReference;
 ```
 
-Now in your Unity scene create a gameobject, name it SceneReference, and add the new script. On both Scene gameobjects, set the reference to each other. So SceneReference can speak to SceneScript, and SceneScript to SceneReference.
+Теперь в вашей сцене Unity создайте gameobject, назовите его SceneReference и добавьте новый скрипт. В обоих игровых объектах сцены установите ссылки друг на друга. Таким образом, SceneReference может обращаться к SceneScript, а SceneScript - к SceneReference.
 
 ![](../.gitbook/assets/QS-image--022.jpg)
 
-Open up PlayerScript.cs and overwrite the Awake function to this:
+Откройте PlayerScript.cs и перезапишите функцию Awake на эту:
 
 ```csharp
 void Awake()
 {
-	//allows all players to run this
+	//запускается на всех игроках
 	sceneScript = GameObject.Find(“SceneReference”).GetComponent<SceneReference>().sceneScript;
 }
 ```
 
-### Part 16 <a href="#part-16" id="part-16"></a>
+### Часть 16 <a href="#part-16" id="part-16"></a>
 
-Menu and Scene switching, here we will go from an offline Menu, with a play button, to a Games List with a back button and the Host/Join HUD, to your online map, and then a second map for host to switch to.
+Меню и переключение сцен, здесь мы перейдем из оффлайн меню по кнопке "играть" к списку игр с кнопкой возврата и HUD host / join, к вашей онлайн-карте, а затем ко второй карте, на которую можно переключиться хосту.
 
-Open up SceneScript.cs and add the following function.
+Откройте SceneScript.cs и добавьте следующую функцию.
 
 ```csharp
 public void ButtonChangeScene()
@@ -485,25 +485,25 @@ public void ButtonChangeScene()
 
 ![](../.gitbook/assets/QS-image--023.jpg)
 
-Duplicate your previous Canvas button, rename it and reposition it, then setup the OnClick() to point to SceneScript.ButtonChangeScene, like in the image.
+Продублируйте вашу предыдущую кнопку Canvas, переименуйте ее и переместите, затем настройте OnClick() так, чтобы он указывал на SceneScript.ButtonChangeScene, как на изображении.
 
-Then drag your NetworkManager into your Project, to make it a Prefab, this way any changes we make later will apply to them all. If you haven’t already, you can sort out your project into folders, one for scripts, prefabs, scenes, textures etc. :)
+Затем перетащите свой NetworkManager в свой проект, чтобы сделать его prefab'ом, таким образом, любые изменения, которые мы внесем позже, будут применяться ко всем ним. Если вы еще этого не сделали, вы можете разложить свой проект по папкам, по одной для скриптов, prefab'ов, сцен, текстур и т.д. :)
 
 ![](../.gitbook/assets/QS-image--024.jpg)
 
-### Part 17 <a href="#part-17" id="part-17"></a>
+### Часть 17 <a href="#part-17" id="part-17"></a>
 
-Save, and then Duplicate your MyScene, rename to make a Menu, GamesList and MyOtherScene, then add them to the build settings, with Menu being first.
+Сохраните, а затем продублируйте свою сцену MyScene, переименуйте, чтобы создать меню, список игр и MyOtherScene, затем добавьте их в настройки сборки, причем меню должно быть первым.
 
 ![](../.gitbook/assets/QS-image--025.jpg)
 
-Open up the Menu scene, remove the spawn points, SceneScript, SceneReference, Network Manager and Plane, so it looks like the below. Adjust the canvas button to say Play, centre it. Here is where you could add the Scores scene, Contact section, News, etc
+Откройте сцену с меню, удалите точки спавна, SceneScript, SceneReference, Network Manager и Plane, чтобы это выглядело как показано ниже. Отрегулируйте кнопку на canvas так, чтобы она отображала "играть", отцентрируйте ее. Здесь вы могли бы добавить сцену с оценками, раздел контактов, новости и т.д
 
-Create a Menu.cs script, add it onto a Menu gameObject.
+Создайте скрипт Menu.cs, добавьте его в объект Menu.
 
 ![](../.gitbook/assets/QS-image--026.jpg)
 
-Add the code to Menu.cs, then in the Button, drag the Menu gameobject into the On Click () and set it to Menu.LoadScene, like in the picture.
+Добавьте код в Menu.cs, затем в кнопке перетащите игровой объект меню в On Click () и установите его в Menu.LoadScene, как на картинке.
 
 ```csharp
 using UnityEngine;
@@ -523,13 +523,13 @@ namespace QuickStart
 
 ![](../.gitbook/assets/QS-image--027.jpg)
 
-### Part 18 <a href="#part-18" id="part-18"></a>
+### Часть 18 <a href="#part-18" id="part-18"></a>
 
-Open up GamesList scene, do similar to Menu but KEEP NetworkManager prefab.
+Откройте сцену GamesList, сделайте аналогично меню, но СОХРАНИТЕ NetworkManager prefab.
 
-Create a GamesList.cs, add the code, and add it onto a GamesList gameobject in the scene. Adjust a canvas button to say Menu (this is our back button). It should look like the image below.
+Создайте файл GamesList.cs, добавьте код и добавьте его в GamesList gameobject в сцене. Отрегулируйте кнопку canvas так, чтобы она отображала меню (это наша кнопка "Назад"). Это должно выглядеть так, как показано на рисунке ниже.
 
-* The games list is where you can add List server contents, or matchmaker, or just the host and join buttons, similar to the default NetworkManagerHud, for now leave this. :)
+* Список игр - это то место, куда вы можете добавить содержимое сервера списка, или matchmaker, или просто кнопки host и join, аналогично NetworkManagerHUD по умолчанию, пока оставьте это. :)
 
 ```csharp
 using UnityEngine;
@@ -549,29 +549,29 @@ namespace QuickStart
 
 ![](../.gitbook/assets/QS-image--028.jpg)
 
-### Part 19 <a href="#part-19" id="part-19"></a>
+### Часть 19 <a href="#part-19" id="part-19"></a>
 
-Open MyOtherScene, this is our second map. Change the camera background colour and floor material (or anything, just so you can see both scenes are different. To summarise, MyScene is map 1 and MyOtherScene is map 2.
+Откройте сцену MyOtherScene, это вторая карта. Измените цвет фона камеры и материал пола (или что-нибудь еще, просто чтобы вы могли видеть, что обе сцены разные. Подводя итог, можно сказать, что MyScene - это карта 1, а MyOtherScene - это карта 2.
 
 ![](../.gitbook/assets/QS-image--029.jpg)
 
-In your NetworkManager prefab in PROJECT (not the one in scenes), add Menu to offline, and MyScene to Online variables. This should change all the NetworkManager prefabs to have these settings.
+В вашем prefab'е NetworkManager в ПРОЕКТЕ (не в сцене), добавьте в offline меню и MyScene в переменную Online. Это должно изменить все prefab'ы NetworkManager, чтобы они имели эти настройки.
 
 ![](../.gitbook/assets/QS-image--030.jpg)
 
-Build and Run, press Play on the Menu to go to GamesList, then click Host (for player 1). For player 2, press Play on Menu, then client connect on GamesList.
+Build and Run, нажмите Play в Menu для того чтобы перейти GamesList, затем кликните на Host (для игрока 1). для игрока 2 нажмите Play в Menu, ну а затем присоединитесь из GamesList.
 
-Now the host can change scenes between map 1 and map 2, and if anyone disconnects or stops the game, Menu scene is load to start again. This whole process can be tidied up, but should provide a good scene switch template to your Mirror game :)
+Теперь хост может менять сцены между картой 1 и картой 2, и если кто-либо отключит или остановит игру, сцена меню загрузится, чтобы начать снова. Весь этот процесс можно упорядочить, но он должен обеспечить хороший шаблон переключения сцен для вашей игры на Mirror :)
 
-### Part 20 <a href="#part-20" id="part-20"></a>
+### Часть 20 <a href="#part-20" id="part-20"></a>
 
-Here we will add basic weapon firing, using rigidbody prefabs. Raycasts with a representation of the fired object is usually better to do this, and keep phycisal objects for things like Grenades and Cannon balls. This section will also lack a lot of security and anti-cheat techniques in order to keep the guide simple, but anyway, here we go!
+Здесь мы добавим базовую стрельбу из оружия, используя prefab'ы с rigidbody. Обычно лучше использовать рейкастинг с изображением запущенного объекта и сохранять физические объекты для таких вещей, как гранаты и пушечные ядра. В этом разделе также будет отсутствовать множество приемов защиты от мошенничества, чтобы сделать руководство простым, но в любом случае, мы начинаем!
 
-Double click the Player Prefab to open it, create empty gameobjects and line them up with the end of your weapon, add them as child to each weapon. Some weapons may be short pistols, others long rifles, so the place where objects spawn will be different.
+Дважды щелкните по prefab'у игрока, чтобы открыть ее, создайте пустые игровые объекты и выровняйте их с концом вашего оружия, добавьте их как дочерние к каждому оружию. Одним оружием могут быть короткие пистолеты, другим - длинные винтовки, поэтому место появления объектов будет разным.
 
 ![](../.gitbook/assets/QS-image--031.jpg)
 
-Create a Weapon.cs script, add it to the Weapon1 and Weapon 2 gameObjects inside the player prefab.
+Создайте скрипт Weapon.cs, а затем добавьте объекты Weapon1 и Weapon 2 внутрь prefab'a игрока.
 
 ```csharp
 using UnityEngine;
@@ -591,19 +591,19 @@ namespace QuickStart
 }
 ```
 
-### Part 21 <a href="#part-21" id="part-21"></a>
+### Часть 21 <a href="#part-21" id="part-21"></a>
 
-Now back in your scene we shall make 2 bullets, in Unitys menu, go to GameObject, 3D Object, Sphere. Add rigidbody to this sphere, make the scale 0.2, 0.2, 0.2, then save it as a Prefab in the Project. Do the same with a cube, so you have two different looking bullets.
+Теперь вернемся в вашу сцену, мы создадим 2 пули, в меню Unity перейдите к GameObject, 3D Object, Sphere. Добавьте rigidbody к этой сфере, сделайте размер 0.2, 0.2, 0.2, затем сохраните его как prefab в проекте. Проделайте то же самое с кубиком, чтобы у вас получились две пули разного вида.
 
 ![](../.gitbook/assets/QS-image--032.jpg)
 
-Inside your player prefab again, select a weapon, and set the variables on weapon script.
+Снова зайдите в свой prefab игрока, выберите оружие и задайте переменные в сценарии оружия.
 
 ![](../.gitbook/assets/QS-image--033.jpg) ![](../.gitbook/assets/QS-image--034.jpg)
 
-### Part 22 <a href="#part-22" id="part-22"></a>
+### Часть 22 <a href="#part-22" id="part-22"></a>
 
-In SceneScript.cs, add this variable and function.
+В SceneScript.cs добавьте эту переменную и функцию.
 
 ```csharp
 public Text canvasAmmoText;
@@ -614,18 +614,18 @@ public void UIAmmo(int _value)
 }
 ```
 
-Enter MyScene (map 1). Duplicate the Canvas StatusText, rename to Ammo, then drag that Ammo text UI into SceneScript gameobject, canvasAmmoText variable. Do this on BOTH MyScene (map 1) and MyOtherScene (map 2), as we have not yet linked or prefabbed our canvas and scene scripts to auto update changes on each map.
+Войдите в MtScene (карта 1). Продублируйте Canvas statusText, переименуйте в Ammo, затем перетащите этот text UI Ammo в SceneScript gameobject, переменную canvasAmmoText. Сделайте это как на MyScene (карта 1), так и на MyOtherScene (карта 2), поскольку мы еще не связали или не подготовили наши сценарии canvas и scene для автоматического обновления изменений на каждой карте.
 
 ![](../.gitbook/assets/QS-image--035.jpg)
 
-Open up PlayerScript.cs, add these two variables:
+Откройте PlayerScript.cs, добавьте эти две переменные:
 
 ```csharp
 private Weapon activeWeapon;
 private float weaponCooldownTime;  
 ```
 
-In the ‘OnWeaponChanged’ function, update it with the new line, so it should look like this. 
+В функции ‘OnWeaponChanged’ обновите ее новой строкой, чтобы она выглядела следующим образом. 
 
 ```csharp
 void OnWeaponChanged(int _Old, int _New)
@@ -647,7 +647,7 @@ void OnWeaponChanged(int _Old, int _New)
 }
 ```
 
-In Awake(), add this at the end:
+В Awake() добавьте это в конце:
 
 ```csharp
 if (selectedWeaponLocal < weaponArray.Length && weaponArray[selectedWeaponLocal] != null)
@@ -657,7 +657,7 @@ if (selectedWeaponLocal < weaponArray.Length && weaponArray[selectedWeaponLocal]
 }
 ```
 
-In Update(), add this at the end:
+В Update() добавьте это в конце:
 
 ```csharp
 if (Input.GetButtonDown("Fire1") ) //Fire1 is mouse 1st click
@@ -672,7 +672,7 @@ if (Input.GetButtonDown("Fire1") ) //Fire1 is mouse 1st click
 }
 ```
 
-Add these two functions after the Update() {} function finishes.
+Добавьте эти две функции после завершения работы функции Update() {}.
 
 ```csharp
 [Command]
@@ -691,6 +691,6 @@ void RpcFireWeapon()
 }
 ```
 
-Build and Run, you should have firing, with different speeds and cooldowns on all players :)
+Build and Run, у вас должна быть стрельба с разной скоростью и временем перезарядки у всех игроков :)
 
 ![](../.gitbook/assets/QS-image--036.jpg)
