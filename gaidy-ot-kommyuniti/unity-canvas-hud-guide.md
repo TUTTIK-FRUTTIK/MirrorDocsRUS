@@ -1,41 +1,41 @@
 ---
-description: Written by JesusLuvsYooh / StephenAllenGames.co.uk
+description: Текст написан JesusLuvsYooh / StephenAllenGames.co.uk
 ---
 
 # Unity Canvas HUD
 
-## End Result:
+## Конечный результат:
 
 ![A Unity Canvas that covers the majority of the OnGUI NetworkManagerHUDD component features.](../.gitbook/assets/Canvas0.jpg)
 
-## Part 1
+## Часть 1
 
-Blank Project, import Mirror from Asset Store/ Discord Releases unity package.&#x20;
+Пустой проект, импорт Mirror из Asset Store/ Discord Releases unity package.
 
-Open up your scene, for this guide we will use Mirror/Examples/Tanks
+Откройте свою сцену, для этого руководства мы будем использовать Mirror/Examples/Tanks
 
-You should be familiar with the examples, and default NetworkManager HUD, they look something like this:
+Вы уже должны быть знакомы с примерами и NetworkManager HUD, они выглядят примерно так:
 
 ![OnGUI NetworkManagerHUD.](../.gitbook/assets/Canvas1.jpg)
 
 ![Mirror/Examples/Tank/Scenes/Scene](../.gitbook/assets/Canvas2.jpg)
 
-## Part 2
+## Часть 2
 
-Create a Canvas in the scene, by either right clicking, UI canvas, or the menu at top, GameObject, UI, Canvas.\
-&#x20;Set the canvas scaler to “Scale with Screen Size”, this will help with keeping everything same size, on both low and high resolution screens, and is best to set before adding Canvas contents.
+Создайте канвас в сцене, щелкнув правой кнопкой мыши "UI canvas" или в меню вверху "GameObject, UI, Canvas".\
+Поставьте canvas scaler на “Scale with Screen Size”, это поможет сохранить все одинакового размера как на экранах с низким, так и с высоким разрешением, и лучше всего установить его перед добавлением содержимого в канвас.
 
-Then create and attach a new script to the canvas, I have named it CanvasHUD.
+Затем создайте и прикрепите новый скрипт к канвасу, я назвал его CanvasHUD.
 
 ![Scaling.](../.gitbook/assets/Canvas4.jpg)
 
 ![Script.](../.gitbook/assets/Canvas3.jpg)
 
-## Part 3
+## Часть 3
 
-Open up this new script, and open up Mirrors NetworkManagerHUD (for reference).
+Откройте этот новый скрипт и откройте Mirror NetworkManagerHUD (для ссылок).
 
-Add the following code as the starting template to CanvasHUD.
+Добавьте следующий код в качестве начального шаблона для CanvasHUD.
 
 {% code title="CanvasHUD.cs" %}
 ```csharp
@@ -60,35 +60,35 @@ public class CanvasHUD : MonoBehaviour
 ```
 {% endcode %}
 
-Create a button inside the main Canvas, and drag it into the Canvas “ButtonHost” variable. We will not focus too much on layout and looks of the canvas for this guide, but go wild and position the contents where you please :)
+Создайте кнопку внутри основного канваса и перетащите ее в переменную Canvas “ButtonHost”. В этом руководстве мы не будем слишком зацикливаться на макете и внешнем виде канваса, но проявите фантазию и разместите содержимое там, где вам заблагорассудится :)
 
 ![Simple button.](../.gitbook/assets/Canvas5.jpg)
 
-## Part 4
+## Часть 4
 
-Test!  Start the game, and press your own “Host Button”, the game should start.
+Тест! Запустите игру и нажмите свою собственную “Host Button”, игра должна начаться.
 
-Congratulations, this is the first step to using Unity Canvas with Mirror, and upgrading from the NetworkManagerHUD OnGUI.
+Поздравляем, это первый шаг к использованию Unity Canvas с Mirror и обновлению с NetworkManagerHUD OnGUI.
 
 ![New canvas button and old OnGUI](../.gitbook/assets/Canvas6.jpg)
 
-## Part 5
+## Часть 5
 
-If you check the old HUD, it can be summarised into 2 parts. The ‘Start’ (before connecting) and ‘Stop’ (after connecting).
+Если вы проверите старый HUD, его можно обобщить на 2 части. Кнопки "Пуск" (перед подключением) и ‘Стоп’ (после подключения).
 
-Create 2 UI panels inside the canvas, rename them Panel Start and Panel Stop, remove the image component from Panel Stop, this way we can tell them apart.
+Создайте 2 панели пользовательского интерфейса внутри канваса, переименуйте их в Panel Start и Panel Stop, удалите компонент изображения из Panel Stop, таким образом, мы сможем отличить их друг от друга.
 
-Drag your “Button Host” into Panel Start.
+Перетащите вашу “Button Host” в Panel Start.
 
 ![Before connecting.](../.gitbook/assets/Canvas7.jpg)
 
 ![After connecting.](../.gitbook/assets/Canvas8.jpg)
 
-![Summarised sections. ](../.gitbook/assets/Canvas9.jpg)
+![Summarised sections.](../.gitbook/assets/Canvas9.jpg)
 
-## Part 6
+## Часть 6
 
-Add the following variables to your CanvasHUD script, these variables cover most of what is needed.
+Добавьте следующие переменные в свой скрипт CanvasHUD, эти переменные охватывают большую часть того, что необходимо.
 
 {% code title="CanvasHUD.cs" %}
 ```csharp
@@ -104,44 +104,42 @@ public Text clientText;
 ```
 {% endcode %}
 
-Next, add more UI !  Exciting right!  :D
+Далее, добавьте больше пользовательского интерфейса! Захватывающее право!:D
 
-Don’t worry about the code yet, check the image below to see what is needed.
+Пока не беспокойтесь о коде, посмотрите на изображение ниже, чтобы увидеть, что нужно.
 
-Inside “Panel Start” there should be 3 buttons, inputField and optional title text.\
-&#x20;Panel Stop should contain one button, and 2 texts, you can remove, add, and adjust things after, but for now follow this guide so everything matches up.
+Внутри “Start Panel” должны быть 3 кнопки, поле ввода и необязательный текст заголовка. Панель "Stop" должна содержать одну кнопку и 2 текста, которые вы можете удалить, добавить и настроить позже, но пока следуйте этому руководству, чтобы все совпадало.
 
-Drag all the new UI into the CanvasHUD script variables, if you have labelled them all nicely when going along, it will be an easier task.
+Перетащите весь новый пользовательский интерфейс в переменные скрипта CanvasHUD, если вы правильно пометили их все при работе, это будет более простой задачей.
 
 ![Scene view, Hierarchy layout and script variables.](../.gitbook/assets/Canvas10.jpg)
 
-## Part 7
+## Часть 7
 
-Now for the code to make it all work, various parts will have comments to explain.\
-And this is it, you have now made your own Unity Canvas HUD UI, or upgraded the OnGUI NetworkManagerHUD!  :D
+Теперь, чтобы код заставил все это работать, различные части будут сопровождаться комментариями для объяснения. И это все, теперь вы создали свой собственный пользовательский интерфейс Unity Canvas HUD или обновили OnGUI NetworkManagerHUD! :D
 
 {% code title="CanvasHUD.cs" %}
 ```csharp
 
     private void Start()
     {
-        //Update the canvas text if you have manually changed network managers address from the game object before starting the game scene
+        //Обновляет текст на канвасе, если вы вручную изменили ip адрес в Network Manager перед запуском игровой сцены
         if (NetworkManager.singleton.networkAddress != "localhost") { inputFieldAddress.text = NetworkManager.singleton.networkAddress; }
 
-        //Adds a listener to the main input field and invokes a method when the value changes.
+        //Добавляет listener в основное поле ввода и вызывает метод при изменении значения.
         inputFieldAddress.onValueChanged.AddListener(delegate { ValueChangeCheck(); });
 
-        //Make sure to attach these Buttons in the Inspector
+        //Обязательно прикрепите эти кнопки в инспекторе
         buttonHost.onClick.AddListener(ButtonHost);
         buttonServer.onClick.AddListener(ButtonServer);
         buttonClient.onClick.AddListener(ButtonClient);
         buttonStop.onClick.AddListener(ButtonStop);
 
-        //This updates the Unity canvas, we have to manually call it every change, unlike legacy OnGUI.
+        //Это обновляет Unity canvas, мы должны вручную вызывать его при каждом изменении, в отличие от устаревшего OnGUI.
         SetupCanvas();
     }
 
-    // Invoked when the value of the text field changes.
+    // Вызывается при изменении значения текстового поля.
     public void ValueChangeCheck()
     {
         NetworkManager.singleton.networkAddress = inputFieldAddress.text;
@@ -167,17 +165,17 @@ And this is it, you have now made your own Unity Canvas HUD UI, or upgraded the 
 
     public void ButtonStop()
     {
-        // stop host if host mode
+        // остановить хост, если вы являетесь хостом
         if (NetworkServer.active && NetworkClient.isConnected)
         {
             NetworkManager.singleton.StopHost();
         }
-        // stop client if client-only
+        // остановить клиент, если вы являетесь клиентом
         else if (NetworkClient.isConnected)
         {
             NetworkManager.singleton.StopClient();
         }
-        // stop server if server-only
+        // остановить сервер, если вы являетесь сервером
         else if (NetworkServer.active)
         {
             NetworkManager.singleton.StopServer();
@@ -188,7 +186,7 @@ And this is it, you have now made your own Unity Canvas HUD UI, or upgraded the 
 
     public void SetupCanvas()
     {
-        // Here we will dump majority of the canvas UI that may be changed.
+        // Здесь мы удалим большую часть пользовательского интерфейса canvas, который может быть изменен.
 
         if (!NetworkClient.isConnected && !NetworkServer.active)
         {
@@ -213,7 +211,7 @@ And this is it, you have now made your own Unity Canvas HUD UI, or upgraded the 
             if (NetworkServer.active)
             {
                 serverText.text = "Server: active. Transport: " + Transport.active;
-                // Note, older mirror versions use: Transport.activeTransport
+                // Обратите внимание, что более старые версии Mirror используют: Transport.activeTransport
             }
             if (NetworkClient.isConnected)
             {
@@ -223,6 +221,3 @@ And this is it, you have now made your own Unity Canvas HUD UI, or upgraded the 
     }
 ```
 {% endcode %}
-
-
-
