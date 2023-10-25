@@ -7,11 +7,9 @@ coverY: 0
 # Mirror Networking
 
 {% hint style="info" %}
-Данная документация является **переводом** на [оригинальную документацию](https://mirror-networking.gitbook.io/docs/).
-{% endhint %}
-
-{% hint style="warning" %}
-Документация ещё не переведена полностью, но она активно пополняется переводом **каждый день**!
+Данная документация является **переводом** на [оригинальную документацию](https://mirror-networking.gitbook.io/docs/).\
+\
+_Если вы нашли какие то ошибки в переводе, прошу вас рассказать об этом мне лично в Discord! (tuttikfruttik)_
 {% endhint %}
 
 {% hint style="success" %}
