@@ -1,24 +1,24 @@
 # Multiplex Transport
 
-The Multiplex Transport is not a transport itself, but it allows you to combine other transports so that your clients can connect to your servers via either one of them.
+Multiplex Transport сам по себе это не транспорт, но он позволяет вам комбинировать другие транспорты, чтобы ваши клиенты могли подключаться к вашим серверам через любой из них.
 
-A common use case for the Multiplex Transport is a server listening for both WebGL and mobile  / desktop clients. Your WebGL clients can connect to the server using a [Websocket Transport](websockets-transport/) and your mobile or desktop clients can connect to the same server via TCP or UDP transports. You can configure any number of transports in the Multiplex Transport.
+Распространенным вариантом использования Multiplex Transport является сервер, прослушивающий как WebGL, так и мобильные / настольные клиенты. Ваши клиенты WebGL могут подключаться к серверу с помощью [Websocket Transport](websockets-transport/) и ваши мобильные или настольные клиенты могут подключаться к одному и тому же серверу с помощью протоколов TCP или UDP. Вы можете настроить любое количество транспортов в Multiplex Transport.
 
-To use the Multiplex Transport follow these steps:
+Чтобы использовать Multiplex Transport следуйте этим шагам:
 
-1. Add a game object with a Network Manager to your scene if you have not done so
-2. By default, Mirror will add KCP Transport to your Network Manager game object
-3. Add a Multiplex Transport component to the game object
-4. Assign the Multiplex Transport component in your Network Manager's transport field
-5. Add a Websocket Transport component to the game object
-6. Add the KCP Transport component to the Multiplex Transport as the first transport
-7. Add the Websocket Transport component to the Multiplex Transport as the second transport
+1. Добавьте игровой объект с Network Manager в вашу сцену если вы этого ещё не сделали
+2. По умолчанию Mirror добавляет KCP Transport к Network Manager'у
+3. Добавьте компонент Multiplex Transport на ваш игровой объект
+4. Назначьте компонент Multiplex Transport в поле transport у Network Manager
+5. Добавьте компонент Websocket Transport к этому же игровому объекту
+6. Добавьте компонент KCP Transport в Multiplex Transport как первый транспорт
+7. Добавьте компонент Websocket Transport в Multiplex Transport как второй транспорт
 
-Please note that KCP and Websocket Transport cannot listen to the same port. By default KCP listens to 7777 (UDP) and the websocket transport listens to 7778 (TCP).
+Пожалуйста, обратите внимание, что KCP и Websocket Transport не могут прослушивать один и тот же порт. По умолчанию KCP прослушивает 7777 (UDP), а транспорт websocket прослушивает 7778 (TCP).
 
-If you build your game as a WebGL game, the KCP Transport will be skipped and your client will use the websocket transport. If you build your game as a mobile or desktop app, it will choose KCP Transport. The server will happily accept connections from both.
+Если вы создадите свою игру как игру на WebGL, транспортировка KCP будет пропущена, и ваш клиент будет использовать транспорт websocket. Если вы создадите свою игру как мобильное или настольное приложение, оно выберет KCP Transport. Сервер с радостью примет соединения от обоих.
 
-Here is what the configuration should look like:
+Вот как должна выглядеть конфигурация:
 
 <div align="left">
 
