@@ -1,9 +1,9 @@
 # iOS AppStore UDP
 
-Mirror's default kcp Transport uses UDP sockets.\
-When submitting your App to the App Store review process for the first time, some people's apps get rejected because Apple's VPN can't seem to handle UDP.
+Mirror kcp Transport по умолчанию использует UDP sockets.\
+При первой отправке вашего приложения на проверку в App Store приложения некоторых пользователей отклоняются из-за того, что VPN Apple, похоже, не может обрабатывать UDP.
 
-It's not obvious to us why that is, but here are a few workarounds that people suggested:
+Для нас не очевидно, почему это так, но вот несколько обходных путей, которые предложили люди:
 
-* cooper: "Submit your App with a TCP transport like Telepathy. Once approved, switch to KCP again in the next update. Supposedly this works."
-* Ninja: "The app reviews kept getting rejected until I essentially asked for manual intervention, and then it passed"
+* cooper: "Отправьте свое приложение с TCP-транспортом, таким как Telepathy. После подтверждения снова переключитесь на KCP в следующем обновлении. Предположительно, это работает."
+* Ninja: "Приложение продолжали отклонять до тех пор, пока я, по сути, не попросил о ручном вмешательстве, а затем оно прошло"
