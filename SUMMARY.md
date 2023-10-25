@@ -131,7 +131,7 @@
 * [Видео туториалы](gaidy-ot-kommyuniti/video-tutorials.md)
 * [Источники](gaidy-ot-kommyuniti/resources.md)
 * [Mirror Quick Start Project](gaidy-ot-kommyuniti/quick-start-guide.md)
-* [Unity for MMORPGs](gaidy-ot-kommyuniti/unity-for-mmorpgs.md)
+* [Unity для MMORPG](gaidy-ot-kommyuniti/unity-for-mmorpgs.md)
 * [Unity Canvas HUD](gaidy-ot-kommyuniti/unity-canvas-hud-guide.md)
 * [Ready Up And Die!](gaidy-ot-kommyuniti/ready-up-and-die.md)
 * [iOS AppStore UDP](gaidy-ot-kommyuniti/ios-appstore-udp.md)
